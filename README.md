@@ -1,2 +1,2 @@
 # hdinsight.github.io
-HDInsigtht Wiki
+HDInsight Wiki - Coming Soon!
