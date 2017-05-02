@@ -1,0 +1,1 @@
+# Kafka Troubleshooting Guide: Solutions to common problems with Kafka on Azure HDInsight

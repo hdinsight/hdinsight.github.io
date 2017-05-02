@@ -1,0 +1,1 @@
+# Ambari Troubleshooting Guide: Solutions to common problems with Ambari on Azure HDInsight

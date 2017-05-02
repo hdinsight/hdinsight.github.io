@@ -1,0 +1,1 @@
+# Hive Troubleshooting Guide: Solutions to common problems with Hive on Azure HDInsight
