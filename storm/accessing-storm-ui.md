@@ -29,6 +29,6 @@ There are two ways to access Storm UI from a browser:
 
 ##### Direct Link
 Storm UI is accessible from URL:
-https://<ClusterDnsName>/stormui
+https://\<ClusterDnsName\>/stormui
 example: https://stormcluster.azurehdinsight.net/stormui
 
