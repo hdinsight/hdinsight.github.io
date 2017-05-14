@@ -1,4 +1,4 @@
-### Where are the Hive logs on HDInsight cluster?
+### Where are the Storm Binaries on HDInsight cluster?
 
 #### Issue:
  Know location of binaries for Storm services on HDInsight cluster
