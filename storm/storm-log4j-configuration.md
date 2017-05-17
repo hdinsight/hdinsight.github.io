@@ -17,17 +17,17 @@ ms.topic: article
 ms.date: 05/14/2017
 ms.author: raviperi
 ---
-### Where are Storm Log4J configuration files on HDInsight clusters?
+## Where are Storm Log4J configuration files on HDInsight clusters?
 
-#### Issue:
+### Issue:
 
 Identify Log4J configuration files for Storm services.
 
-##### On HeadNodes:
+#### On HeadNodes:
 Nimbus Log4J configuration is read from:
 /usr/hdp/<HDPVersion>/storm/log4j2/cluster.xml
 
-##### Worker Nodes
+#### Worker Nodes
 Supervisor's Log4J configuration is read from:
 /usr/hdp/<HDPVersion>/storm/log4j2/cluster.xml
 

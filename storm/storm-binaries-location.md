@@ -18,12 +18,12 @@ ms.date: 05/14/2017
 ms.author: raviperi
 ---
 
-### Where are the Storm Binaries on HDInsight cluster?
+## Where are the Storm Binaries on HDInsight cluster?
 
-#### Issue:
+### Issue:
  Know location of binaries for Storm services on HDInsight cluster
 
-#### Resolution Steps:
+### Resolution Steps:
 
 Storm binaries for current HDP Stack can be found at:
  /usr/hdp/current/storm-client
@@ -35,6 +35,6 @@ There may be multiple HDP version specific binaries located under /usr/hdp
 
 But the /usr/hdp/current/storm-client is sym-linked to the latest version that is run on the cluster.
 
-#### Further Reading:
+### Further Reading:
  [Connect to HDInsight Cluster using SSH](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-linux-use-ssh-unix)
  [Storm](http://storm.apache.org/)

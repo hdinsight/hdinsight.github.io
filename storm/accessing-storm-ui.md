@@ -18,16 +18,17 @@ ms.date: 05/14/2017
 ms.author: raviperi
 ---
 
-### How do I access Storm UI on HDInsight cluster?
+## How do I access Storm UI on HDInsight cluster?
 
-#### Issue:
+### Issue:
 There are two ways to access Storm UI from a browser:
-##### Ambari UI
+
+#### Ambari UI
 1) Navigate to Ambari Dashboard
 2) Select Storm from List of services in the left
 3) Select Storm UI option from Quick Links drop-down menu
 
-##### Direct Link
+#### Direct Link
 Storm UI is accessible from URL:
 
 https://\<ClusterDnsName\>/stormui

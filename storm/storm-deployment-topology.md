@@ -17,9 +17,9 @@ ms.topic: article
 ms.date: 05/14/2017
 ms.author: raviperi
 ---
-### What is the deployment topology of HDInsight Storm cluster?
+## What is the deployment topology of HDInsight Storm cluster?
 
-#### Issue:
+### Issue:
 
 Identify all components that are installed with HDInsight Storm.
 
@@ -29,7 +29,7 @@ Storm cluster comprises of 4 node categories
 3) Zookeeper nodes
 4) Worker nodes
 
-##### Gateway nodes
+#### Gateway nodes
 Is an gateway and reverse proxy service that enables public access to active Ambari management service, handles Ambari Leader election.
 
 #### Zookeeper Nodes
@@ -38,7 +38,7 @@ The quorum size is fixed, and is not configurable.
 
 Storm services in the cluster are configured to use the ZK quorum automatically.
 
-##### Head Nodes
+#### Head Nodes
 Storm head nodes run the following services:
 1) Nimbus
 2) Ambari server

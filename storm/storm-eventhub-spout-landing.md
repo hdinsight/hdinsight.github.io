@@ -18,17 +18,17 @@ ms.date: 05/14/2017
 ms.author: raviperi
 ---
 
-### Where can I find Storm-EventHub-Spout binaries for development?
+## Where can I find Storm-EventHub-Spout binaries for development?
 
-#### Issue:
+### Issue:
 How can I find out more about using Storm eventhub spout jars for use with my topology.
 
-##### MSDN articles on how-to
+#### MSDN articles on how-to
 
-###### Java based topology
+##### Java based topology
 https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-storm-develop-java-event-hub-topology
 
-###### C# based topology (using Mono on HDI 3.4+ Linux Storm clusters)
+##### C# based topology (using Mono on HDI 3.4+ Linux Storm clusters)
 https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-storm-develop-csharp-event-hub-topology
 
 ##### Source Code examples:
