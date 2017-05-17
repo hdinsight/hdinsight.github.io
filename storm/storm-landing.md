@@ -18,7 +18,7 @@ ms.date: 03/30/2017
 ms.author: raviperi
 
 ---
-# Storm FAQ: Answers to common questions on Storm on Azure HDInsight
+## Storm FAQ: Answers to common questions on Storm on Azure HDInsight
 Use the Storm FAQ for answers to common questions on Storm on Azure HDInsight platform.
 
 #### [Where are Storm binaries on HDInsight cluster?](storm-binaries-location.md)
