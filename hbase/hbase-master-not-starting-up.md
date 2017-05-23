@@ -116,3 +116,36 @@ Key: hbase.master.namespace.init.timeout Value: 2400000
 
 2. Restart required services (Mainly HMaster and possibly other HBase services).  
 
+- - -
+
+#### Error:
+
+long Java GC pause caused regionserver reboot periodically
+
+#### Detailed Description:
+
+Nodes rebooted periodically. HMaster was initializing and lots of regions in transition. From the regionserver logs we could find
+
+~~~~
+2017-05-09 17:45:07,683 WARN  [JvmPauseMonitor] util.JvmPauseMonitor: Detected pause in JVM or host machine (eg GC): pause of approximately 31000ms
+2017-05-09 17:45:07,683 WARN  [JvmPauseMonitor] util.JvmPauseMonitor: Detected pause in JVM or host machine (eg GC): pause of approximately 31000ms
+2017-05-09 17:45:07,683 WARN  [JvmPauseMonitor] util.JvmPauseMonitor: Detected pause in JVM or host machine (eg GC): pause of approximately 31000ms
+~~~~
+
+#### Probable Cause:
+
+The root cause was due to long regionserver JVM GC pause. This caused regionserver unresponsive and it was not able to send heart beat to HMaster within the zk session timeout (40s: although in hbase zookeeper.session.timeout is 120s, in zookeeper we did not explicitly set it, so by default zookeeper will use 40s. This has been fixed in newly created clusters. This cluster is old and I have manually set it to 120s in Ambari Zookeeper section). Thus, HMaster thought the regionserver was dead and will abort the regionserver and restart. Frequent regionserver restart may also result in other issues like atomic renaming failures.
+
+#### Resolution Steps:
+
+One thing to understand first is that in order to change the zookeeper session timeout, not only hbase-site setting "zookeeper.session.timeout" but also zookeeper zoo.cfg setting "maxSessionTimeout" need to be changed.
+
+1. Access Ambari UI, go to HBase -> Configs -> Settings, in Timeouts section you can change the value of Zookeeper Session Timeout. 
+
+2. Access Ambari UI, go to Zookeeper -> Configs -> Custom zoo.cfg, add/change the following setting. Make sure the value is the same as hbase "zookeeper.session.timeout".
+
+~~~~~
+Key: maxSessionTimeout Value: 120000  
+~~~~~
+
+2. Restart required services.
