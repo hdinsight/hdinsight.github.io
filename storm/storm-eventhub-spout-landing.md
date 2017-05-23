@@ -31,6 +31,10 @@ https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-storm-develop-java-ev
 ##### C# based topology (using Mono on HDI 3.4+ Linux Storm clusters)
 https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-storm-develop-csharp-event-hub-topology
 
+##### Latest Storm EventHub spout binaries for HDI3.5+ Linux Storm clusters
+Please look at https://github.com/hdinsight/mvn-repo/blob/master/README.md for how to use the latest 
+Storm eventhub spout that works with HDI3.5+ Linux Storm clusters.
+
 ##### Source Code examples:
 https://github.com/Azure-Samples/hdinsight-java-storm-eventhub
 
