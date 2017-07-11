@@ -16,7 +16,7 @@ ms.author: arijitt
 
 #Azure HDInsight Troubleshooting Guide
 
-|[CLUSTER CREATE/DELETE/SCALE](ClusterCRUD/hdinsight-clusterscaleissues.md)<br>|[CLUSTER MANAGEMENT](ClusterManagement/hdinsight-sshissues.md)<br>|[CLUSTER CUSTOMIZATION](ClusterCustomization/hdinsight-scriptactions.md)|
+|[CLUSTER CREATE/DELETE/SCALE](ClusterCRUD/hdinsight-clusterscaleissues.md)<br>|[CLUSTER MANAGEMENT](ClusterManagement/hdinsight-sshissues.md)<br>|[CLUSTER CUSTOMIZATION](ClusterCustomize/hdinsight-clustercustomize.md)|
 |:---:|:---:|:---:|
 |[![Alt text](media/landing/ambari.png)](ambari/ambari-landing.md)|[![Alt text](media/landing/hbase.png)](hbase/hbase-landing.md)|[![Alt text](media/landing/hdfs.png)](hdfs/hdfs-landing.md)|
 |[![Alt text](media/landing/hive.png)](hive/hive-landing.md)|[![Alt text](media/landing/kafka.png)](kafka/kafka-landing.md)|[![Alt text](media/landing/oozie.png)](oozie/oozie-landing.md)|
