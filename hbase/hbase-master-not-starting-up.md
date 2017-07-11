@@ -149,3 +149,28 @@ Key: maxSessionTimeout Value: 120000
 ~~~~~
 
 2. Restart required services.
+
+- - -
+
+#### Error:
+
+log splitting failure due to wrong configurations
+
+#### Detailed Description:
+
+Customer reported all the HMasters failed to come up on a HBase cluster. SSH to one of the zookeeper nodes and check HMaster log under /var/log/hbase, the error was log splitting failure. 
+
+#### Probable Cause:
+
+Looking at HDFS and HBase settings, customer tried to use a secondary storage account for HBase and there were two misconfigured settings: 
+
+hbase.rootdir: wasb://<container>@<storageaccount>.blob.core.windows.net/ 
+
+fs.azure.page.blob.dir: /hbase/WALs,/hbase/oldWALs,/mapreducestaging,/hbase/MasterProcWALs,/atshistory,/tezstaging,/ams/hbase 
+
+In this way, all HBase folders were created under root. WALs and oldWALs were block blobs. This might cause log splitting failure because we had never tested block blob WAL files. 
+
+
+#### Resolution Steps:
+
+The fix is to set hbase.rootdir: wasb://<container>@<storageaccount>.blob.core.windows.net/hbase and restart services on Ambari.
