@@ -5,7 +5,7 @@ HDInsight Spark Streaming applications stops after executing for 24 days with no
  
 ### Resolution Steps:
  
-1. Start from YARN UI to understand when the application execution started and when did it finish, you will also find that the .
+1. Start from YARN UI to understand when the application execution started and when did it finish.
 2.	Look at the log (yarn application log/node manager log) for that specific job.
 3.	From the YARN logs we identified that the application was killed by someone through Livy
 ~~~~
