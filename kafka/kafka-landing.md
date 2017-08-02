@@ -20,3 +20,11 @@ ms.author: arijitt
 ---
 # Kafka FAQ: Answers to common questions on Kafka on Azure HDInsight
 Use the Kafka FAQ for answers to common questions on Kafka on Azure HDInsight platform.
+
+### [Which versions of Kafka is available on HDInsight?](kafka-versions.md)
+### [How do I run replica reassignment tool?](kafka-replica-reassignment.md)
+### [Cluster creation failed due to 'not sufficient fault domains in region'](kafka-faultdomains.md)
+### [Where are Kafka logs on HDInsight cluster?](kafka-logs.md)
+### [Are Kafka logs saved or persisted across Kafka cluster lifecycles?](kafka-logs-2.md)
+### [How can I setup OMS for Kafka?](kafka-oms.md)
+### [How can I configure Disk Quota for Kafka user?](kafka-disk-quota.md)
