@@ -22,20 +22,19 @@ ms.author: apadma
 
 Kafka logs in the cluster are located at: ```/var/log/kafka```
 
-kafka.out:	
+*kafka.out*:	
 stdout and stderr of the Kafka process.	
 You will find Kafka startup and shutdown logs in this file. 
 
-server.log:	
+*server.log*:	
 The main Kafka server log.	
 All Kafka broker logs end up here.
 
-controller.log:
+*controller.log*:
 Controlelr logs if the broker is acting as controller.
 
-statechange.log:
+*statechange.log*:
 All state change events to brokers are logged in this file.
 
-kafka-gc.log:
+*kafka-gc.log*:
 Kafka Garbage Collection stats
-
