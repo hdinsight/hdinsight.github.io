@@ -27,24 +27,19 @@ In very rare cases, where a nimbus node undergoes a reboot shortly after a new t
 ### Solution:
 
 1. Verify this is indeed the case by looking at the Nimbus logs. This can be found under the local storm folder ```C:\hdistorm\stormdist```. The symptoms will be as follows:
-
 ```
 2017-07-29 17:40:52.302 b.s.zookeeper [INFO] headnode0.*****.a5.internal.chinacloudapp.cn gained leadership, checking if it has all the topology code locally.
 2017-07-29 17:40:52.309 b.s.zookeeper [INFO] active-topology-ids [TOPOLOGY-NAME-1498805833,TOPOLOGY-2-NAME-1500962748] local-topology-ids [TOPOLOGY-3-NAME-1498553914,TOPOLOGY-4-NAME-1498614910] diff-topology [TOPOLOGY-3-NAME-1498805833,TOPOLOGY-NAME-4-1500962748]
 2017-07-29 17:40:52.309 b.s.zookeeper [INFO] code for all active topologies not available locally, giving up leadership.
 ```
-
 2. Verify that the Topology information if found in Zookeeper via the zookeeper command line tool.
-
 ```
 [zk: localhost:2181(CONNECTED) 5] get /storm/storms
 [TOPOLOGY-NAME-1498805833, TOPOLOGY-2-NAME-1500962748]
 ```
-
 3. To mitigate this, copy the topology artifacts for the specific topology from the stormdist folder in one of the supervisor nodes to both nimbus nodes.
 
 4. Once the copy is done, restart the Storm nimbus service. The issue should now be fixed as seen from Nimbus logs:
-
 ```
 2017-08-01 02:10:26.040 b.s.zookeeper [INFO] headnode0.cmi-cdp-storm-cd-prd.a5.internal.chinacloudapp.cn gained leadership, checking if it has all the topology code locally.
 2017-08-01 02:10:26.043 b.s.zookeeper [INFO] active-topology-ids [TOPOLOGY-NAME-1498805833,TOPOLOGY-NAME-1500962748] local-topology-ids [TOPOLOGY-NAME-1498805833,TOPOLOGY-NAME-1498553914,TOPOLOGY-NAME-6-1498614910,TOPOLOGY-NAME-1500962748] diff-topology []
