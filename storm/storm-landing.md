@@ -27,5 +27,4 @@ Use the Storm FAQ for answers to common questions on Storm on Azure HDInsight pl
 ### [How do I access Storm UI on HDInsight cluster?](accessing-storm-ui.md)
 ### [Where can I find Storm-EventHub-Spout binaries for development?](storm-eventhub-spout-landing.md)
 ### [How can I transfer Storm eventhub spout checkpoint information from one topology to another?](import-export-eventhub-spout-checkpoint-data.md)
-### [Could not find leader nimbus from seed hosts [headnodehost] on HDI 3.3 on Windows ](tsg-no-leader-nimbus.md)
-
+### [Could not find leader nimbus from seed hosts 'headnodehost' on HDI 3.3 on Windows](tsg-no-leader-nimbus.md)
