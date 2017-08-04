@@ -6,7 +6,7 @@ services: Azure HDInsight
 documentationcenter: na
 author: Sunilkc
 manager: ''
-editor: 'arijitt'
+editor: 'arijit'
 
 ms.assetid:
 ms.service: multiple
