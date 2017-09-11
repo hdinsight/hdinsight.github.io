@@ -23,8 +23,10 @@ ms.author: shzhao
 #### Issue:
 
 For an HDInsight cluster of any cluster type, On hn0, "hadoop fs -ls /" works, "hadoop fs -get /tmp/a.txt" works, but "hadoop fs -put /tmp/a.txt" failed with this exception:
-    -put: Self-supression not permitted
-    Usage: hadoop fs [generit options] -put [-f] [-p] [-l] <localsrc> . . . <dst>
+~~~
+-put: Self-supression not permitted
+Usage: hadoop fs [generit options] -put [-f] [-p] [-l] <localsrc> . . . <dst>
+~~~
 
 On hn1, everything works fine.
 
