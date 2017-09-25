@@ -17,13 +17,11 @@ ms.date: 09/18/2017
 ms.author: sunilkc
 ---
 
+### Getting following " java.lang.OutOfMemoryError: Java heap space" error when we trying to open spark history server 
 
+#### Detail error message:
 
-###Getting following " java.lang.OutOfMemoryError: Java heap space" error when we trying to open spark history server 
-
- #### Detail error message:
- ~~~~
- 
+~~~~
 scala.MatchError: java.lang.OutOfMemoryError: Java heap space (of class java.lang.OutOfMemoryError)
 	at org.apache.spark.deploy.history.HistoryServer.org$apache$spark$deploy$history$HistoryServer$$loadAppUi(HistoryServer.scala:230)
 	at org.apache.spark.deploy.history.HistoryServer$$anon$1.doGet(HistoryServer.scala:86)
@@ -45,9 +43,11 @@ scala.MatchError: java.lang.OutOfMemoryError: Java heap space (of class java.lan
 	at org.spark_project.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:635)
 	at org.spark_project.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:555)
 	at java.lang.Thread.run(Thread.java:748)
-	~~~~
+~~~~
+
 #### Probable Causes:
 ##### Look for the size of the spark events
+
 ~~~~
 hadoop fs -du -s -h wasb:///hdp/spark2-events/application_1503957839788_0274_1/
 **576.5 M**  wasb:///hdp/spark2-events/application_1503957839788_0274_1
@@ -60,20 +60,19 @@ If the issue is often seen when opening a large spark event files better to incr
 
 #### Resolution:
 ##### Steps to set the value for **SPARK_DAEMON_MEMORY**
-Increase the Spark History Server heap size to 3 or 4 GB depending on the size of the spark events you are opening.  
-![Alt text](media/spark-spark-history-failure-with-outofmemoryerror/image01.png)
+Increase the Spark History Server heap size to 3 or 4 GB depending on the size of the spark events you are opening. 
+ 
+![Alt text](media/spark-history-failure-with-outofmemoryerror/image01.PNG)
 
 You can do this from within Ambari browser GUI by selecting Spark2/Config/Advanced spark2-env
 Then find content key and add the following to change the Spark History Server memory from 1g to 4g
+
 ~~~~
-
-
 ----------
-
-
 SPARK_DAEMON_MEMORY=4g
 ~~~~
-![Alt text](media/spark-spark-history-failure-with-outofmemoryerror/image01.png)
+
+![Alt text](media/spark-history-failure-with-outofmemoryerror/image02.PNG)
 
 
 
