@@ -46,7 +46,7 @@ scala.MatchError: java.lang.OutOfMemoryError: Java heap space (of class java.lan
 ~~~~
 
 #### Probable Causes:
-##### Look for the size of the spark events
+##### Lookup for the size of the spark events that you are trying to view. 
 
 ~~~~
 hadoop fs -du -s -h wasb:///hdp/spark2-events/application_1503957839788_0274_1/
@@ -56,7 +56,7 @@ hadoop fs -du -s -h wasb:///hdp/spark2-events/application_1503957839788_0264_1/
 **2.1 G**  wasb:///hdp/spark2-events/application_1503957839788_0264_1
 ~~~~
 
-If the issue is often seen when opening a large spark event files better to increase the value for  **SPARK_DAEMON_MEMORY**, default value is set to 1g. You can increase the historyServer memory by adding SPARK_DAEMON_MEMORY=4g in the content and restarting all the services
+If the issue is often seen when opening a large spark-event files better to increase the value for  **SPARK_DAEMON_MEMORY**, default value is set to 1Gb. You can increase the historyServer memory by adding SPARK_DAEMON_MEMORY=4g in the content and restarting all the services
 
 #### Resolution:
 ##### Steps to set the value for **SPARK_DAEMON_MEMORY**
@@ -74,5 +74,5 @@ SPARK_DAEMON_MEMORY=4g
 
 ![Alt text](media/spark-history-failure-with-outofmemoryerror/image02.PNG)
 
-
+Make sure to restart all affected services from ambari
 
