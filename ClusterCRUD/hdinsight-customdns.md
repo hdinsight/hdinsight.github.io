@@ -9,7 +9,7 @@ You have set up a custom DNS for your cluster, and you encounter a failure with:
 Follow the steps below to validate that your custom DNS is set up properly.
 
 ### Validate that 168.63.129.16 is in the custom DNS chain
-DNS servers within a virtual network can forward DNS queries to Azure's recursive resolvers to resolve hostnames within that virtual network. Access to Azure's recursive resolvers is provided via the virtual IP 168.63.129.16.
+DNS servers within a virtual network can forward DNS queries to Azure's recursive resolvers to resolve hostnames within that virtual network (see [Name Resolution in Virtual Networks](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-name-resolution-for-vms-and-role-instances#name-resolution-using-your-own-dns-server) for details). Access to Azure's recursive resolvers is provided via the virtual IP 168.63.129.16.
 
 ssh into the cluster head node, and run the below command:
 
@@ -25,9 +25,9 @@ You should see something like this:
 
 If 168.63.129.16 is not the first server in this list, then there are 2 options to fix this issue:
 
-1. Add this as the first custom dns for the vNet using the steps described in [Azure HDInsight Virtual Network documentation](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#example-dns).
+1. Add this as the first custom DNS for the vNet using the steps described in [here](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#example-dns).
 
-1. Deploy a DNS server VM for the vNet. (Create and insert link to instructions here.)
+1. Deploy a DNS server VM for the vNet. (TODO: Create and insert link to instructions for this.)
 
 If 168.63.129.16 is already in the list, then please create a support case with HDInsight, and we will investigate your issue. Before creating the case, follow the steps in [Validate HostName resolution for a cluster with Custom DNS](#validate-hostname-resolution-for-a-cluster-with-custom-dns). Including the result of these commands in your support case will help us investigate and resolve the issue quicker.
 
