@@ -13,7 +13,7 @@ ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: big-data
 ms.date: 10/04/2017
-ms.author: nitinver
+ms.author: gkanade
 ---
 
 # The restart operation on HBase Region Server fails to complete
