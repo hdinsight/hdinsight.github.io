@@ -36,7 +36,7 @@ Based on the result - choose one of the following steps to follow:
 
 ### 2. If 168.63.129.16 is already in the list:
 
-  In this case, please create a support case with HDInsight, and we will investigate your issue. Pleae include the result of the below commands in your support case. This will help us investigate and resolve the issue quicker.
+  In this case, please create a support case with HDInsight, and we will investigate your issue. Please include the result of the below commands in your support case. This will help us investigate and resolve the issue quicker.
 
   Ssh into the cluster head node, and run the below commands.
 
