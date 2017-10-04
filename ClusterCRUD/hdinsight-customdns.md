@@ -23,21 +23,26 @@ You should see something like this:
 
 `nameserver 10.21.34.44`
 
-If 168.63.129.16 is not the first server in this list, then there are 2 options to fix this issue:
+Based on the result - choose one of the following steps to follow:
 
-1. Add this as the first custom DNS for the vNet using the steps described in [here](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#example-dns).
+### 1. If 168.63.129.16 is not the first server in this list:
 
-1. Deploy a DNS server VM for the vNet. (TODO: Create and insert link to instructions for this.)
+  Then are 2 options to fix this issue:
 
-If 168.63.129.16 is already in the list, then please create a support case with HDInsight, and we will investigate your issue. Before creating the case, follow the steps in [Validate HostName resolution for a cluster with Custom DNS](#validate-hostname-resolution-for-a-cluster-with-custom-dns). Including the result of these commands in your support case will help us investigate and resolve the issue quicker.
+  1. Add this as the first custom DNS for the vNet using the steps described in [here](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#example-dns). [Note: These steps are applicable only if your custom DNS server runs on Linux.]
 
-### Validate HostName resolution for a cluster
+  1. Deploy a DNS server VM for the vNet. (TODO: Create and insert link to instructions for this.)
 
-Ssh into the cluster head node, and run the below commands. Please include the results of these commands in your support case:
 
-`Hostname -f`
+### 2. If 168.63.129.16 is already in the list:
 
-`nslookup <headnode_fqdn>` (e.g.nslookup hn1-hditest.5h6lujo4xvoe1kprq3azvzmwsd.hx.internal.cloudapp.net)
+  In this case, please create a support case with HDInsight, and we will investigate your issue. Pleae include the result of the below commands in your support case. This will help us investigate and resolve the issue quicker.
 
-`dig @168.63.129.16 <headnode_fqdn>` (e.g. dig @168.63.129.16 hn0-hditest.5h6lujo4xvoe1kprq3azvzmwsd.hx.internal.cloudapp.net). This uses the **Azure Recursive Resolver (IPAddress: 168.63.129.16)** for name resolution. Note the output of this command - it should 0 or 1.
+  Ssh into the cluster head node, and run the below commands.
+
+  `Hostname -f`
+
+  `nslookup <headnode_fqdn>` (e.g.nslookup hn1-hditest.5h6lujo4xvoe1kprq3azvzmwsd.hx.internal.cloudapp.net)
+
+  `dig @168.63.129.16 <headnode_fqdn>` (e.g. dig @168.63.129.16 hn0-hditest.5h6lujo4xvoe1kprq3azvzmwsd.hx.internal.cloudapp.net). This uses the **Azure Recursive Resolver (IPAddress: 168.63.129.16)** for name resolution. Note the output of this command - it should 0 or 1.
 
