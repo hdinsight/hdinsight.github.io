@@ -28,7 +28,9 @@ sudo add-apt-repository ppa:openjdk-r/ppa -y && sudo apt-get -y update && sudo a
 
 2.	Go to Ambari UI; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
 
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64. Save the config change.
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64. 
+
+Save the config change.
 
 3.	[Optional but recommended] Flush all tables on cluster. https://blogs.msdn.microsoft.com/azuredatalake/2016/09/19/hdinsight-hbase-how-to-improve-hbase-cluster-restart-time-by-flushing-tables/
 
