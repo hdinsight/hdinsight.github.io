@@ -1,5 +1,5 @@
 
-# My Cluster Creation Fails Due To 
+# My Cluster Creation Fails Due To an Issue with User-defined Routes (UDR)
 
 ## Issue
 You have set up an UDR for your cluster, and you encounter a failure with:
@@ -7,9 +7,9 @@ You have set up an UDR for your cluster, and you encounter a failure with:
 * ErrorDescription: "Unable to connect to cluster management endpoint. Please retry later."
 
 ## Resolution
-Search for "/providers/Microsoft.Network/routeTables" in the JSON file to find the UDR. There can be more than one route defined for the subscription in that region, So check the Subnets section to validate if that route is applied to the subnet where cluster is deployed. Once you find the routetable which is applicable for the subnet then Inspect the "routes" section in it. If there is not route specified for the cluster then you can ignore.
+Search for "/providers/Microsoft.Network/routeTables" in the (#!!which?) JSON file to find the UDR. There can be more than one route defined for the subscription in that region, so check the Subnets section to validate if that route is applied to the subnet where cluster is deployed. Once you find the routetable for the subnet, inspect the "routes" section in it. If there is no route specified for the cluster then you can ignore (#!! and do what?).
 
-An example scenario is that it has a default nextHop for a "VirtualAppliance" and its IP address (read about virtual appliance here). In this case, you should make sure that there are routes for IP addresses for the region where customer deployed the cluster mentioned [here](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-nsg). There should be a route defined for each required IP Address documented in the aforementioned article with a "NextHopType" of "Internet". An example is provided below:
+An example scenario is that it has a default nextHop for a "VirtualAppliance" and its IP address (read about virtual appliance here (#!! where)). In this case, make sure that there are routes for IP addresses for the region where the cluster was deployed. Refer to [this document](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-ip) for details. There should be a route defined for each required IP Address documented in the aforementioned article with a "NextHopType" of "Internet". An example is provided below:
 <pre>
   {
    "name": "HDInsightManagement_138.91.141.162",
