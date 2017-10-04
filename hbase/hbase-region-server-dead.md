@@ -16,7 +16,7 @@ ms.date: 10/04/2017
 ms.author: gkanade
 ---
 
-# The restart operation on HBase Region Server fails to complete
+# One or more dead region servers observed on hbase cluster
 
 First of all, the situation like this could be prevented by following best practices. It is advisable to pause the heavy workload activity when planning to restart HBase Region Servers. If the application continues to connect with region servers when shutdown is in progress, it will slow down the region server restart operation by several minutes. 
 Also, it is advised the users to flush all the tables by following [HDInsight HBase: How to Improve HBase cluster restart time by Flushing tables](https://blogs.msdn.microsoft.com/azuredatalake/2016/09/19/hdinsight-hbase-how-to-improve-hbase-cluster-restart-time-by-flushing-tables/) as a reference.
