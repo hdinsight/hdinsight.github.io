@@ -1,4 +1,4 @@
-# My Cluster Creation Fails Due To an Issue With Custom DNS Setup
+# My Cluster Creation Fails Due To Invalid Network Security Group Rules
 
 ## Issue
 You have set up an NSG for your cluster, and you encounter a failure with:
