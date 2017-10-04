@@ -18,12 +18,12 @@ ms.author: gkanade
 
 # One or more dead region servers observed on hbase cluster
 
-Recently, we have been hit by an issue we suspect caused by upgrade of jdk to version 1.7.0_151 by Azure patching on HDI 3.4 and 3.5 HBase clusters. The symptom we see is region server process starts occupying close to 200% CPU and the region server is essentially rendered dead, causing alerts to fire on HBase Master process and cluster to not function at full capacity.
+If you are running HBase cluster v3.4 or v 3.5 you might have been hit by a potential bug caused by upgrade of jdk to version 1.7.0_151. The symptom we see is region server process starts occupying close to 200% CPU and the region server is essentially rendered dead, causing alerts to fire on HBase Master process and cluster to not function at full capacity.
 The mitigation/solution for the problem at a high level (details below) is to:
 1.	Install jdk 1.8 on all nodes of the cluster
 2.	For HBase services, set JAVA_HOME to point to the new location
 3.	Restart HBase services
-Contact Gaurav (gkanade@microsoft.com) if you run into trouble in any of the steps below.
+
 Detailed steps:
 1.	Install jdk 1.8 on all nodes of the cluster:
 a.	Obtain JIT Access on ACIS, HDInsight as a platform service administrator.
