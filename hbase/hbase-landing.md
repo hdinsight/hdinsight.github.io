@@ -26,3 +26,4 @@ Use the HBase FAQ for answers to common questions on HBase on Azure HDInsight pl
 #### [How to resolve multiple unassigned regions?](hbase-hbck-regions-not-assigned.md)
 #### [How to fix timeout issue with 'hbase hbck' command when fixing region assignments?](hbase-hbck-timeout.md)
 #### [How to resolve failure in restart operation on HBase Region Server?](hbase-regionserver-restart-failed.md)
+#### [Region Server Dead](hbase-regionserver-dead.md)
