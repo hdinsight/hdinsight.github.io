@@ -41,8 +41,10 @@ Recall Application Master is the main container requesting, launching and monito
 Select the Attempt ID hyper link to discplay the container that hosts this Application Master.
 Look up for AM container which starts with Container_ApplicationId_attemptID_containerID
 
+![Alt text](media/troubleshooting-spark-performance/image03.PNG)
+
 ![Alt text](media/troubleshooting-spark-performance/image04.PNG)
-![Alt text](media/troubleshooting-spark-performance/image05.PNG)
+
 
  
     
