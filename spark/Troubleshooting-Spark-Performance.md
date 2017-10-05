@@ -14,7 +14,7 @@ NodeManager (NM) : All workernodes on our clusters has a Node Manager daemon, NM
 ### Spark Driver, Executors and Tasks
 ##### Driver: A Spark Driver is a JVM process that hosts SparkContext for a Spark Application.
 ##### Executors: Executors are the actual JVMs spawned on the workernode. Number of executors is managed by Spark, which is configurable when submitting a job.
-##### Tasks: Executor run many tasks in parallel, each task is run as a process thread in executor JVM. Tasks from different applications run in different JVM.
+##### Tasks: Executor run many tasks in parallel, each task is run as a process thread in executor JVM; that way Task represents the smallest unit of execution. Tasks from different applications run in different JVM.
 Note: Number of tasks spawned depends on the number of partitions in your RDD. coalesce and repartitions drive the parallelism that we suggest when troublehsooting performanc issues.
 
 ### How are these entities are represented on the YARN UI
