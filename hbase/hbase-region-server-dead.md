@@ -22,7 +22,7 @@ If you are running HBase cluster v3.4 or v 3.5 you might have been hit by a pote
 
 The mitigation/solution for the problem at a high level (details below) is to:
 
-1.	Install jdk 1.8 on all (or affected) nodes of the cluster as below:
+1.	Install jdk 1.8 on ALL nodes of the cluster as below:
 
 sudo add-apt-repository ppa:openjdk-r/ppa -y && sudo apt-get -y update && sudo apt-get install -y openjdk-8-jdk 
 
