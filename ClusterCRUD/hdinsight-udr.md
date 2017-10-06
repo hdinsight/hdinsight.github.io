@@ -3,35 +3,12 @@
 
 ## Issue
 You have set up an UDR for your cluster, and you encounter a failure with:
-* ErrorCode "FailedToConnectWithClusterErrorCode"
-* ErrorDescription: "Unable to connect to cluster management endpoint. Please retry later."
+* ErrorCode "InvalidNetworkConfigurationErrorCode"
+* ErrorDescription: "Virtual Network configuration is not compatible with HDInsight Requirement. Error: 'Failed to connect to Azure Storage Account; Failed to connect to Azure SQL; HostName Resolution failed', Please follow https://go.microsoft.com/fwlink/?linkid=853974 to fix it."
 
 ## Resolution
-Search for "/providers/Microsoft.Network/routeTables" in the (#!!which?) JSON file to find the UDR. There can be more than one route defined for the subscription in that region, so check the Subnets section to validate if that route is applied to the subnet where cluster is deployed. Once you find the routetable for the subnet, inspect the "routes" section in it. If there is no route specified for the cluster then you can ignore (#!! and do what?).
+Go to the Azure Portal and identify the route table that is associated with the subnet where the cluster is being deployed. Once you find the routetable for the subnet, inspect the "routes" section in it.
 
-An example scenario is that it has a default nextHop for a "VirtualAppliance" and its IP address (read about virtual appliance here (#!! where)). In this case, make sure that there are routes for IP addresses for the region where the cluster was deployed. Refer to [this document](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-ip) for details. There should be a route defined for each required IP Address documented in the aforementioned article with a "NextHopType" of "Internet". An example is provided below:
-<pre>
-  {
-   "name": "HDInsightManagement_138.91.141.162",
-   "resourceGuid": "8d8544d3-ac50-4ff8-8e51-5509e9422d20",
-   "etag": "W/"66acbe76-286b-42d5-be10-fbb750356219"",
-   "groupName": "RandomGroup",
-   "subscriptionId": "SubId",
-   "fullName": [
-      "HDINSIGHT-Management-IPS",
-      "HDInsightManagement_138.91.141.162"
-     ],
-    "lastOperationId": "5442d19c-5720-4276-89c8-d20ac52eaf92",
-    "lastOperationType": "Microsoft.WindowsAzure.Networking.Nrp.Frontend.Operations.Csm.PutRouteOperation",
-    "lastModifiedTime": "2017-03-31T18:26:47.5597549Z",
-    "createdTime": "0001-01-01T00:00:00",
-    "properties": {
-       "provisioningState": "Succeeded",
-       "addressPrefix": "138.91.141.162/32",
-       "nextHopType": "Internet",
-       "internalRouteName": "HDInsightManagement_138.91.141.162"
-    }
-  }
-</pre>
+If there is no route specified for the cluster then it is probably not a proble with the UDR configuration. It could be related to an NSG configuration issue. Refer here to troubleshoot NSG issues: https://github.com/ansi12/hdinsight.github.io/edit/patch-1/ClusterCRUD/hdinsight-nsg.md.
 
-
+If there are routes defined, make sure that there are routes for IP addresses for the region where the cluster was deployed, and the "NextHopType" for each route is "Internet". Refer to [this document](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-ip) for details. There should be a route defined for each required IP Address documented in the aforementioned article.
