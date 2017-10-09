@@ -1,4 +1,4 @@
-# I am unable to access files in DataLake storage account from my cluster
+# I can't access files in DataLake storage account from my cluster
 
 ####ACL verification failed on files/folders
 #####Error message :
