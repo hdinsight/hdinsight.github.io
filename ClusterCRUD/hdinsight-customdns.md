@@ -1,9 +1,9 @@
 # My Cluster Creation Fails Due To an Issue With Custom DNS Setup
 
-## Issue
+## Issue: InvalidNetworkConfigurationErrorCode
 You have set up a custom DNS for your cluster, and you encounter a failure with:
-* ErrorCode – InvalidNetworkConfigurationErrorCode
-* ErrorDescription - Virtual Network configuration is not compatible with HDInsight Requirement. Error: 'Failed to connect to Azure Storage Account; Failed to connect to Azure SQL; HostName Resolution failed', Please follow https://go.microsoft.com/fwlink/?linkid=853974 to fix it.
+* ErrorCode: InvalidNetworkConfigurationErrorCode
+* ErrorDescription: Virtual Network configuration is not compatible with HDInsight Requirement. Error: 'Failed to connect to Azure Storage Account; Failed to connect to Azure SQL; HostName Resolution failed', Please follow https://go.microsoft.com/fwlink/?linkid=853974 to fix it.
 
 ## Resolution
 Follow the steps below to validate that your custom DNS is set up properly.
