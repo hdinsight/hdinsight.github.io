@@ -2,8 +2,8 @@
 
 ## Issue
 You have set up a custom DNS for your cluster, and you encounter a failure with:
-2.	ErrorCode – InvalidNetworkConfigurationErrorCode
-ErrorDescription - Virtual Network configuration is not compatible with HDInsight Requirement. Error: 'Failed to connect to Azure Storage Account; Failed to connect to Azure SQL; HostName Resolution failed', Please follow https://go.microsoft.com/fwlink/?linkid=853974 to fix it.
+* ErrorCode – InvalidNetworkConfigurationErrorCode
+* ErrorDescription - Virtual Network configuration is not compatible with HDInsight Requirement. Error: 'Failed to connect to Azure Storage Account; Failed to connect to Azure SQL; HostName Resolution failed', Please follow https://go.microsoft.com/fwlink/?linkid=853974 to fix it.
 
 ## Resolution
 Follow the steps below to validate that your custom DNS is set up properly.
@@ -31,10 +31,10 @@ Based on the result - choose one of the following steps to follow:
 
   1. Add this as the first custom DNS for the vNet using the steps described in [here](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#example-dns). [Note: These steps are applicable only if your custom DNS server runs on Linux.]
 
-  1. Deploy a DNS server VM for the vNet. This involves the following steps:
-    1. Create VM in the vNet which will be configured as DNS forwarder (It can be Linux or windows VM).  
-    1. Configure DNS forwarding rule on this VM (forward all iDNS name resolution request to 168.63.129.16 and rest to your DNS server)  
-    1. Add the IP Address of this VM as first DNS entry for Virtual Network DNS configuration.  
+  2. Deploy a DNS server VM for the vNet. This involves the following steps:
+    * Create a VM in the vNet which will be configured as DNS forwarder (it can be a Linux or windows VM).  
+    * Configure DNS forwarding rules on this VM (forward all iDNS name resolution requests to 168.63.129.16, and the rest to your DNS server)  
+    * Add the IP Address of this VM as first DNS entry for Virtual Network DNS configuration.
 
 ### 2. If 168.63.129.16 is already in the list:
 
