@@ -11,4 +11,4 @@ Go to the Azure Portal and identify the route table that is associated with the 
 
 If there are routes defined, make sure that there are routes for IP addresses for the region where the cluster was deployed, and the "NextHopType" for each route is "Internet". Refer to [this document](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-ip) for details. There should be a route defined for each required IP Address documented in the aforementioned article.
 
-If there is no route specified for the cluster, then it is probably not a problem with the UDR configuration. If you have also set up a Network Security Group (NSG), you might have a problem with the NSG configuration. Refer [here](https://hdinsight.github.io/ClusterCRUD/hdinsight-nsg.html) to troubleshoot NSG issues.
+If there is no route specified for the cluster, then it is probably not a problem with the UDR configuration. If you have also set up a Network Security Group (NSG), you might have a problem with the NSG configuration. Refer [here](hdinsight-nsg) to troubleshoot NSG issues.
