@@ -1,7 +1,14 @@
 # Cluster CRUD FAQ: Answers to common questions on HDInsight cluster creation, deletion and scale up
 Use the CRUD FAQ for answers to common questions on HDInsight cluster creation, deletion and scale up
 
-#### [I can't add nodes to my cluster](hdinsight-clusterscaleissues.md)
-#### [My Cluster Creation Fails Due To an Issue With Custom DNS Setup](hdinsight-customdns.md)
-#### [My Cluster Creation Fails Due To an Issue With Network Security Group (NSG)](hdinsight-nsg.md)
-#### [My Cluster Creation Fails Due To an Issue With User-defined Routes (UDR)](hdinsight-udr.md)
+####  Cluster Creation
+##### [How can I get the base-64 encode string from a pfx certificate file to create DataLake cluster?](ADLS/adls-create-serviceprincipal-certificate-format.md)
+##### [What permissions do I need to setup to create cluster with DataLake Store as primary storage?](ADLS/adls-create-permission-setup.md)
+##### [How to re-use existing container when creating DataLake clusters?](ADLS/adls-create-reuse-container.md)
+##### [My Cluster Creation Fails Due To an Issue With Custom DNS Setup](hdinsight-customdns.md)
+##### [My Cluster Creation Fails Due To an Issue With Network Security Group (NSG)](hdinsight-nsg.md)
+##### [My Cluster Creation Fails Due To an Issue With User-defined Routes (UDR)](hdinsight-udr.md)
+
+####  Cluster Scaling
+##### [I can't add nodes to my cluster](hdinsight-clusterscaleissues.md)
+
