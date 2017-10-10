@@ -24,7 +24,7 @@ User specifies a root path, path from root of storage account to cluster contain
 
 If root path is configured as ‘/A/Clusters/clustername’, make sure that the folder ‘/A/clusters’ exists.
 
-####Summary of permissions required: 
+#### Summary of permissions required: 
 - If '/A/Clusters/clustername' folder exists
 	- Service principal requires execute(x) permission at ‘/’, '/A' and ‘/Clusters’ and any other intermediate folders till the container (required for traversal)
 	- Service principal requires ‘rwx’ permission on ‘/A/Clusters/clustername’ (required to copy files to container)
