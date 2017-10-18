@@ -71,19 +71,21 @@ As a session recovery mechanism Livy stores the session details in Zookeeper to 
 
 In this scenario we found customer had submitted a large number of jobs to livy. So it accumulated a certain amount of to-be-recovered sessions causing too many threads being created.
 
-#### Mitigation: delete all entries using following command 
-Get the IP address of the zookeeper Nodes using 
-~~~~ grep -R zk /etc/hadoop/conf ~~~~
+#### Mitigation: Delete all entries using steps detailed below.
 
-##### Above command listed all the zookeepers for my cluster #####
+- Get the IP address of the zookeeper Nodes using 
 
-/etc/hadoop/conf/core-site.xml:      <value>zk1-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk2-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk4-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181</value>
+~~~~  grep -R zk /etc/hadoop/conf  ~~~~
 
-###### I got the IP address of the zookeeper nodes using ping #####
-###### Or you can also connect to zookeeper from headnode using zk name  #####
+- Above command listed all the zookeepers for my cluster #####
 
-~~~~ /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181  ~~~~
+    /etc/hadoop/conf/core-site.xml:      <value>zk1-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk2-      hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk4-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181</value>
+
+- Get all the IP address of the zookeeper nodes using ping Or you can also connect to zookeeper from headnode using zk name 
+
+~~~~  /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181   ~~~~
+
 ##### Once connnected to zookeeper execute the following command to remove all the to-be-recovered sessions. #####
-~~~~ rmr /livy/v1/batch ~~~~
+~~~~  rmr /livy/v1/batch  ~~~~
 
  
