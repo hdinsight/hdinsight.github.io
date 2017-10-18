@@ -43,7 +43,7 @@ Deploy a [custom DNS server](https://docs.microsoft.com/en-us/azure/virtual-netw
 
 ## 2. ErrorDescription contains "Failed to connect to Azure Storage Account" or "Failed to connect to Azure SQL"
 
-Azure Storage and SQL do not have fixed IP Addresses, so we need to allow outbound connections to all IPs to allow accessing these services. Refer to the section on [controlling network traffic with HDInsight with network security groups and user-defined routes](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-ip) for details. The exact resolution steps depend on whether you have set up a Network Security Group (NSG) or User-Defined Rules (UDR). 
+Azure Storage and SQL do not have fixed IP Addresses, so we need to allow outbound connections to all IPs to allow accessing these services. The exact resolution steps depend on whether you have set up a Network Security Group (NSG) or User-Defined Rules (UDR). Refer to the section on [controlling network traffic with HDInsight with network security groups and user-defined routes](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network#hdinsight-ip) for details on these configurations.
 
 ### If your cluster uses a [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg)
 Go to the Azure Portal and identify the NSG that is associated with the subnet where the cluster is being deployed. In the "Outbound security rules" section, allow outbound access to internet without limitation (note that a smaller "priority" number here means higher priority). Also, in the "subnets" section, confirm if this NSG is applied to the cluster subnet.
