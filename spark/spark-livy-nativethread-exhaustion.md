@@ -1,3 +1,4 @@
+
 #### Issue : Livy Server was down in HDInsight Spark Production Cluster [(Spark 2.1 on Linux (HDI 3.6)]
 #### Attempting to restart results in the following error stack.
 ##### Found the following entries in the latest livy Logs 
@@ -52,7 +53,9 @@
   at com.cloudera.livy.sessions.BatchSessionManager.<init>(SessionManager.scala:42)
   at com.cloudera.livy.server.LivyServer.start(LivyServer.scala:99)
   at com.cloudera.livy.server.LivyServer$.main(LivyServer.scala:302)
-  at com.cloudera.livy.server.LivyServer.main(LivyServer.scala)## using "vmstat" found for free memory on the server, we had enough free memory
+  at com.cloudera.livy.server.LivyServer.main(LivyServer.scala)
+  
+  ## using "vmstat" found for free memory on the server, we had enough free memory
 ~~~~
 
 java.lang.OutOfMemoryError: unable to create new native thread highlights; highlights OS cannot assign more native threads to JVMs
@@ -68,5 +71,19 @@ As a session recovery mechanism Livy stores the session details in Zookeeper to 
 
 In this scenario we found customer had submitted a large number of jobs to livy. So it accumulated a certain amount of to-be-recovered sessions causing too many threads being created.
 
-####Mitigation: delete entry, livy/v1/batch , in zk,
+#### Mitigation: delete all entries using following command 
+Get the IP address of the zookeeper Nodes using 
+~~~~ grep -R zk /etc/hadoop/conf ~~~~
+
+##### Above command listed all the zookeepers for my cluster #####
+
+/etc/hadoop/conf/core-site.xml:      <value>zk1-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk2-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk4-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181</value>
+
+###### I got the IP address of the zookeeper nodes using ping #####
+###### Or you can also connect to zookeeper from headnode using zk name  #####
+
+~~~~ /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181  ~~~~
+##### Once connnected to zookeeper execute the following command to remove all the to-be-recovered sessions. #####
+~~~~ rmr /livy/v1/batch ~~~~
+
  
