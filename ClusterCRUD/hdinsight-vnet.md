@@ -1,6 +1,6 @@
 # My Cluster Creation Fails with InvalidNetworkConfigurationErrorCode
 
-If you see this error code (with description *"Virtual Network configuration is not compatible with HDInsight Requirement"*), it usually means there is a problem with the [virtual network configuration](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network) for your cluster. Based on the rest of the error description, follow the below sections to resolve your problem.
+If you see this error code (with the description *"Virtual Network configuration is not compatible with HDInsight Requirement"*), it usually indicates a problem with the [virtual network configuration](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-extend-hadoop-virtual-network) for your cluster. Based on the rest of the error description, follow the below sections to resolve your problem.
 
 ## 1. ErrorDescription contains "HostName Resolution failed"
 
