@@ -1,4 +1,4 @@
-## Troubleshooting YARN application starts with YARNUI and the next steps is to analyze the YARN logs to determine any Perfomance issues or Failures.
+## Troubleshooting YARN application starts with YARNUI and the next steps is to analyze the YARN logs to determine any Perfomance issues or Failures. (TEST)
 
 While YARN is well documented [here](https://hortonworks.com/blog/apache-hadoop-yarn-concepts-and-applications/)
 This article starts by with a gist on YARN Concepts, how YARN components are represented on YARN UI.
@@ -44,7 +44,3 @@ Look up for AM container which starts with Container_ApplicationId_attemptID_con
 ![Alt text](media/troubleshooting-spark-performance/image03.PNG)
 
 ![Alt text](media/troubleshooting-spark-performance/image04.PNG)
-
-
- 
-    
