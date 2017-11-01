@@ -18,7 +18,7 @@ ms.author: gkanade
 
 # One or more dead region servers observed on hbase cluster
 
-If you are running HBase cluster v3.4 or v 3.5 you might have been hit by a potential bug caused by upgrade of jdk to version 1.7.0_151. The symptom we see is region server process starts occupying close to 200% CPU (to verify this run the top command; if there is a process occupying close to 200% CPU get its pid and confirm it is region server process by running ps -aux &#124; grep <pid>) and the region server is essentially rendered dead, causing alerts to fire on HBase Master process and cluster to not function at full capacity.
+If you are running HBase cluster v3.4 you might have been hit by a potential bug caused by upgrade of jdk to version 1.7.0_151. The symptom we see is region server process starts occupying close to 200% CPU (to verify this run the top command; if there is a process occupying close to 200% CPU get its pid and confirm it is region server process by running ps -aux &#124; grep <pid>) and the region server is essentially rendered dead, causing alerts to fire on HBase Master process and cluster to not function at full capacity.
 
 The mitigation/solution for the problem at a high level (details below) is to:
 
