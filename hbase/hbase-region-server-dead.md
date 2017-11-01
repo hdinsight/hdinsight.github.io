@@ -28,7 +28,7 @@ Run the script action https://raw.githubusercontent.com/Azure/hbase-utils/master
                                                                                                                                          
 "sudo add-apt-repository ppa:openjdk-r/ppa -y && sudo apt-get -y update && sudo apt-get install -y openjdk-8-jdk"
 
-2)	Go to Ambari UI - https://&#60clusterdnsname&#62.azurehdinsight.net; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
+2)	Go to Ambari UI - https://&#60;clusterdnsname&#62;.azurehdinsight.net; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
 
 "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64."
 
