@@ -24,11 +24,12 @@ The mitigation/solution for the problem at a high level (details below) is to:
 
 1)	Install jdk 1.8 on ALL nodes of the cluster as below:
 
-Run the script action https://raw.githubusercontent.com/Azure/hbase-utils/master/scripts/upgradetojdk18allnodes.sh Be sure to select the option to run on all nodes. Alternatively, you can log in to every individual node and run the command
+Run the script action https://raw.githubusercontent.com/Azure/hbase-utils/master/scripts/upgradetojdk18allnodes.sh 
+Be sure to select the option to run on all nodes. Alternatively, you can log in to every individual node and run the command
                                                                                                                                          
 "sudo add-apt-repository ppa:openjdk-r/ppa -y && sudo apt-get -y update && sudo apt-get install -y openjdk-8-jdk"
 
-2)	Go to Ambari UI - https://&#60;clusterdnsname&#62;.azurehdinsight.net; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
+2)	Go to Ambari UI - https://clusterdnsname.azurehdinsight.net; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
 
 "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64."
 
