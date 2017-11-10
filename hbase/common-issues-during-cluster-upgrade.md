@@ -23,7 +23,7 @@ We have a customer upgrading their cluster from 3.4 to 3.5 (HDP 2.4 to HDP 2.5),
 i see the view in sqlline... i see no data in the view in sqlline though
 
 ```
-0: jdbc:phoenix:zk1-profil> select count(*) from marstonsnewcustomerinsightssep_profile_account_marstonsplccrm4dynamicscom;
+0: jdbc:phoenix:zk1-profil> select count(*) from table1_view;
 +-----------+
 | COUNT(1)  |
 +-----------+
@@ -32,7 +32,7 @@ i see the view in sqlline... i see no data in the view in sqlline though
 ```
 however in the table that the view is backed by... 
 ```
-0: jdbc:phoenix:zk1-profil> select count(*) from marstonsnewcustomerinsightssep_profile;
+0: jdbc:phoenix:zk1-profil> select count(*) from table1;
 +-----------+
 | COUNT(1)  |
 +-----------+
