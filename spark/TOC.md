@@ -5,3 +5,8 @@
 ## [How do I configure Spark application through spark-submit on HDInsight clusters?](spark-application-configuration-through-spark-submit.md)
 ## [How do I configure Spark application through LIVY on HDInsight clusters?](spark-application-configuration-through-livy.md)
 ## [How do I configure Spark application through Jupyter notebook on HDInsight clusters?](spark-application-configuration-through-jupyter.md)
+## [How do I configure Spark application through Jupyter notebook on HDInsight clusters?](spark-application-configuration-through-jupyter.md)
+## [How to retrieve livy session details?](debug-jupyter-livy-spark.md)
+## [How to increasing Spark history heap-memory configuration](spark-history-heap-memory-configuration.md)
+## [Getting java.lang.OutOfMemoryError when attempting to restart Livy server](spark-livy-nativethread-exhaustion.md)
+## [Spark 1.6 jar are used when Spark application is launched using Oozie Shell](spark-oozie-shell-action-launch-error.md)
