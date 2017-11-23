@@ -1,1 +1,17 @@
+---
+title: hbck - Insufficient Memory | Microsoft Docs
+description: Handle and work around insufficient memory issue when running hbck
+services: hdinsight
+documentationcenter: ''
+author: gkanade
+manager: ashitg
 
+ms.service: hdinsight
+ms.custom: hdinsightactive
+ms.devlang: na
+ms.topic: article
+ms.tgt_pltfrm: na
+ms.workload: big-data
+ms.date: 11/22/2017
+ms.author: gkanade
+---
