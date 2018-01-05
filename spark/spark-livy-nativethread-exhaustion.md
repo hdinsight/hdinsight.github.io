@@ -84,8 +84,13 @@ In this scenario we found customer had submitted a large number of jobs to livy.
 - Get all the IP address of the zookeeper nodes using ping Or you can also connect to zookeeper from headnode using zk name 
 
 ~~~~  /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181   ~~~~
+#### Once you are connected to zookeeper execute the following command to list all the session that are attempted to restart. ####
+#### In all the cases this would be a list more than 8000 sessions ####
+~~~~  ls /livy/v1/batch  ~~~~
 
-##### Once connnected to zookeeper execute the following command to remove all the to-be-recovered sessions. #####
+##### Following command is to remove all the to-be-recovered sessions. #####
 ~~~~  rmr /livy/v1/batch  ~~~~
+#### Wait for the above command to complete and the cursor to return the prompt and then restart livy service from ambari which should succeed. ####
 
- 
+I am working on why that many sessions got created and if they were not deleted.
+
