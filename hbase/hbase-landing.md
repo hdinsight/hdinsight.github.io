@@ -27,3 +27,4 @@ Use the HBase FAQ for answers to common questions on HBase on Azure HDInsight pl
 #### [How to fix timeout issue with 'hbase hbck' command when fixing region assignments?](hbase-hbck-timeout.md)
 #### [How to resolve failure in restart operation on HBase Region Server?](hbase-regionserver-restart-failed.md)
 #### [Region Server Dead](hbase-region-server-dead.md)
+#### [Common issues during cluster upgrade](common-issues-during-cluster-upgrade.md)

@@ -18,7 +18,7 @@ ms.date: 08/03/2017
 ms.author: sunilkc
 ---
 
-#### Learn how to retrieve livy session details, important step in isolating issue when submitting jobs from jupyter.
+#### How to retrieve livy session details, important step in isolating issue when submitting jobs from jupyter.
 ##### Scenario: Executing pyscript to load a large CSV files using Jupyter.
 ##### Issue: Spark UI shows that the target job has completed but on the Jupyter kernel states is shown as busy and that process will not get completed.
 ##### Seems like Spark UI shows the job completed but Jupyter Notebook doesn't receive any response.
