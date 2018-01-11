@@ -18,15 +18,19 @@ ms.author: gkanade
 
 # One or more dead region servers observed on hbase cluster
 
-If you are running HBase cluster v3.4 or v 3.5 you might have been hit by a potential bug caused by upgrade of jdk to version 1.7.0_151. The symptom we see is region server process starts occupying close to 200% CPU (to verify this run the top command; if there is a process occupying close to 200% CPU get its pid and confirm it is region server process by running ps -aux &#124; grep <pid>) and the region server is essentially rendered dead, causing alerts to fire on HBase Master process and cluster to not function at full capacity.
+If you are running HBase cluster v3.4 you might have been hit by a potential bug caused by upgrade of jdk to version 1.7.0_151. The symptom we see is region server process starts occupying close to 200% CPU (to verify this run the top command; if there is a process occupying close to 200% CPU get its pid and confirm it is region server process by running ps -aux &#124; grep <pid>) and the region server is essentially rendered dead, causing alerts to fire on HBase Master process and cluster to not function at full capacity.
 
 The mitigation/solution for the problem at a high level (details below) is to:
 
 1)	Install jdk 1.8 on ALL nodes of the cluster as below:
+
+Run the script action https://raw.githubusercontent.com/Azure/hbase-utils/master/scripts/upgradetojdk18allnodes.sh 
+
+Be sure to select the option to run on all nodes. Alternatively, you can log in to every individual node and run the command
                                                                                                                                          
 "sudo add-apt-repository ppa:openjdk-r/ppa -y && sudo apt-get -y update && sudo apt-get install -y openjdk-8-jdk"
 
-2)	Go to Ambari UI - https://<clusterdnsname>.azurehdinsight.net; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
+2)	Go to Ambari UI - https://&#60;clusterdnsname&#62;.azurehdinsight.net; go to HBase->Configs->Advanced->Advanced hbase-env configs and change the variable JAVA_HOME as below:
 
 "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64."
 
