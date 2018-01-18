@@ -10,3 +10,5 @@
 ## [How to increasing Spark history heap-memory configuration](spark-history-heap-memory-configuration.md)
 ## [Getting java.lang.OutOfMemoryError when attempting to restart Livy server](spark-livy-nativethread-exhaustion.md)
 ## [Spark 1.6 jar are used when Spark application is launched using Oozie Shell](spark-oozie-shell-action-launch-error.md)
+
+## [access to jupyter over IP address when cluster is part restricted environment](jupyter-allow-allip.md)
