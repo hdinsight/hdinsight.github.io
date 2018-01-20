@@ -64,33 +64,63 @@ Confirmed that this Exception is caused by the violation of the per-process thre
 Looking at Livy implementation we found that livy will save the session state in ZK (in HDInsight) and recover those sessions on restart. When restarting, livy will create a thread for each session. 
 
 This is part of High Availability for LivyServer
-Refer section High Availability under https://hortonworks.com/blog/livy-a-rest-interface-for-apache-spark/
+refer section High Availability under https://hortonworks.com/blog/livy-a-rest-interface-for-apache-spark/
 In case if Livy Server fails, all the connections to  Spark Clusters are also terminated, which means that all the jobs and related data will be lost.
 As a session recovery mechanism Livy stores the session details in Zookeeper to be recovered after the livy Server is back.
 
 
 In this scenario we found customer had submitted a large number of jobs to livy. So it accumulated a certain amount of to-be-recovered sessions causing too many threads being created.
 
-#### Mitigation: Delete all entries using steps detailed below.
+##### Mitigation: Delete all entries using steps detailed below.
 
 - Get the IP address of the zookeeper Nodes using 
+~~~~  
+grep -R zk /etc/hadoop/conf  
+~~~~
 
-~~~~  grep -R zk /etc/hadoop/conf  ~~~~
+- Above command listed all the zookeepers for my cluster 
 
-- Above command listed all the zookeepers for my cluster #####
-
+~~~~
     /etc/hadoop/conf/core-site.xml:      <value>zk1-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk2-      hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk4-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181</value>
-
+~~~~
 - Get all the IP address of the zookeeper nodes using ping Or you can also connect to zookeeper from headnode using zk name 
 
-~~~~  /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181   ~~~~
-#### Once you are connected to zookeeper execute the following command to list all the session that are attempted to restart. ####
-#### In all the cases this would be a list more than 8000 sessions ####
-~~~~  ls /livy/v1/batch  ~~~~
+~~~~  
+/usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181   
+~~~~
+##### Once you are connected to zookeeper execute the following command to list all the session that are attempted to restart. ####
+##### Most of the cases this could be a list more than 8000 sessions ####
+~~~~  
+ls /livy/v1/batch  
+~~~~
 
 ##### Following command is to remove all the to-be-recovered sessions. #####
-~~~~  rmr /livy/v1/batch  ~~~~
-#### Wait for the above command to complete and the cursor to return the prompt and then restart livy service from ambari which should succeed. ####
+~~~~  
+rmr /livy/v1/batch  
+~~~~
+##### Wait for the above command to complete and the cursor to return the prompt and then restart livy service from ambari which should succeed. 
+##### Note: Deleting the session maintained under zookeeper is a workaround.
+### Recommended solution would be to delete the livy session once it is completed its execution.
 
-I am working on why that many sessions got created and if they were not deleted.
+##### Continue reading for some more details that was explored while troubleshooting this issue
+ADF uses livy server to submit job, scheduled a python job to be processed part of pipleline every 15 minutes. Tracked the zookeeper entries to find the session were not getting for more than 12 hours. Looking at the state of the session set to dead, they should have been Garbage collected which is not happening.
 
+~~~~ 
+
+{"from":0,"total":23,"sessions":[{"id":11,"state":"dead","appId":"application_1515528956848_0019","appInfo":{"driverLogUrl":null,"sparkUiUrl":"https://sparkhdi.azurehdinsight.net/yarnui/hn/proxy/application_1515528956848_0019/"},"log":["YARN Diagnostics:","User application exited with status 1"]},{"id":12,"state":"dead","appId":"application_1515528956848_0020","appInfo":{"driverLogUrl":null,"sparkUiUrl":"https://sparkhdi.azurehdinsight.net/yarnui/hn/proxy/application_1515528956848_0020/"},"log":["YARN Diagnostics:","User application exited with status 1"]},{"id":13,"state":"dead","appId":"application_1515528956848_0021","appInfo":{"driverLogUrl":null,"sparkUiUrl":"https://sparkhdi.azurehdinsight.net/yarnui/hn/proxy/application_1515528956848_0021/"},"log":["YARN Diagnostics:","User application exited with status 1"]}
+
+~~~~
+
+The default timeout was around an hour thought that was interactive session.  Only other session timeout value that is livy.server.session.timeout = 2073600000.
+set the livy.server.session.timeout to 36900000 found the session entries were garbage collected after about 1 hour 10 minutes.
+Looking at the following snip of code livy would be the max of the default timeout and the session.timeout set on ambari.
+
+~~~~
+  def collectGarbage(): Future[Iterable[Unit]] = {
+    def expired(session: Session): Boolean = {
+      val currentTime = System.nanoTime()
+      currentTime - session.lastActivity > math.max(sessionTimeout, session.timeout)
+    }
+    Future.sequence(all().filter(expired).map(delete))
+  }
+~~~~
