@@ -112,7 +112,7 @@ ADF uses livy server to submit job, scheduled a python job to be processed part 
 ~~~~
 
 The default timeout was around an hour thought that was interactive session.  Only other session timeout value that is livy.server.session.timeout = 2073600000.
-set the livy.server.session.timeout to 36900000 found the session entries were garbage collected after about 1 hour 10 minutes.
+For testing set the livy.server.session.timeout to 36900000 found the session entries were garbage collected after about 1 hour 10 minutes.
 Looking at the following snip of code livy would be the max of the default timeout and the session.timeout set on ambari.
 
 ~~~~
