@@ -30,3 +30,5 @@ Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight pl
 #### [How do I configure Spark application through Jupyter notebook on HDInsight clusters?](spark-application-configuration-through-jupyter.md)
 #### [Why did my Spark Streaming Application stop processing data after executing for 24 days?](spark-stream-session-configuration.md)
 #### [Why do I start seeing 502 errors frequently when trying to connect to Thrift server exposed by HDInsight cluster?](spark-thriftserver-errors.md)
+#### [Spark job becomes slow when the destination folder has too many files?](spark-job-slowness-when-destination-folder-has-too-many-files.md)
+
