@@ -48,7 +48,7 @@ We have corrected the base image and also patched most of customer clusters. We 
 			sudo echo "patching ambari user expiry policy completed." | logger
 
 
-* Alternatively, you can also run the script via script action located [here](https://venkatpubvmrg14221.blob.core.windows.net/mdsd/userexpirationpolicyfix.sh)
+* Alternatively, you can also run the script via script action located [here](https://hdiconfigactions.blob.core.windows.net/userexpirationpolicyfix/userexpirationpolicyfix.sh)
 
   Please make sure that HDInsight management IP’s are able to access your clusters.
 
