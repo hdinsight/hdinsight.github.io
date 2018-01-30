@@ -27,7 +27,7 @@ I am running a select and insert on a large dataset. The data in the datset is s
 When I run a simple query which looks like this:
 ```insert into table1 select a,b,c from table2;```
 
-the query plan a bunch of reducers but the data from the heaviest partition goes to a single reducer, causing it to run for a long time.
+the query plan starts a bunch of reducers but the data from the heaviest partition goes to a single reducer, causing it to run for a long time.
 
 #### Troubleshoot: 
 Open beeline and verify the value of 
@@ -37,6 +37,7 @@ If the value of the parameter is set to true, it means that dynamic partitioning
 
 #### Resolution: 
 1. Try to repartition the data to normalize into multiple partitions.
-2. If #1 is not possible, set the value of the config to false and try the query again.
+2. If #1 is not possible, set the value of the config to false in beeline session and try the query again.
 ```set hive.optimize.sort.dynamic.partition=false```.
-Setting the value to false might cause Out of Memory errors.
+Setting the value to false might cause Out of Memory errors. 
+The effect of setting the value to false at a cluster level in a HDP cluster is still being investigated. In the meantime please use the setting only for affected slow queries. 
