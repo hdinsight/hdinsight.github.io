@@ -25,19 +25,23 @@ ms.author: jyotima
 I am running a select and insert on a large dataset. The data in the datset is skewed and most of the data resides in one partition.
 
 When I run a simple query which looks like this:
-```insert into table1 select a,b,c from table2;```
+```insert into table1 partition(a,b) select a,b,c from table2;```
 
-the query plan starts a bunch of reducers but the data from the heaviest partition goes to a single reducer, causing it to run for a long time.
+the query plan starts a bunch of reducers but the data from the each partition goes to a single reducer. This causes the query to be as slow as the time taken by the largest parition's reducer.
 
 #### Troubleshoot: 
-Open beeline and verify the value of 
+Open [beeline](https://docs.microsoft.com/en-us/azure/hdinsight/hadoop/apache-hadoop-use-hive-beeline) and verify the value of 
 ```set hive.optimize.sort.dynamic.partition```
 
-If the value of the parameter is set to true, it means that dynamic partitioning column will be globally sorted. This way we can keep only one record writer open for each partition value in the reducer thereby reducing the memory pressure on reducers.
+The value of this variable is meant to be set to true/false based on the nature of the data.
+
+If the partitions in the input table is less(say less than 10), and so is the the number of output partitions, and the variable is set to ```true```, this causes data to be globally sorted and written using a single reducer. Even if the number of reducers available is larger, only a handful will be doing the real work and the max parallelism cannot be attained. When changed to ```false```, each reducer will write output into the output table and will be faster. In this process however many files will be written into the output table, which might affect the subsequest query performance. 
+
+A value of ```true``` makes sense when the number of partitions is larger and data is not skewed. In such cases the result of the map phase will be written out such that each reducer handles data from a single partition and writes a single file into the output table, hence inproving subsequent query performance.
+
 
 #### Resolution: 
 1. Try to repartition the data to normalize into multiple partitions.
 2. If #1 is not possible, set the value of the config to false in beeline session and try the query again.
 ```set hive.optimize.sort.dynamic.partition=false```.
-Setting the value to false might cause Out of Memory errors. 
-The effect of setting the value to false at a cluster level in a HDP cluster is still being investigated. In the meantime please use the setting only for affected slow queries. 
+Setting the value to false at a cluster level is not recommended. The value of ```true``` is optimal and set the parameter as necessary based on nature of data and query. 
