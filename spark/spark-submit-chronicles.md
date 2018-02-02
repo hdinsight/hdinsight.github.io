@@ -18,7 +18,7 @@ ms.date: 02/01/2018
 ms.author: sunilkc
 ---
 
-One can submit spark application using spark-submit shell script with different parameters,  sometimes paramters are ambigious.  Listed here are few parameters used to clarify specific scenarios.
+One can submit spark application using spark-submit shell script with different parameters,  sometimes parameters are ambigious.  Listed here are few parameters used to clarify specific scenarios.
 
 Scenario. This Spark Application requires class that is available only in a specific jar (mssql-jdbc-6.2.2.jre8.jar) file. That specific class and its implementation is not available in the default JDBC jar shipped with the cluster.
 
