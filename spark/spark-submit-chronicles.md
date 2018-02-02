@@ -44,7 +44,7 @@ Here is an example for spark-submit, above curl almost translates to the followi
 spark-submit --class HBaseTest --conf spark.yarn.user.classpath.first=true --conf spark.yarn.submit.waitAppCompletion=false --conf spark.jars=wasbs:///sparkhbase/mssql-jdbc-6.2.2.jre8.jar --conf spark.master=yarn-cluster --conf spark.driver.extraClassPath=wasbs:///sparkhbase/mssql-jdbc-6.2.2.jre8.jar  wasbs:///sparkhbase/sparkhbase.jar
 ```
 
-##### Same parameters can be forward from ADF using the typeProperties, If you applicaiton require multiple jar files you have an option to drop all the jar file under jars folder when using from ADF.
+##### Same parameters can be forwarded from ADF using the typeProperties, If you applicaiton require multiple jar files you have an option to drop all the jar file under jars folder when using from ADF.
 
 ```
 "typeProperties": {    
