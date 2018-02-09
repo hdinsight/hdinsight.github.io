@@ -35,7 +35,7 @@ Open [beeline](https://docs.microsoft.com/en-us/azure/hdinsight/hadoop/apache-ha
 
 The value of this variable is meant to be set to true/false based on the nature of the data.
 
-If the partitions in the input table is less(say less than 10), and so is the the number of output partitions, and the variable is set to ```true```, this causes data to be globally sorted and written using a single reducer. Even if the number of reducers available is larger, a few reducers may be lagging behind due to data skew and the max parallelism cannot be attained. When changed to ```false```, more than one partitions may be handled by a single reducer and multiple smaller files will be written out, resulting in faster insert. This might affect further queries though because of the presence of smaller files. 
+If the partitions in the input table is less(say less than 10), and so is the the number of output partitions, and the variable is set to ```true```, this causes data to be globally sorted and written using a single reducer per partition. Even if the number of reducers available is larger, a few reducers may be lagging behind due to data skew and the max parallelism cannot be attained. When changed to ```false```, more than one reducer may handle a single partition and multiple smaller files will be written out, resulting in faster insert. This might affect further queries though because of the presence of smaller files. 
 
 A value of ```true``` makes sense when the number of partitions is larger and data is not skewed. In such cases the result of the map phase will be written out such that each partition will be handled by a single reducer resulting in better subsequent query performance.
 
