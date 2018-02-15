@@ -71,6 +71,7 @@ As a session recovery mechanism Livy stores the session details in Zookeeper to 
 
 In this scenario we found customer had submitted a large number of jobs to livy. So it accumulated a certain amount of to-be-recovered sessions causing too many threads being created.
 
+
 ##### Mitigation: Delete all entries using steps detailed below.
 
 - Get the IP address of the zookeeper Nodes using 
@@ -99,8 +100,14 @@ ls /livy/v1/batch
 rmr /livy/v1/batch  
 ~~~~
 ##### Wait for the above command to complete and the cursor to return the prompt and then restart livy service from ambari which should succeed. 
+
+
 ##### Note: Deleting the session maintained under zookeeper is a workaround.
-### Recommended solution would be to delete the livy session once it is completed its execution.
+. 
+
+### DELETE the livy session once it is completed its execution.
+The Livy batch sessions will not be deleted automatically as soon as the spark app completes, which is by design. 
+A Livy session is an entity created by a POST request against Livy Rest server. A “DELETE” call is needed to delete that entity. Or we should wait for the GC to kick in.
 
 ##### Continue reading for some more details that was explored while troubleshooting this issue
 ADF uses livy server to submit job, scheduled a python job to be processed part of pipleline every 15 minutes. Tracked the zookeeper entries to find the session were not getting for more than 12 hours. Looking at the state of the session set to dead, they should have been Garbage collected which is not happening.
@@ -111,9 +118,15 @@ ADF uses livy server to submit job, scheduled a python job to be processed part 
 
 ~~~~
 
+There is an issue with Livy 0.3 that’s mixing the concepts of GC and session timeout. We are setting the timeout to 24 days to make sure the spark streaming apps don’t get killed by GC. This is causing some Livy OOM issue when the server gets restarted and tries to restore sessions from ZK. So it is required to delete the batch sessions explicitly when the spark app is completed.
+
+Livy 0.4 has GC and session timeout separated into different settings, which is the ideal solution
+
 The default timeout was around an hour thought that was interactive session.  Only other session timeout value that is livy.server.session.timeout = 2073600000.
+Livy keeps sessions around until the session timeout.
+
 For testing set the livy.server.session.timeout to 36900000 found the session entries were garbage collected after about 1 hour 10 minutes.
-Looking at the following snip of code livy would be the max of the default timeout and the session.timeout set on ambari.
+Following livy souce code snippet checks the max of the default timeout and the session.timeout set on ambari.
 
 ~~~~
   def collectGarbage(): Future[Iterable[Unit]] = {
