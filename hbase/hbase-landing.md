@@ -28,3 +28,4 @@ Use the HBase FAQ for answers to common questions on HBase on Azure HDInsight pl
 #### [How to resolve failure in restart operation on HBase Region Server?](hbase-regionserver-restart-failed.md)
 #### [Region Server Dead](hbase-region-server-dead.md)
 #### [Common issues during cluster upgrade](common-issues-during-cluster-upgrade.md)
+#### [HBase table not able to read or write](hbase-table-not-able-to-read-or-write.md)
