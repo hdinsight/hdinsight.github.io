@@ -1,5 +1,5 @@
 ---
-title: How do I analyze Tez Directed Acyclic Graph (DAG) critical path on HDInsight cluster? | Microsoft Docs
+title: Why does Ambari Tez View load very slowly? | Microsoft Docs
 description: Use the Hive FAQ for answers to common questions on Hive on Azure HDInsight platform.
 keywords: Azure HDInsight, ambari, Tez, FAQ, troubleshooting guide, 
 services: Azure HDInsight
@@ -18,7 +18,7 @@ ms.date: 01/17/2018
 ms.author: NithinM
 ---
 
-### TSG Yarn ATS Poor Performance
+### Why does Ambari Tez View load very slowly?
 #### Issue
 Accessing Yarn ATS APIs may sometimes have poor performance on clusters created before Oct 2017 when the cluster has large number of Hive jobs run on it.
 

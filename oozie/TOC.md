@@ -1,1 +1,0 @@
-# Oozie Troubleshooting Guide: Solutions to common problems with Oozie on Azure HDInsight
