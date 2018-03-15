@@ -4,7 +4,7 @@ description: Use the Ambari FAQ for answers to common questions on Ambari on Azu
 keywords: Azure HDInsight, Ambari, FAQ, troubleshooting guide, common problems
 services: Azure HDInsight
 documentationcenter: na
-author: arijitt
+author: shzhao
 manager: ''
 editor: ''
 
@@ -14,9 +14,14 @@ ms.workload: na
 ms.tgt_pltfrm: na
 ms.devlang: na
 ms.topic: article
-ms.date: 03/30/2017
-ms.author: arijitt
+ms.date: 03/14/2018
+ms.author: shzhao
 
 ---
 # Ambari FAQ: Answers to common questions on Ambari on Azure HDInsight
 Use the Ambari FAQ for answers to common questions on Ambari on Azure HDInsight platform.
+
+#### [How is Ambari used in HDInsight?](ambari-usage-in-hdinsight.md)
+#### [Ambari agent heartbeat lost issue](ambari-agent-heartbeat-lost.md)
+#### [Ambari UI 502 error](ambari-ui-502-error.md)
+#### [Ambari UI shows all hosts and services are down](ambari-ui-all-hosts-down.md)
