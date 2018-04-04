@@ -1,6 +1,6 @@
 ---
-title: Common issues during cluster upgrade | Microsoft Docs
-description: Diagnosing and fixing issue during cluster upgrade
+title: HBase table not able to read or write | Microsoft Docs
+description: Common cases explaining why HBase table is not able to read and write
 services: hdinsight
 documentationcenter: ''
 author: duoxu
@@ -29,3 +29,13 @@ The mitigations are
 2. You can find the orphan blob file from UI tools like "cloudExplorer" or running command like "hdfs dfs -ls /xxxxxx/yyyyy". Run "hdfs dfs -rmr /xxxxx/yyyy" to delete that blob. Here is "hdfs dfs -rmr /hbase/data/default/ThatTable/80b488992339bc79ef79d8c11b8214124/recovered.edits/0000000000000052121".
 
 3. Now you can create new table with the same name in HBase.
+
+# HBCK returns holes in the region chain
+
+Usually it is due to some regions are offline, thus hbck reports that there are some holes in the region chain. The read and write are not able to reach those offline regions. Please take a look at the below TSG to bring up the offline regions.
+ 
+###### [HBase hbck returns inconsistencies](hbase-hbck-returns-some-regions-having-the-same-start-or-end-key.md)
+
+
+
+
