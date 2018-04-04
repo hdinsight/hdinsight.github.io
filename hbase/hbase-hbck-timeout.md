@@ -32,4 +32,4 @@ Below are the steps to fix the hbck timeout problem:
 
 5. Open Ambari UI and restart Active HBase Master service from Ambari.
 
-6. Run 'hbase hbck -fixAssignments' command again and it should not timeout any further.
+6. Monitor the HBase Master UI "region in transition" that section to make sure no region gets stuck.
