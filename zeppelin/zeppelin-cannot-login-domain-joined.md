@@ -1,7 +1,7 @@
 ---
-title: How do I analyze Tez Directed Acyclic Graph (DAG) critical path on HDInsight cluster? | Microsoft Docs
-description: Use the Hive FAQ for answers to common questions on Hive on Azure HDInsight platform.
-keywords: Azure HDInsight, ambari, Tez, FAQ, troubleshooting guide, 
+title: Cannot login to Zeppelin after changing the ADDS password in active directory? | Microsoft Docs
+description: Use the Zeppelin FAQ for answers to common questions on Zeppelin on Azure HDInsight platform.
+keywords: Azure HDInsight, Zeppelin, FAQ, troubleshooting guide, 
 services: Azure HDInsight
 documentationcenter: na
 author: 
@@ -15,7 +15,7 @@ ms.tgt_pltfrm: na
 ms.devlang: na
 ms.topic: article
 ms.date: 01/17/2018
-ms.author: NithinM
+ms.author: jyotima
 ---
 
 ### TSG Zeppelin Cannot Login 
