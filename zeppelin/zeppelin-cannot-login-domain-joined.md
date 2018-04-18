@@ -29,7 +29,7 @@ Cannot login to Zeppelin after changing the ADDS password in active directory.
 
 
 #### Resolution Steps
-1.	Verify that the changed password is the root cause by including ```activeDirectoryRealm.systemUsername = <new password>``` in the zeppelin shiro_ini config in ambari. Remove the ```activeDirectoryRealm.hadoopSecurityCredentialPath``` setting. Below is where we can find it.
+1.	Verify that the changed password is the root cause by including ```activeDirectoryRealm.systemPassword = <new password>``` in the zeppelin shiro_ini config in ambari. Remove the ```activeDirectoryRealm.hadoopSecurityCredentialPath``` setting. Below is where we can find it.
    ![Shiro](shiro.png)
     
 2.	If users can now login to zeppelin after step 1, create a new jceks file with the new password and replace the ```activeDirectoryRealm.hadoopSecurityCredentialPath``` with the new file.
