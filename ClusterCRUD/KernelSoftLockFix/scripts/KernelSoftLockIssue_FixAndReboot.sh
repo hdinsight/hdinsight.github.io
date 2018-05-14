@@ -13,10 +13,6 @@ if [$? -ne 0];
 then
 	sudo echo "deb http://archive.ubuntu.com/ubuntu/ xenial-proposed restricted main multiverse universe" >> /etc/apt/sources.list
 	logger -p user.info "Updated sources list"
-else
-	sudo echo "Kernel soft lock patch already exists"
-	logger -p user.info "Kernel soft lock patch already exists. Exit."
-	exit 0
 fi
 sudo apt-get update
 logger -p user.info "Completed apt-get update"
