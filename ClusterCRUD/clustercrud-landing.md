@@ -7,7 +7,7 @@ Use the CRUD FAQ for answers to common questions on HDInsight cluster creation, 
 ##### [How to re-use existing container when creating DataLake clusters?](ADLS/adls-create-reuse-container.md)
 ##### [My Cluster Creation Fails with InvalidNetworkConfigurationErrorCode](hdinsight-vnet.md)
 ##### [My Cluster Creation Fails with the ErrorCode InvalidNetworkSecurityGroupSecurityRules](hdinsight-nsg.md)
-##### [One or more nodes in HDInsight cluster becomes unresponsive, no heartbeat from the node and cannot ssh](KernelSoftLockFix/hdinsight-kernelsoftlockissue.md)
+##### [One or more nodes in HDInsight cluster becomes unresponsive, heartbeats for that node is lost and unable to ssh to that specific node.](KernelSoftLockFix/hdinsight-kernelsoftlockissue.md)
 
 ####  Cluster Scaling
 ##### [I can't add nodes to my cluster](hdinsight-clusterscaleissues.md)
