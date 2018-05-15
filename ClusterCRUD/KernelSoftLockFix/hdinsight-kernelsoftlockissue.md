@@ -16,7 +16,7 @@ To resolve kernel soft lock issue, execute the script action on your HDInsight c
 
 2. Go to script actions
 
-3. Click Submit New and enter the input as follows. [Screenshot] (media/ExecuteScriptAction.PNG) is available for your reference:
+3. Click Submit New and enter the input as follows (<a href="https://raw.githubusercontent.com/hdinsight/hdinsight.github.io/master/ClusterCRUD/KernelSoftLockFix/media/ExecuteScriptAction.PNG">Screenshot</a> is available for your reference):
 	
 	Script Type: -Custom
 	
