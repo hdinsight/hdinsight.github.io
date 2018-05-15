@@ -2,7 +2,7 @@
 
 If you cannot ssh, please contact Microsoft support so that they can restart the affected nodes.
 
-Search in the kernel Syslogs and if you see “watchdog: BUG: soft lockup – CPU” appear then you are hitting a [bug] (https://bugzilla.kernel.org/show_bug.cgi?id=199437) in Linux Kernel which is causing CPU soft lockups and the rest of this TSG applies to you.
+Search in the kernel Syslogs and if you see “watchdog: BUG: soft lockup – CPU” appear then you are hitting a <a href="https://bugzilla.kernel.org/show_bug.cgi?id=199437">bug</a> in Linux Kernel which is causing CPU soft lockups and the rest of this TSG applies to you.
 
 Once the node is up, run the below script action which will apply the kernel patch and will schedule reboots in a staggered manner. 
 
@@ -16,7 +16,7 @@ To resolve kernel soft lock issue, execute the script action on your HDInsight c
 
 2. Go to script actions
 
-3. Click Submit New and enter the input as follows (Screenshot media\ExecuteScriptAction.jpg is available for your reference):
+3. Click Submit New and enter the input as follows ([Screenshot] (media\ExecuteScriptAction.jpg) is available for your reference):
 	
 	Script Type: -Custom
 	
