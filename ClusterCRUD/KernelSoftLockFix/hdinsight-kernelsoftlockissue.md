@@ -1,12 +1,12 @@
 ### Symptom : One or more nodes in HDInsight cluster becomes unresponsive, heartbeats for that node is lost and unable to ssh to that specific node. 
 
-### If you cannot ssh, please contact Microsoft support so that they can restart the affected nodes.
+If you cannot ssh, please contact Microsoft support so that they can restart the affected nodes.
 
-### Search in the kernel Syslogs and if you see “watchdog: BUG: soft lockup – CPU” appear then you are hitting a bug (https://bugzilla.kernel.org/show_bug.cgi?id=199437) in Linux Kernel which is causing CPU soft lockups and the rest of this TSG applies to you.
+Search in the kernel Syslogs and if you see “watchdog: BUG: soft lockup – CPU” appear then you are hitting a [bug] (https://bugzilla.kernel.org/show_bug.cgi?id=199437) in Linux Kernel which is causing CPU soft lockups and the rest of this TSG applies to you.
 
-### Once the node is up, run the below script action which will apply the kernel patch and will schedule reboots in a staggered manner. 
+Once the node is up, run the below script action which will apply the kernel patch and will schedule reboots in a staggered manner. 
 
-### If you see "watchdog: BUG: soft lockup – CPU" in Syslogs, but never lost ssh, you can still follow the recommended steps.
+If you see "watchdog: BUG: soft lockup – CPU" in Syslogs, but never lost ssh, you can still follow the recommended steps.
 
 ## **Recommended steps**
 
