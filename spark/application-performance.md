@@ -32,9 +32,9 @@ Spark Applications are usually submitting from Azure Data Factory, Jupyter, Zepp
 Step 1.
 
 1. If the application submission is initiated from ADF or any other client application like curl that submits the spark application via livy then follow the steps below.
-    a. Confirm livy server is started on HN0 from Ambari UI, incase it is stopped start the service. 
-    b. If livy server is not starting, and you see ``` java.lang.OutOfMemoryError: unable to create new native thread ``` in livy logs ``` /var/log/livy/livy-livy-server.out ``` then follow steps detailed in  [livy-nativethread-exhaustion](livy-nativethread-exhaustion.md) 
-    c. If the you dont see the exception metioned in Point b. then capture the livy logs from the cluster ( ``` /var/log/livy/livy-livy-server.out ```). 
+    ⋅⋅⋅ a. Confirm livy server is started on HN0 from Ambari UI, incase it is stopped start the service. ⋅⋅
+    ⋅⋅⋅ b. If livy server is not starting, and you see ``` java.lang.OutOfMemoryError: unable to create new native thread ``` in livy logs ``` /var/log/livy/livy-livy-server.out ``` then follow steps detailed in  [livy-nativethread-exhaustion](livy-nativethread-exhaustion.md). ⋅⋅
+    ⋅⋅⋅ c. If the you dont see the exception metioned in Point b. then capture the livy logs from the cluster ( ``` /var/log/livy/livy-livy-server.out ```). ⋅⋅
 
 2. If application is submitted using JDBC that uses Spark Thrift Service then get Spark Thrift Driver logs from ``` /var/log/spark/sparkthriftdriver.log ```
 3. In case the Spark job is submitted from spark-shell then get the complete spark-submit command.
