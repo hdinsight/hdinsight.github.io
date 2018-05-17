@@ -22,7 +22,7 @@ ms.author: shzhao
 
 #### Overview:
 
-There are times when we are investigating issues with missing files on WASB, we want to understand what operations the WASB driver initiated with Azure Storage. The Azure Storage server side analytics logs can be enabled according to this doc:
+There are times when we are investigating issues we want to understand what operations the WASB driver initiated with Azure Storage. The Azure Storage server side analytics logs can be enabled according to this doc:
 https://docs.microsoft.com/en-us/rest/api/storageservices/enabling-storage-logging-and-accessing-log-data
 
 For the client side, the WASB driver produce logs for each file system operation at DEBUG level. WASB driver uses log4j to control logging level and the default is INFO level. To enable debug logs, in general you need to do 2 things:
