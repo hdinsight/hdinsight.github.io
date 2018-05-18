@@ -16,19 +16,24 @@ To resolve kernel soft lock issue, execute the script action on your HDInsight c
 
 2. Go to script actions
 
-3. Click Submit New and enter the input as follows (<a href="https://raw.githubusercontent.com/hdinsight/hdinsight.github.io/master/ClusterCRUD/KernelSoftLockFix/media/ExecuteScriptAction.PNG">Screenshot</a> is available for your reference):
-	
+3. Execute the script action in two batches. The first batch is on all nodes except head node. The second batch is on head node. Do not run on head node and other nodes at the same time. The steps for executing the script action is as follows.
+
+	Click Submit New and enter the input as follows (<a href="https://raw.githubusercontent.com/hdinsight/hdinsight.github.io/master/ClusterCRUD/KernelSoftLockFix/media/ExecuteScriptAction.PNG">Screenshot</a> is available for your reference):
+		
 	Script Type: -Custom
-	
+		
 	Name: Fix for kernel soft lock issue
 
 	Bash script URI: [https://raw.githubusercontent.com/hdinsight/hdinsight.github.io/master/ClusterCRUD/KernelSoftLockFix/scripts/KernelSoftLockIssue_FixAndReboot.sh](https://raw.githubusercontent.com/hdinsight/hdinsight.github.io/master/ClusterCRUD/KernelSoftLockFix/scripts/KernelSoftLockIssue_FixAndReboot.sh)
 
-	Node types: Head/worker/zookeper
-	
+	Node types: Worker, Zookeper
+		
 	Check "Persist this script action" if you want the execute the script when new nodes are added.
-	
+		
 	Click Create button
-	
+		
 4. Wait for the execution to succeed.
+	
+5. Execute the script action on Head node by following the same steps as step 3, but this time with Node types: Head
 
+6. Wait for the execution to succeed. 
