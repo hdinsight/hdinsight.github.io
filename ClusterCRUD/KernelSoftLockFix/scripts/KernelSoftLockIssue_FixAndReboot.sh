@@ -3,7 +3,7 @@ set -e
 #This script is to fix the kernel soft lock issue by upgrading linux. Then it performs an on-demand reboot of nodes in a cluster with difference in their scheduled reboot times
 #The filename must not have any extension.
 
-#Version 2.1
+#Version 2.2
 #Reads config file at /usr/hdinsight/.managed_patching_reboot_config
 
 # Upgrade Linux
