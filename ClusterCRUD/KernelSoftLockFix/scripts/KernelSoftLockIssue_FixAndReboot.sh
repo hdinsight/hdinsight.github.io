@@ -1,23 +1,28 @@
 #!/bin/bash
-
+set -e
 #This script is to fix the kernel soft lock issue by upgrading linux. Then it performs an on-demand reboot of nodes in a cluster with difference in their scheduled reboot times
 #The filename must not have any extension.
 
-#Version 2.1
+#Version 2.2
 #Reads config file at /usr/hdinsight/.managed_patching_reboot_config
 
 # Upgrade Linux
 
-grep -q -F "deb http://archive.ubuntu.com/ubuntu/ xenial-proposed restricted main multiverse universe" /etc/apt/sources.list
-if [$? -ne 0]; 
-then
-	sudo echo "deb http://archive.ubuntu.com/ubuntu/ xenial-proposed restricted main multiverse universe" >> /etc/apt/sources.list
-	logger -p user.info "Updated sources list"
+statusFile=/usr/lib/KernelSoftLockFixAndRebootUserScriptAction.patch.done
+unameoutput=$(uname -a)	
+logger -p user.info "Linux version: $unameoutput"
+#Proceed only if completed file from previous run is not present
+if [ -f $statusFile ]; then
+	logger -p user.info "KernelSoftLockFix status file $statusFile present. Exiting without doing the operation since patching was already completed"
+	exit 0
 fi
+
 sudo apt-get update
 logger -p user.info "Completed apt-get update"
-sudo apt-get install linux-azure-edge -y
-logger -p user.info "Installed linus-azure-edge"
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -o Dpkg::Options::=--force-confdef upgrade -y
+logger -p user.info "Completed apt-get upgrade"
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -o Dpkg::Options::=--force-confdef dist-upgrade -y
+logger -p user.info "Completed apt-get dist-upgrade"
 
 # Install package 'bc' for performing floating point arithmetic
 if [ $(dpkg-query -W -f='${Status}' bc 2>/dev/null | grep -c "ok installed") -eq 0 ];
@@ -101,4 +106,6 @@ wall <<< "This virtual machine will be rebooted in $reboot_in_minutes_with_waitt
 logger -p user.info "Rebooting in $reboot_in_minutes_with_waittime minutes."
 sudo /sbin/shutdown -r +$reboot_in_minutes_with_waittime
 
+sudo touch $statusFile
+logger -p user.info "KernelSoftLockFixWithoutReboot Done. Touched $statusFile"
 
