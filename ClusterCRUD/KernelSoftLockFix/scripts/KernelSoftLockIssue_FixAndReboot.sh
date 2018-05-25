@@ -109,4 +109,3 @@ sudo /sbin/shutdown -r +$reboot_in_minutes_with_waittime
 sudo touch $statusFile
 logger -p user.info "KernelSoftLockFixWithoutReboot Done. Touched $statusFile"
 
-
