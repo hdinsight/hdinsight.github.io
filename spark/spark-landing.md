@@ -41,3 +41,4 @@ Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight pl
 #### [Queue Name is honored in livy 0.3?](livy-3.0-unable-to-set-yarnqueue.md)
 #### [Unable to download/ retrieve large files when interactive the SparkSQL using Thrift Server?](spark-thirtserver-kyroserialization-exception.md)
 #### [Options to use Spark Submit?](spark-submit-chronicles.md)
+#### [Why did my Spark Streaming jobs take longer than usual to process?](spark-stream-job-processing-delay.md)
