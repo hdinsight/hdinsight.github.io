@@ -48,9 +48,10 @@ b. In case livy server is not starting, and you see ``` java.lang.OutOfMemoryErr
 2. If application is submitted using JDBC that uses Spark Thrift Service then get Spark Thrift Driver logs from ``` /var/log/spark/sparkthriftdriver.log ```  
 3. In case the Spark job is submitted from spark-shell then get the complete spark-submit command.
 
-4. For any spark application performance issues (including the 3 scenarios list above) capture YARN logs for the application that is experiencing performance issue. 
-(Slow/Hang) or failures. Get logs for all containers (Driver and Executor).
+4. For any spark application performance issues (including the 3 scenarios list above) capture YARN logs for the application that is experiencing performance issue (Slow/Hang) or failures. .
         a. [How do I download Yarn logs from HDInsight cluster?](yarn-download-logs.md)
+        b. Download all Applicaiton Master logs
+        c. Also get logs for all containers (Driver and Executor)
 
 5. Share screenshot of YARN UI showing the start datetime, end datetime and the status for the failed application.
 
