@@ -36,12 +36,12 @@ In Spark 2.0.0 org.apache.spark.serializer.JavaSerializer Class is used for seri
 So with Spark 2.0.0 Kyroserializer is the default serializer used during data access over Spark SQL Thrift Server 
 
 It is certainly recommend using org.apache.spark.serializer.KryoSerializer when speed is necessary.
-Refer spark.serializer under  http://spark.apache.org/docs/2.0.0/configuration.html#compression-and-serialization
+Refer spark.serializer under  (compression-and-serialization)[http://spark.apache.org/docs/2.0.0/configuration.html#compression-and-serialization]
 
 Whereas with Spark 2.1.0  Spark SQL Thrift Server is also configured to use org.apache.spark.serializer.JavaSerializer Class as the default for any Serializable Java object.   
-Refer spark.serializer under http://spark.apache.org/docs/2.1.0/configuration.html#compression-and-serialization
+Refer spark.serializer under (compression-and-serialization)[http://spark.apache.org/docs/2.1.0/configuration.html#compression-and-serialization]
 
-https://issues.apache.org/jira/browse/SPARK-17350 this talks about disabling kryo serialization as default serializer in thrift server to improve performance.
+(SPARK-17350)[https://issues.apache.org/jira/browse/SPARK-17350] this talks about disabling kryo serialization as default serializer in thrift server to improve performance.
 
 ### Resolution:
 Spark has changed the default serialization to Javaserializer in 2.1.0 and latest version. 
