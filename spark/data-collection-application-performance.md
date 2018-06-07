@@ -48,13 +48,11 @@ b. In case livy server is not starting, and you see ``` java.lang.OutOfMemoryErr
 2. If application is submitted using JDBC that uses Spark Thrift Service then get Spark Thrift Driver logs from ``` /var/log/spark/sparkthriftdriver.log ```  
 3. In case the Spark job is submitted from spark-shell then get the complete spark-submit command.
 
-4. For any spark application performance issues (including the three scenarios list above) capture YARN logs for the application that is experiencing performance issue (Slow/Hang) or failures.
-        a. [How do I download Yarn logs from HDInsight cluster?](yarn-download-logs.md)
+4. For any spark application performance issues (including the three scenarios list above) first note the Application ID, next capture YARN logs for the application that is experiencing performance issue (Slow/Hang) or failures.
+        a. [How do I download Yarn logs from HDInsight cluster?](yarn-download-logs.md), this article details different options to capture YARN Logs.
         b. Download all Application Master logs.
-        c. Also get logs for all containers (Driver and Executor).
+        c. And also get logs for all containers (Driver and Executor).
 
-5. Share screenshot of YARN UI showing the start datetime, end datetime and the status for the failed application.
+5. Get screenshot of YARN UI showing the start datetime, end datetime and the status for the failed application.
 
-6. If this application had any successful run early then capture start, end datetime, application status and also the YARN logs for the completed job [How do I download Yarn logs from HDInsight cluster?](yarn-download-logs.md). 
-
-Please contact the Support Professional to upload the YARN Logs and also share the start time and end time for spark applications (Successful run and Failed instance).
+6. If this application had completed successful  early then capture start, end datetime, application status and also the YARN logs for this successfully completed Spark Application [How do I download Yarn logs from HDInsight cluster?](yarn-download-logs.md). 
