@@ -28,7 +28,9 @@ ms.author: sunilkc
 
 #### Kyro is a Object Graph Serialization framework for Java, similar to Apache Avro or Google's Protobuf.
 #### When we see kyroserializer exception with spark.kryoserializer.buffer.max, we usually start making changes to the spark.kyroserializer.buffer.max and set this to a large value.
-#### Please note the maximum value that you can set for spark.kyroserializer.buffer.max is 2048m.
+#### Please note the right place for Spark Thrift Server settings is under "Custom spark2-thrift-sparkconf" section and the maximum value that you can set for spark.kyroserializer.buffer.max is 2048m.
+
+To increase Kyroserializer buffer value add a key named "spark.kryoserializer.buffer.max" and set it to 2048 in spark2 config under "Custom spark2-thrift-sparkconf".
 
 ### More Information:
 
