@@ -21,7 +21,7 @@ ms.author: arijitt
 
 # Spark FAQ: Answers to common questions on Spark on Azure HDInsight
 Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight platform.
-
+#### [Basic data collection for Spark Performance](data-collection-application-performance.md)
 #### [Why did my Spark application fail with OutOfMemoryError?](spark-application-failure-with-outofmemoryerror.md)
 #### [Why did my Spark application fail with IllegalArgumentException Wrong FS?](spark-application-fails-IllegalArgumentException.md)
 #### [How do I configure Spark application through Ambari on HDInsight clusters?](spark-application-configuration-through-ambari.md) 
@@ -39,6 +39,6 @@ Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight pl
 #### [access to jupyter over IP address when cluster is part restricted environment](jupyter-allow-allip.md)
 #### [how to access wasb?](howto-wasb.md)
 #### [Queue Name is honored in livy 0.3?](livy-3.0-unable-to-set-yarnqueue.md)
-#### [Unable to download/ retrieve large files when interactive the SparkSQL using Thrift Server?](spark-thirtserver-kyroserialization-exception.md)
+#### [Unable to download/ retrieve large files when interactive the SparkSQL using Thrift Server?](thirftserver-kyroserialization-exception.md)
 #### [Options to use Spark Submit?](spark-submit-chronicles.md)
 #### [Why did my Spark Streaming jobs take longer than usual to process?](spark-stream-job-processing-delay.md)
