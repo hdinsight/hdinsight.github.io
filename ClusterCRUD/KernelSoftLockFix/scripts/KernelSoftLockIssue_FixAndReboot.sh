@@ -17,6 +17,10 @@ if [ -f $statusFile ]; then
 	exit 0
 fi
 
+logger -p user.info "Downloading Microsoft GPG"
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo cp ./microsoft.gpg /etc/apt/trusted.gpg.d/
+
 sudo apt-get update
 logger -p user.info "Completed apt-get update"
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -o Dpkg::Options::=--force-confdef upgrade -y
