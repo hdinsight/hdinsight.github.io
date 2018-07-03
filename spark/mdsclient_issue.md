@@ -1,5 +1,9 @@
 
-Symptom : Any spark application submitted via Spark-Submit would complete the job execution but the **spark-submit would just hang**.
+Symptoms 
+
+Any spark application submitted via Spark-Submit would complete the job execution but the **spark-submit would just hang**.
+
+Spark Jobs deployed triggers huge amount of logging events (MdsLogger).
 
 Steps to Reproduce the issue.
 
@@ -43,9 +47,8 @@ KiB Swap:  7340028 total,  7340028 free,        0 used. 20501148 avail Mem
 ```
 
 Resolution: 
-*    Execute following command to create a soft link and this command would resolve the Spark-Submit hang issue. 
-*    Restart all Spark, its related Services(Thrift and Livy), after the services are back you should not see high CPU utilization
-
+*    Execute following command on hn0 & hn1 to create a soft link, that points to the right jar file. This command would resolve the Spark-Submit hang issue.  But continue with the next step to resolve the high CPU issue. 
 ```
 sudo ln -sf /usr/lib/hdinsight-logging/mdsdclient-1.0.jar $SPARK_HOME/jars/mdsdclient-1.jar
 ```
+*    Restart all Spark and related services like Thrift server, Livy etc through Ambari, after the services restart you should not see high CPU utilization.
