@@ -1,9 +1,8 @@
 
 Symptoms 
 
-Any spark application submitted via Spark-Submit would complete the job execution but the **spark-submit would just hang**.
-
-Spark Jobs deployed triggers huge amount of logging events (MdsLogger).
+1. Any spark application submitted via Spark-Submit would complete the job execution but the **spark-submit would just hang**.
+2. Spark Jobs deployed triggers huge amount of logging events (MdsLogger).
 
 Steps to Reproduce the issue.
 
@@ -27,7 +26,7 @@ Find the job executed, finished successfully but the spark-submit would just han
 15:message written to socket.
 
 ```
-Other Symptoms observed : All Spark and related services would displace High CPU usage
+3. Other Symptoms observed : All Spark and related services would displace High CPU usage
 Here is snip from top command for my cluster
 
 ```
