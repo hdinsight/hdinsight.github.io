@@ -56,5 +56,10 @@ For the slow task, you can check the logs to figure out where is the time spent.
 This is an indication that the problem happens during writing message to external Kafka cluster using the KafkaProducer class.
 
 ### Root Cause:
-The Kafka producer took more than 2 minutes to finish writing out to Kafka cluster. To further debugging the Kafka issue, you can add some logs to the code that uses Kafka producer to send out messages, and correlate that with the logs from Kafka cluster.
+1. The Kafka producer took more than 2 minutes to finish writing out to Kafka cluster. To further debugging the Kafka issue, you can add some logs to the code that uses Kafka producer to send out messages, and correlate that with the logs from Kafka cluster.
+
+2. If the Spark job is reading and/or writing to WASB frequently, it can cause subsequent micro-batches to lag
+
+   The WASB implementation of Filesystem.listStatus is very slow due to O(n!) algorithm to remove duplicates and uses too much memory due to the extra conversion from BlobListItem to FileMetadata to FileStatus. It takes over 30 minutes to list 700,000 files. So if ListBlobs is being called aggressively by SparkSQL every micro-batch, it will cause subsequent micro-batches to lag behind resulting in what you experience as high scheduling delays. This patch https://issues.apache.org/jira/browse/HADOOP-15547 fixes the issue, but if it is missing in your environment, ListBlobs will experience high latency. Also, even if you delete files every hour, the listing in the backend has to iterate over all rows (including deleted) because garbage collection process didn’t kick in yet. While the patch might solve bulk of your problem, the latter issue might kick in and cause you to still lag behind in stream processing of batches.  
+
 
