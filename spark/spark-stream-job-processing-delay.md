@@ -32,7 +32,7 @@ For tasks killed due to Spark speculation, you'll see something like this in AM 
 18/05/17 22:06:20 INFO TaskSetManager: Finished task 349.1 in stage 1.0 (TID 2017) in 1180 ms on wn2-cus-te.irhcfv1m2odevp2sycmcl3el4c.gx.internal.cloudapp.net (executor 12) (1998/2000)
 ~~~~
 
-5.Get Yarn container logs for the executor that runs the task to see if there are any problems.
+5. Get Yarn container logs for the executor that runs the task to see if there are any problems.
 
 Follow the above steps to get container logs for each the problematic task.
 
