@@ -54,3 +54,16 @@ For HDInsight Spark cluster, you can turn on DEBUG log with these steps:
   add property:
     log4j.logger.org.apache.hadoop.fs.azure.NativeAzureFileSystem=DEBUG
 ~~~
+
+The above logs should provide high level understanding of the file system operations.
+If the above logs are still not providing useful information, or if we want to investigate **blob storage** api calls, add ```fs.azure.storage.client.logging=true``` to the core-site. This will enable the java sdk logs for wasb storage driver and will print each call to blob storage server. Caution: Please do remove the setting after investigations because it could fill up the disk very fast and could slow down the process.
+
+If the backend is **AzureDataLake** based, then use the following log4j setting for the component(eg. spark/tez/hdfs). Look for the logs in ```/var/log/adl/adl.log ``` for the logs.
+```
+log4j.logger.com.microsoft.azure.datalake.store=ALL,adlsFile
+log4j.additivity.com.microsoft.azure.datalake.store=true
+log4j.appender.adlsFile=org.apache.log4j.FileAppender
+log4j.appender.adlsFile.File=/var/log/adl/adl.log
+log4j.appender.adlsFile.layout=org.apache.log4j.PatternLayout
+log4j.appender.adlsFile.layout.ConversionPattern=%p\t%d{ISO8601}\t%r\t%c\t[%t]\t%m%n
+```
