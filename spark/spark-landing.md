@@ -22,6 +22,7 @@ ms.author: arijitt
 # Spark FAQ: Answers to common questions on Spark on Azure HDInsight
 Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight platform.
 #### [Basic data collection for Spark Performance](data-collection-application-performance.md)
+#### [What's extended Spark history server and how to troubleshot if there is issue](Debugging-extended-Spark-History-Server.md)
 #### [Why did my Spark application fail with OutOfMemoryError?](spark-application-failure-with-outofmemoryerror.md)
 #### [Why did my Spark application fail with IllegalArgumentException Wrong FS?](spark-application-fails-IllegalArgumentException.md)
 #### [How do I configure Spark application through Ambari on HDInsight clusters?](spark-application-configuration-through-ambari.md) 
