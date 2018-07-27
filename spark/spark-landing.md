@@ -43,3 +43,4 @@ Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight pl
 #### [Options to use Spark Submit?](spark-submit-chronicles.md)
 #### [Why do my Spark Streaming jobs take longer than usual to process?](spark-stream-job-processing-delay.md)
 #### [Why do spark-submit job failed with NoClassDefFoundError?](spark-submit-job-failure-noclassdeffounderror.md)
+#### [Long running Spark Streaming app driver log filled with Error NativeAzureFileSystem ... RequestBodyTooLarge.](spark-stream-driver-logs-error-requestbodytoolarge.md)
