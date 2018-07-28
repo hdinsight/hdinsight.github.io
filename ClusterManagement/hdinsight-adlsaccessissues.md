@@ -52,5 +52,20 @@ at Microsoft.IdentityModel.Clients.ActiveDirectory.HttpWebRequestWrapper.<GetRes
 ~~~
 7. Any other Azure Active Directory related errors/certificate related errors can be recognized by pinging the gateway url to get the OAuth token.
 
+8. If you are getting following error when attempting to access ADLS from the HDI Cluster. Check if the Certificate has Expired by following the steps mentioned above
+
+Error: java.lang.IllegalArgumentException: Token Refresh failed - Received invalid http response: 500, text = Response{protocol=http/1.1, code=500, message=Internal Server Error, url=http://clustername.hmssomerandomstringc.cx.internal.cloudapp.net:909/api/oauthtoken}
+
+
 ##### Resolution steps :
-If the certificate has expired, drop the existing cluster and re-create it.
+using the Powershell script available [here](../ClusterCRUD/media/UpdateADLSCertOnHDInsightCluster.ps1) you either create a new Certificate or assign existing Certificate.
+**You need to modify some parameters accordingly** Parameters are detailed in the PowerShell File.
+
+For assigning existing certificate.
+
+Create a certificate, have the .pfx file and password ready.
+Associate the certificate with the service principal that the cluster was created with and have the AppId ready.
+
+Excecute the powershell command after you Substitute the parameters with the actual values.
+
+
