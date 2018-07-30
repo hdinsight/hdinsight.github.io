@@ -1,5 +1,5 @@
 ---
-title: How do I add custom Hive libraries for Spark 2.x clusters? | Microsoft Docs
+title: How do I add custom Hive libraries for Spark 2.1 clusters? | Microsoft Docs
 description: Use the Hive FAQ for answers to common questions on Hive on Azure HDInsight platform.
 keywords: Azure HDInsight, Hive, FAQ, troubleshooting guide, export metastore, import metastore
 services: Azure HDInsight
@@ -19,15 +19,15 @@ ms.author: sasubha
 
 ---
 
-### How do I add custom Hive libraries for Spark 2.x clusters?
+### How do I add custom Hive libraries for Spark 2.1 clusters?
 
 #### Issue:
 
-I followed the instructions from https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-add-hive-libraries to add custom hive libraries for my Spark2.x cluster but it is not working. I am unable to use my custom libraries.
+I followed the instructions from https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-add-hive-libraries to add custom hive libraries for my Spark2.1 cluster but it is not working. I am unable to use my custom libraries.
 
 
 #### Troubleshoot: 
-The shell script at the above location was modified to use the updated Ambari scripts that are python scripts. Spark 2.x cluster still relies on the old Ambari shell scripts.
+The shell script at the above location was modified to use the updated Ambari scripts that are python scripts. Spark 2.1 cluster still relies on the old Ambari shell scripts.
 
 #### Resolution: 
 1. ssh into the head node of the cluster
