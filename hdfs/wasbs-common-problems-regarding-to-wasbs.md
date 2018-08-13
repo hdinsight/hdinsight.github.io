@@ -7,12 +7,11 @@ author: shzhao
 ---
 
 ## Enable WASBS in HDInsight clusters
-WASBS is the hdfs schema to access secure transfer enabled Azure Storage account. The supported way to enable WASBS is to first create a storage account with secure transfer enabled flag, then use it to create an HDInsight cluster. This is the detailed steps:
-https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-create-linux-clusters-with-secure-transfer-storage
+WASBS is the hdfs schema to access secure transfer enabled Azure Storage account. The supported way to enable WASBS is to first create a storage account with secure transfer enabled flag, then use it to create an HDInsight cluster. This [documentation](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-create-linux-clusters-with-secure-transfer-storage) describes the detailed steps.
 
 ## Common problems regarding to WASBS
 
-### StorageException: The account being accessed does not support http
+### 1. StorageException: The account being accessed does not support http
 
 #### Symptoms reported by customer
 Customer reports that a Livy job failed with message:
@@ -52,4 +51,4 @@ hadoop fs -ls wasbs:///
 If it works correctly, this indicates that the WASB driver works correctly. Otherwise please notify product team about this bug.
 
 #### Mitigation
-Most often, for customers who want to use WASBS we should ask them to follow the documentation to create a cluster with secure transfer enabled storage account to begin with.
+For customers who want to use WASBS we should ask them to follow the [documentation](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-create-linux-clusters-with-secure-transfer-storage) to create a cluster with secure transfer enabled storage account to begin with.
