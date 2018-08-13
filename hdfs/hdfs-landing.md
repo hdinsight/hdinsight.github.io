@@ -25,3 +25,4 @@ Use the HDFS FAQ for answers to common questions on HDFS on Azure HDInsight plat
 #### [How do I force disable HDFS safe mode in HDInsight cluster?](hdfs-force-disable-safe-mode.md) 
 #### [Write to WASB Failed with error "self-supression not permitted"](hdfs-put-failed-with-error-self-supression-not-permitted.md)
 #### [Turn on WASB debug log for file operations](wasb-turn-on-debug-log-for-file-operations.md)
+#### [Common problems regarding to WASBS](wasbs-common-problems-regarding-to-wasbs.md)
