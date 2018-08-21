@@ -28,4 +28,4 @@ To fix this issue, restart HBase REST using the below command after SSHing to th
 
        sudo service hdinsight-hbrest restart
 
-Note that this command will stop HBase Region Server on the same host. You can either manually start HBase Region Server through Ambari, or let Ambari auto-restart functionality to recover HBase Region Server automatically.
+Note that this command will stop HBase Region Server on the same host. You can either manually start HBase Region Server through Ambari, or let Ambari auto-restart functionality recover HBase Region Server automatically.
