@@ -30,3 +30,4 @@ Use the HBase FAQ for answers to common questions on HBase on Azure HDInsight pl
 #### [Common issues during cluster upgrade](common-issues-during-cluster-upgrade.md)
 #### [HBase table not able to read or write](hbase-table-not-able-to-read-or-write.md)
 #### [HBase hbck returns inconsistencies](hbase-hbck-returns-some-regions-having-the-same-start-or-end-key.md)
+#### [HBase REST not responding to requests](hbase-rest-not-responding-requests.md)
