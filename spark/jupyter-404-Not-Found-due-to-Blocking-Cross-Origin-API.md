@@ -1,5 +1,5 @@
 ---
-title: How to allow jupyter to listen on all IP address when part of VNet with NSG Rule in place | Microsoft Docs
+title: Jupyter server 404 Not Found error due to Blocking Cross Origion API | Microsoft Docs
 description: Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight platform.
 keywords: Azure HDInsight, jupyter, troubleshooting guide, common problems, remote submission
 services: Azure HDInsight
@@ -18,17 +18,30 @@ ms.date: 01/18/2017
 ms.author: sunilkc
 ---
 
-#### While creating HDInsight cluster part of VNets configured with Network Security Group provides control on accessing who can and how they can access the cluster,but at times it blocks access to required URLs.
-#### One such URL is access to jupyter notebooks.
+### Symptoms
+When access Jupyter, the UI pops up an error box saying "Not Found".
 
-### Scenario
-If you have configured NSG Rules to restricts access to the cluster. While you can directly access Ambari and other services using IP address rather than the Cluster Name. You might start getting 404 "Not Found"when accessing Jupyter.
+When checking Jupyter logs, you will see something like this:
+~~~
+[W 2018-08-21 17:43:33.352 NotebookApp] 404 PUT /api/contents/PySpark/05%20-%20Spark%20Machine%20Learning%20-%20Predictive%20analysis%20on%20food%20inspection%20data%20using%20MLLib.ipynb (10.16.0.144) 4504.03ms referer=https://pnhr01hdi-corpdir.msappproxy.net/jupyter/notebooks/PySpark/05%20-%20Spark%20Machine%20Learning%20-%20Predictive%20analysis%20on%20food%20inspection%20data%20using%20MLLib.ipynb
+Blocking Cross Origin API request.  Origin: https://xxx.xxx.xxx, Host: hn0-pnhr01.j101qxjrl4zebmhb0vmhg044xe.ax.internal.cloudapp.net:8001
+~~~
+
+Sometimes you see IP address in "Origin" field in the above logs.
+
+### Scenarios
+There are a few scenarios that can cause this problem:
+
+1. If you have configured NSG Rules to restricts access to the cluster. While you can directly access Ambari and other services using IP address rather than the Cluster Name. You might start getting 404 "Not Found"when accessing Jupyter.
 
 An error occurred while creating new notebook. "Not Found".
+
+2. If you have given your HDInsight gateway a customized DNS name other than the starndard xxx.azurehdinsight.net.
 
 ### Troubleshooting steps
 1. Login into the cluster headnode run this command "ps ax | grep jupyter"  to list all the entries for jupyter.
 
+This should be the output of the command, if it differs, jupyter might not be starting correctly. You may restart Jupyter server or reboot headnode0.
 ~~~~
 ps ax | grep jupyter
  10384 ?        S      0:00 sudo -u spark PATH=/usr/bin/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/var/lib/ambari-agent stdbuf -oL -eL /usr/bin/anaconda/bin/jupyter-notebook --config=/var/lib/.jupyter/jupyter_notebook_config.py --NotebookApp.allow_origin="https://kcsparkhdi.azurehdinsight.net"
