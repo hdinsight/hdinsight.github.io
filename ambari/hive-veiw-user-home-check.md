@@ -27,6 +27,7 @@ On any of HDinsight cluster(Hadoop, llap , Spark), Open Hive view from Ambari UI
 ``` Message: File/Folder does not exist: /user/admin [737c9e89-8324-4202-ae64-b69fd7da6b23][2018-07-23T10:42:56.9329924-07:00] [ServerRequestId:737c9e89-8324-4202-ae64-b69fd7da6b23 ```
 
 ### Mitigation
-Creating that missing folder would pass the ``` User HOME check ```, that would open Hive View successfully.
+Creating that missing folder would pass the ``` User HOME check ```, that would open Hive View successfully.  
+
 Created a folder "admin" under cluster root folder mitigates the issue, as shown in the error message.
 Example Path:  on a ADL name "eastusadl" , default root is  "/clusters/{clustername}" and folder needs to be created missing under "/user"
