@@ -34,12 +34,10 @@ There are a few scenarios that can cause this problem:
 
 1. If you have configured NSG Rules to restricts access to the cluster. While you can directly access Ambari and other services using IP address rather than the Cluster Name. You might start getting 404 "Not Found"when accessing Jupyter.
 
-An error occurred while creating new notebook. "Not Found".
-
 2. If you have given your HDInsight gateway a customized DNS name other than the starndard xxx.azurehdinsight.net.
 
 ### Troubleshooting steps
-1. Login into the cluster headnode run this command "ps ax | grep jupyter"  to list all the entries for jupyter.
+1. SSH into the cluster headnode run this command "ps ax | grep jupyter"  to list all the entries for jupyter.
 
 This should be the output of the command, if it differs, jupyter might not be starting correctly. You may restart Jupyter server or reboot headnode0.
 ~~~~
@@ -50,28 +48,33 @@ ps ax | grep jupyter
  43735 pts/0    S+     0:00 vi /var/lib/ambari-agent/cache/common-services/JUPYTER/1.0.0/package/scripts/jupyter.py
 ~~~~
 
-### Refer this link for more details on "NotebookApp.allow_origin " http://jupyter-notebook.readthedocs.io/en/stable/config.html
-### On HDInsight spark clusters we are restricting access to Jupyter using the FQDN and to get this working using IP address change the following two files.
+### Root cause
 
-2. Please modify the jupyter.py files in these two places:
+Refer this link for more details on "NotebookApp.allow_origin " http://jupyter-notebook.readthedocs.io/en/stable/config.html
+
+On HDInsight spark clusters we are restricting access to Jupyter using the FQDN and to get this working using IP address change the following two files.
+
+### Solution
+1. Please modify the jupyter.py files in these two places:
 
 ~~~~
 	/var/lib/ambari-server/resources/common-services/JUPYTER/1.0.0/package/scripts/jupyter.py
 	/var/lib/ambari-agent/cache/common-services/JUPYTER/1.0.0/package/scripts/jupyter.py
 ~~~~
 
-2.1 On the line that says:
+On the line that says:
 ~~~~ 
     NotebookApp.allow_origin='\"https://{2}.{3}\"' 
 ~~~~
 
-2.2 Change this to 
+Change this to 
 ~~~~ 
     NotebookApp.allow_origin='\"*\"' 
 ~~~~
 
-3. Restart the Jupyter service from Ambari.
+2. Restart the Jupyter service from Ambari.
 
-4. After that, ps aux | grep jupyter should show that it allows for any URL to connect to it.
+3. After that, ps aux | grep jupyter should show that it allows for any URL to connect to it.
 
-##### Do note that this is less secure than the setting we already had in place. But it is assumed access to the clsuter is restricted and that one from outside is allowed to connect to the cluster as we have NSG in place.
+### Disclaimer
+**Do note that this is less secure than the setting we already had in place. But it is assumed access to the clsuter is restricted and that one from outside is allowed to connect to the cluster as we have NSG in place.**
