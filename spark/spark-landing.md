@@ -37,7 +37,7 @@ Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight pl
 #### [How to increasing Spark history heap-memory configuration](spark-history-heap-memory-configuration.md)
 #### [Getting java.lang.OutOfMemoryError when attempting to restart Livy server](spark-livy-nativethread-exhaustion.md)
 #### [Spark 1.6 jar are used when Spark application is launched using Oozie Shell](spark-oozie-shell-action-launch-error.md)
-#### [access to jupyter over IP address when cluster is part restricted environment](jupyter-allow-allip.md)
+#### [Jupyter server 404 Not Found error due to Blocking Cross Origion API](jupyter-404-Not-Found-due-to-Blocking-Cross-Origin-API.md)
 #### [how to access wasb?](howto-wasb.md)
 #### [Queue Name is honored in livy 0.3?](livy-3.0-unable-to-set-yarnqueue.md)
 #### [Unable to download/ retrieve large files when interactive the SparkSQL using Thrift Server?](thirftserver-kyroserialization-exception.md)
