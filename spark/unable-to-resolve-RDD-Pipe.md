@@ -1,6 +1,8 @@
-Issue: Getting file not found error with a scala app calling RDD.pipe API
+## Issue: ##
+Getting file not found error with a scala app calling RDD.pipe API
 
-Problem description:  R Script can be called from within a scala code as detailed below.
+## Problem description: ##
+R Script called from within a scala code as detailed below fails to locate the script file on Driver.
 
 ```
 val spark = SparkSession
@@ -20,7 +22,7 @@ val piped = rdd.pipe(org.apache.spark.SparkFiles.get(distScriptName))
 val result = piped.collect
 ```
 
-Here is what's happening under the hood:
+## Here is what's happening under the hood: #
 
 `sc.addFile` call (followed by a RDD action) downloads the file to the driver/executor nodes.
 	* For the driver node, the download path is the driver local path, something like "/tmp/spark-11ce1523-8cfb-4525-a6cd-ec65b6591118". 
@@ -37,6 +39,6 @@ Here is what's happening under the hood:
 	* In this scenario, org.apache.spark.SparkFiles.get() was called to resolve the file path which returns the path on the driver node. 
 	* However the correct file path for executors should be the container specific path. That's why they are seeing "file not found" error.
 
-Mitigation steps:
+## Mitigation steps: ##
 
 Due to the limitation from this pipe() method (i.e. path being resolved in driver process), we have to make sure this script file has the same path across all nodes (e.g. "/home/sshuser/rtest.R").
