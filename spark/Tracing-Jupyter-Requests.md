@@ -1,6 +1,6 @@
-## This article would help trace a request on any application failure that was submitted from Jupyter notebook ##
+## This article would help trace a request for Spark application failure that was submitted from Jupyter notebook ##
 
-## We are tracing a Scenario where after Jupyter notebook runs a while, when tried to the next cell, the kernel cannot be connected and the Yarn application is dead.
+## We are tracing a Scenario where after Jupyter notebook runs a while, when tried to execute the next cell, the kernel cannot be connected and the Yarn application is dead.
 
 ## Investigation Steps:
 
