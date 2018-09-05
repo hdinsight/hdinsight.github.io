@@ -2,6 +2,8 @@
 
 # Zeppelin Notebook#
 
+## Troubleshoot Zeppelin 101 ##
+
 Its easy to validate the service from Ambari, detailed the steps below to confirm the service status from SSH.
 
 Switch user to zeppelin using command ```su zeppelin``` before you check the status.  
