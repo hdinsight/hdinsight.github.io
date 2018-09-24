@@ -28,3 +28,4 @@ Use the Hive FAQ for answers to common Hive questions on Hive on Azure HDInsight
 #### [How do I analyze Tez Directed Acyclic Graph (DAG) critical path on HDInsight cluster?](hive-tez-dag-critical-path.md)
 #### [Why is my reducer extremely slow?](hive-slow-reducer.md)
 #### [Why does Ambari Tez View load very slowly?](tez-view-poor-performance.md)
+#### [Why does Tez application hang?](hive-tez-job-hang.md)

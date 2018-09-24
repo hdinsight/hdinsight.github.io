@@ -24,15 +24,12 @@ org.apache.commons.lang3.time.FastDateFormat; local class incompatible: stream c
 ~~~~
 locate commons-lang3
 ~~~~
-
 We found quite a few of them, but they are in different folders (e.g. hadoop folder). You can create a same version HDI cluster to compare the results. Especially we need to make sure "/usr/hdp/xxx/spark2/jars/" does not contain a different version of the package.
 
 3. Look at Ambari configuration history for "Spark2" component. You can even compare two config versions in Ambari UI.
 In this case, we found out that the customer manually added an additonal jar to "spark.yarn.jars" config:
 adl:///user/xxx/AzureLogAppender-1.0.jar
-
 You can download this jar and decompose it, which contains a different version of the "FastDateFormat" class.
-
 Further investigation reveals that the AzureLogAppender project (can be found in github) indeed depends on the Azure API library which depends on a different version of commons-lang3 library.
 
 ### Root Cause:
