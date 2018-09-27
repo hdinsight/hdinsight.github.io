@@ -29,3 +29,13 @@ To fix this issue, restart HBase REST using the below command after SSHing to th
        sudo service hdinsight-hbrest restart
 
 Note that this command will stop HBase Region Server on the same host. You can either manually start HBase Region Server through Ambari, or let Ambari auto-restart functionality recover HBase Region Server automatically.
+
+If the issue still persists, you can install the following mitigation script as a CRON job that runs every 5 minutes on every workernode. This mitigation script pings the REST service and restarts it in case the REST service does not respond.
+
+    #!/bin/bash
+    nc localhost 8090 < /dev/null
+    if [ $? -ne 0 ]
+        then
+        echo "RESTServer is not responding. Restarting"
+        sudo /usr/hdp/current/hbase-regionserver/bin/hbase-daemon.sh restart rest
+    fi
