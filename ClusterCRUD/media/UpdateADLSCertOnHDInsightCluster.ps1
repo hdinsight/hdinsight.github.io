@@ -50,5 +50,5 @@ Invoke-AzureRmResourceAction `
     -ResourceName $clusterName `
     -ApiVersion '2015-03-01-preview' `
     -Action 'updateclusteridentitycertificate' `
-    -Parameters @{ ApplicationId = $appId; Certificate = $certString; CertificatePassword = $certPassword.ToString() } `
+    -Parameters @{ ApplicationId = $appId.ToString(); Certificate = $certString; CertificatePassword = $certPassword.ToString() } `
     -Force
