@@ -18,7 +18,7 @@ ms.date: 03/01/2018
 ms.author: sunilkc
 ---
 
-##### Probing Questions ####
+## Probing Questions ##
 
 * _Was this application working fine? If application was working fine then check what changed between working and non-working scenario?_
 * _How are you submitting the Spark Job? (notebooks/Spark Thrift Server/Spark-Shell)_ 
