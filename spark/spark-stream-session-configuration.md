@@ -23,6 +23,6 @@ The `livy.server.session.timeout` value controls how long Livy should wait for a
 
 ## Solution
 
-For long running jobs, increase the value of `livy.server.session.timeout` using the Ambari UI. You can access the Livy configuration from the Ambari UI using the link https://<yourclustername>.azurehdinsight.net/#/main/services/LIVY/configs.
+For long running jobs, increase the value of `livy.server.session.timeout` using the Ambari UI. You can access the Livy configuration from the Ambari UI using the link https://\<yourclustername\>.azurehdinsight.net/#/main/services/LIVY/configs.
 
-Replace <yourclustername> with the name of your HDInsight cluster as shown in the portal.
+Replace \<yourclustername\> with the name of your HDInsight cluster as shown in the portal.
