@@ -16,7 +16,7 @@ ms.date: 11/1/2018
 
 ## Issue
 
-Spark application fails with a `org.apache.spark.rpc.RpcTimeoutException` exception with a `Futures timed out` message, as in the following example:
+Spark application fails with a `org.apache.spark.rpc.RpcTimeoutException` exception and a message: `Futures timed out`, as in the following example:
 
 ```java
 org.apache.spark.rpc.RpcTimeoutException: Futures timed out after [120 seconds]. This timeout is controlled by spark.rpc.askTimeout
