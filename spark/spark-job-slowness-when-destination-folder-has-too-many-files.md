@@ -1,35 +1,36 @@
 ---
-title: Spark job becomes slow when the destination folder has too many files | Microsoft Docs
-description: 
-keywords: Azure HDInsight, Spark, FAQ, troubleshooting guide, common problems, remote submission
-services: Azure HDInsight
-documentationcenter: na
+title: Azure HDInsight Solutions | Spark | Jobs are slow when destination has many files
+description: Learn how to resolve Spark jobs run slowly when the Azure storage container contains many files
+services: hdinsight
 author: shzhao
-manager: ''
-editor: ''
+ms.author: hrasheed
+ms.service: hdinsight
+ms.custom: troubleshooting
+ms.topic: conceptual
+ms.date: 11/1/2018
 ---
+# Azure HDInsight Solutions | Apache Spark | Jobs are slow when destination has many files
 
-#### Issue:
-Spark job becomes slow when the destination folder has too many files
+## Scenario: Apache Spark jobs run slowly when the Azure storage container contains many files
 
-#### Scenario:
-When running in HDInsight cluster, the Spark job that writes to Azure storage container becomes slow when there are many files/subfolders. For examplke, it takes 20 seconds when writting to a new container, but about 2 minutes when writting to a container that has 200k files.
+## Issue
 
-#### Root cause:
-This is a Spark issue. The slowness comes from ListBlob and GetBlobProperties operation during Spark job execution.
+When running in HDInsight cluster, the Apache Spark job that writes to Azure storage container becomes slow when there are many files/sub-folders. For example, it takes 20 seconds when writing to a new container, but about 2 minutes when writing to a container that has 200k files.
 
-When you create a partitioned table, the most important information is what the partitions are. Only with this information, you can reduce the cost when scan the table
+## Cause
 
-To maintain this information, Spark has to maintain a FileStatusCache which contains info about directory structure. With this information, Spark can parse the paths and be aware of the available partitions. As the benefit, Spark only touches the interested ones when you read data. Straightforwardly, to make this information up-to-date, when you write new data, Spark has to list all files under the directory to update this cache.
+This is a known Spark issue. The slowness comes from the `ListBlob` and `GetBlobProperties` operations during Spark job execution.
 
-In Spark 1.6, every time you update the directory, you (1) clear the cache (2) recursively list all files and (3) update the whole cache. This will lead to a bunch of listing operations.
+To track partitions, Spark has to maintain a `FileStatusCache` which contains info about directory structure. Using this cache, Spark can parse the paths and be aware of available partitions. The benefit of tracking partitions is that Spark only touches the necessary files when you read data. To keep this information up-to-date, when you write new data, Spark has to list all files under the directory and update this cache.
 
-In Spark 2.1, while we do not need to update the cache after every write, Spark will check whether existing partition column matches with the proposed one in the current write request, so it will also lead to listing operations at the beginning of every write.
+In Spark 1.6, every time you update the directory, you (1) clear the cache (2) recursively list all files and (3) update the whole cache. This will lead to many listing operations.
+
+In Spark 2.1, while we do not need to update the cache after every write, Spark will check whether an existing partition column matches with the proposed one in the current write request, so it will also lead to listing operations at the beginning of every write.
 
 In Spark 2.2, when writing data with append mode, this performance problem should be fixed.
- 
-#### Workaround:
-For every Nth micro batch where N % 100 == 0 (100 is just an example), move existing data to another directory which can be loaded by Hive.
 
-By controlling the overall size of the directory being directly written by Spark, the list operations can be faster 
+## Solution
 
+When you create a partitioned data set, it is important to use a partitioning scheme that will limit the number of files that Spark has to list to update the `FileStatusCache`.
+
+For every Nth micro batch where N % 100 == 0 (100 is just an example), move existing data to another directory which can be loaded by Spark.
