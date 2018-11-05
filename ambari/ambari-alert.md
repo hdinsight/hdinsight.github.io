@@ -15,7 +15,7 @@ ms.date: 11/04/2018
 ## Troubleshooting Ambari Alerts.
 Ambari alert log path ```/var/log/ambari-server/ambari-alerts.log```
 
-### Enabling debug log for Ambari alert requires changing following in file ```/etc/ambari-server/conf/log4j.properties```
+Enabling debug log for Ambari alert requires changing following in file ```/etc/ambari-server/conf/log4j.properties```
 
 From 
 ```
