@@ -2,7 +2,7 @@
 title: Azure HDInsight Solutions | Apache Spark | Spark streaming app NativeAzureFileSystem ... RequestBodyTooLarge error
 description: Learn how to resolve NativeAzureFileSystem ... RequestBodyTooLarge errors in the Apache Spark streaming app driver log.
 services: hdinsight
-author: confusionblinds
+author: csunilkumar
 ms.author: sunilkc
 ms.service: hdinsight
 ms.custom: troubleshooting

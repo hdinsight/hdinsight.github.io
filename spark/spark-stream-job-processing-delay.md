@@ -2,7 +2,7 @@
 title: Azure HDInsight Solutions | Apache Spark | Streaming jobs are slow
 description: Learn how to resolve slow Apache Spark streaming jobs
 services: hdinsight
-author: confusionblinds
+author: csunilkumar
 ms.author: sunilkc
 ms.service: hdinsight
 ms.custom: troubleshooting

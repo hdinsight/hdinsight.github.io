@@ -2,7 +2,7 @@
 title: Azure HDInsight Solutions | Apache Spark | Using Spark-Submit to create Apache Spark jobs
 description: Learn how to use spark-submit to create Apache Spark jobs.
 services: hdinsight
-author: confusionblinds
+author: csunilkumar
 ms.author: sunilkc
 ms.service: hdinsight
 ms.custom: troubleshooting

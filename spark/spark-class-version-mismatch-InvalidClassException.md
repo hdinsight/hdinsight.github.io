@@ -2,7 +2,7 @@
 title: Azure HDInsight Solutions | Apache Spark | Spark job fails with InvalidClassException
 description: Learn how to resolve InvalidClassException for Apache Spark jobs.
 services: hdinsight
-author: confusionblinds
+author: csunilkumar
 ms.author: sunilkc
 ms.service: hdinsight
 ms.custom: troubleshooting
