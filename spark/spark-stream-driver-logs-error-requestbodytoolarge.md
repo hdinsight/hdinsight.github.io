@@ -1,44 +1,56 @@
-### Spark Streaming app driver log filled with Error NativeAzureFileSystem ... RequestBodyTooLarge
- 
-### Issue:
-Long running Spark Streaming app driver log filled with Error NativeAzureFileSystem ... RequestBodyTooLarge
- 
-### Background:
-Currently at Spark 2.3, each Spark app generates 1 Spark event log file. The Spark event log file for a Spark Streaming app will continue to grow. If your default storage is WASB, then you'll probably hit file length limit on WASB. 
+---
+title: Azure HDInsight Solutions | Apache Spark | Spark streaming app NativeAzureFileSystem ... RequestBodyTooLarge error
+description: Learn how to resolve NativeAzureFileSystem ... RequestBodyTooLarge errors in the Apache Spark streaming app driver log.
+services: hdinsight
+author: confusionblinds
+ms.author: sunilkc
+ms.service: hdinsight
+ms.custom: troubleshooting
+ms.topic: conceptual
+ms.date: 11/12/2018
+---
 
-Today a file on WASB has a 50000 block limit, and the default block size is 4MB. So in default configuration the max file size is 195GB. However, Azure storage has increased the max block size to 100MB, which effectively brought the single file limit to 4.75TB:
-https://docs.microsoft.com/en-us/azure/storage/common/storage-scalability-targets
+# Azure HDInsight Solutions | Apache Spark | Spark streaming app NativeAzureFileSystem ... RequestBodyTooLarge error
 
-### Investigation Steps:
+## Scenario: An Apache Spark streaming app with Windows Azure Storage Blob (WASB) as default storage throws the error NativeAzureFileSystem ... RequestBodyTooLarge in the driver log.
 
-1. Verified that the cluster configuration does not change this default value of 4MB block size to something smaller. Open Ambari UI, go to HDFS and search for configuration "fs.azure.write.request.size". If not found, you are using the default which is 4MB.
+## Issue
 
-2. Verify that a successful spark event log files (from different run) have 4MB blocks. You can use "Microsoft AzureStorage Explorer". Right click on a container, click on "Get Shared Access Signature...", then copy the query string, something like this:
+The error: `NativeAzureFileSystem ... RequestBodyTooLarge` appears in the driver log for a Spark streaming app.
 
-?st=2018-07-26T18%3A56%3A00Z&se=2018-07-27T18%3A56%3A00Z&sp=rl&sv=2017-04-17&sr=c&sig=PTygmhqZDPAwzqYTDgRRsHWQAF58kzyYIv1RI0w%2FnO0%3D
+## Cause
 
-Then use it to query Azure storage REST API to find out block list, by appending "&comp=blocklist" to the end of the string, something like this:
-https://xxx.blob.core.windows.net/yyy-2018-03-20t18-34-42-951z/hdp/spark2-events/application_1521571372955_0001.inprogress?st=2018-07-26T18%3A56%3A00Z&se=2018-07-27T18%3A56%3A00Z&sp=rl&sv=2017-04-17&sr=c&sig=PTygmhqZDPAwzqYTDgRRsHWQAF58kzyYIv1RI0w%2FnO0%3D&comp=blocklist
+Your Spark event log file is probably hitting the file length limit for WASB.
 
-4. If the block other than the last one is not 4MB, that means either it is a WASB driver bug, or the application set a different block size in configuration for the Spark Streaming app.
- 
-### Workarounds:
-1. Increase the block size to up to 100MB. In Ambari UI, modify HDFS configuration "fs.azure.write.request.size" (or create it in "Custom core-site" section) to somethign bigger, e.g.: 33554432, then save it and restart affected components.
+In Spark 2.3, each Spark app generates 1 Spark event log file. The Spark event log file for a Spark streaming app continues to grow while the app is running. Today a file on WASB has a 50000 block limit, and the default block size is 4MB. So in default configuration the max file size is 195GB. However, Azure storage has increased the max block size to 100MB, which effectively brought the single file limit to 4.75TB. See [Azure Storage Scalability and Performance Targets](https://docs.microsoft.com/en-us/azure/storage/common/storage-scalability-targets) for more information.
 
-2. Periodically stop and resubmit the spark-streaming job. 
+## Solution
 
-3. Use HDFS to store spark event logs
+There are three solutions available for this error:
 
-Disclaimer: use HDFS may results in loss of spark events data in the event of cluster scaling or rarely during Azure upgrades.
+1. Increase the block size to up to 100MB. In Ambari UI, modify HDFS configuration property `fs.azure.write.request.size` (or create it in `Custom core-site` section). Set the property to a larger value, for example: 33554432. Save the updated configuration and restart affected components.
 
-a) Make changes to spark.eventlog.dir and spark.history.fs.logDirectory via Ambari UI:
-spark.eventlog.dir = hdfs://mycluster/hdp/spark2-events
-spark.history.fs.logDirectory = "hdfs://mycluster/hdp/spark2-events"
+2. Periodically stop and resubmit the spark-streaming job.
 
-b) Create directories on HDFS:
-hadoop fs -mkdir -p hdfs://mycluster/hdp/spark2-events
-hadoop fs -chown -R spark:hadoop hdfs://mycluster/hdp
-hadoop fs -chmod -R 777 hdfs://mycluster/hdp/spark2-events
-hadoop fs -chmod -R o+t hdfs://mycluster/hdp/spark2-events
+3. Use HDFS to store Spark event logs. To do this, complete the following steps.
 
-c) Restart all affected services via Ambari UI.
+    > [!Note]
+    > Using HDFS for storage may result in loss of Spark event data during cluster scaling or Azure upgrades.
+    
+    1. Make changes to `spark.eventlog.dir` and `spark.history.fs.logDirectory` via Ambari UI:
+    
+    ```config
+    spark.eventlog.dir = hdfs://mycluster/hdp/spark2-events
+    spark.history.fs.logDirectory = "hdfs://mycluster/hdp/spark2-events"
+    ```
+    
+    2. Create directories on HDFS:
+    
+    ```bash
+    hadoop fs -mkdir -p hdfs://mycluster/hdp/spark2-events
+    hadoop fs -chown -R spark:hadoop hdfs://mycluster/hdp
+    hadoop fs -chmod -R 777 hdfs://mycluster/hdp/spark2-events
+    hadoop fs -chmod -R o+t hdfs://mycluster/hdp/spark2-events
+    ```
+    
+    3. Restart all affected services via Ambari UI.

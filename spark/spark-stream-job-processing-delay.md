@@ -1,67 +1,29 @@
-### Why did my Spark Streaming jobs take longer than usual to process?
- 
-### Issue:
-Some of the HDInsight Spark Streaming jobs is slow, and it took longer than usual to process. For Spark Streaming applications, each batch of messages corresponds to one job submitted to Spark. Usually a job took X seconds to process, but occasionally a Spark job took 2-3 minutes more than usual times.
- 
-### Investigation Steps:
- 
-1. Understand user's streaming setup.
+---
+title: Azure HDInsight Solutions | Apache Spark | Streaming jobs are slow
+description: Learn how to resolve slow Apache Spark streaming jobs
+services: hdinsight
+author: confusionblinds
+ms.author: sunilkc
+ms.service: hdinsight
+ms.custom: troubleshooting
+ms.topic: conceptual
+ms.date: 11/12/2018
+---
 
-Where is the data coming from and where does the data go? Let say the streaming app get data from EventHubs, and write to Kafka.
+# Azure HDInsight Solutions | Apache Spark | Streaming jobs are slow
 
-2. Get access to Spark UI.
+## Scenario: Spark Streaming jobs take longer than usual to process
 
-This can be done from Yarn UI of the Spark application, then click on "ApplicationMaster" link.
-    https://<clustername>.azurehdinsight.net/yarnui
+## Issue
 
-3. Find the tasks that slowed the job. 
+You observe that some of the HDInsight Spark Streaming jobs are slow, or taking longer than usual to process. For Spark Streaming applications, each batch of messages corresponds to one job submitted to Spark. If a job normally takes X seconds to process, it may occasionally take 2-3 minutes more than usual.
 
-First find the job that is slower than normal, then sort all the tasks of this job by "duration" in descending order. You will find one or a few tasks that took much longer than other tasks. In some cases if the streaming app turned on speculation (spark.speculation), you'll see some failed tasks (more below).
+## Cause
 
-4. Get Yarn AM container logs (where the Spark driver runs) for the app. 
+1. One possible cause is that the Kafka producer takes more than 2 minutes to finish writing out to the Kafka cluster. To further debug the Kafka issue, you can add some logging to the code that uses a Kafka producer to send out messages, and correlate that with the logs from Kafka cluster.
 
-You can go to "Executors" tab in Spark UI to find out driver's container ID. Spark UI has links to container log for the driver, however, currently these links are broken. While we are working to fix these links, we can manually retrieve container logs like this: click on the "stderr" link, find out the container ID, then ssh to the cluster headnode, run command:
-~~~~
-yarn logs -applicationId <application-id> -containerId <container-id>
-~~~~
+2. Another possible cause is that frequent reads and writes to WASB can cause subsequent micro-batches to lag. The WASB implementation of `Filesystem.listStatus` is very slow due to an O(n!) algorithm to remove duplicates. It uses too much memory due to the extra conversion from `BlobListItem` to `FileMetadata` to `FileStatus`. For example, the algorithm takes over 30 minutes to list 700,000 files. So if `ListBlobs` is being called aggressively by SparkSQL every micro-batch, it will cause subsequent micro-batches to lag behind resulting in what you experience as high scheduling delays. [This patch](https://issues.apache.org/jira/browse/HADOOP-15547) fixes the issue, but if it is missing in your environment, ListBlobs will experience high latency. Also, even if you delete files every hour, the listing in the back-end has to iterate over all rows (including deleted) because garbage collection process hasn't completed yet. While the patch might solve some of the problem, the garbage collection issue might still cause delay in stream processing of batches.
 
-For tasks killed due to Spark speculation, you'll see something like this in AM log (these are benign messages, not an indication of problems):
-~~~~
-18/05/17 22:06:19 INFO TaskSetManager: Starting task 349.1 in stage 1.0 (TID 2017, wn2-cus-te.irhcfv1m2odevp2sycmcl3el4c.gx.internal.cloudapp.net, executor 12, partition 349, PROCESS_LOCAL, 6438 bytes)
-18/05/17 22:06:20 INFO TaskSetManager: Killing attempt 0 for task 349.0 in stage 1.0 (TID 365) on wn4-cus-te.irhcfv1m2odevp2sycmcl3el4c.gx.internal.cloudapp.net as the attempt 1 succeeded on wn2-cus-te.irhcfv1m2odevp2sycmcl3el4c.gx.internal.cloudapp.net
-18/05/17 22:06:20 INFO TaskSetManager: Finished task 349.1 in stage 1.0 (TID 2017) in 1180 ms on wn2-cus-te.irhcfv1m2odevp2sycmcl3el4c.gx.internal.cloudapp.net (executor 12) (1998/2000)
-~~~~
+## Solution
 
-5. Get Yarn container logs for the executor that runs the task to see if there are any problems.
-
-Follow the above steps to get container logs for each the problematic task.
-
-You can use the "ID" column of the tasks table in Spark UI to search for the task in Yarn container log. E.g. "TID 365". For the failed tasks due to Spark speculation, you may find error like this (these are benign messages, not an indication of problems):
-~~~~
-org.apache.spark.SparkException: Error communicating with MapOutputTracker
-	at org.apache.spark.MapOutputTracker.askTracker(MapOutputTracker.scala:106)
-	at org.apache.spark.MapOutputTracker.getStatuses(MapOutputTracker.scala:204)
-at org.apache.spark.MapOutputTracker.getMapSizesByExecutorId(MapOutputTracker.scala:144)
-~~~~
-
-For the slow task, you can check the logs to figure out where is the time spent. In this case, we found that there are a 2 minutes gap in the logs:
-~~~~
-18/05/21 14:43:01 INFO Executor: Finished task 766.0 in stage 5089.0 (TID 2585693). 1477 bytes result sent to driver
-18/05/21 14:43:02 INFO KafkaProducer: [Producer clientId=producer-85445] Closing the Kafka producer with timeoutMillis = 9223372036854775807 ms.
-18/05/21 14:43:02 INFO Executor: Finished task 896.0 in stage 5089.0 (TID 2585823). 1477 bytes result sent to driver
-18/05/21 14:45:03 INFO KafkaProducer: [Producer clientId=producer-85435] Closing the Kafka producer with timeoutMillis = 9223372036854775807 ms.
-
-~~~~
-
-This is an indication that the problem happens during writing message to external Kafka cluster using the KafkaProducer class.
-
-### Root Cause:
-1. The Kafka producer took more than 2 minutes to finish writing out to Kafka cluster. To further debugging the Kafka issue, you can add some logs to the code that uses Kafka producer to send out messages, and correlate that with the logs from Kafka cluster.
-
-2. If the Spark job is reading and/or writing to WASB frequently, it can cause subsequent micro-batches to lag
-
-   The WASB implementation of Filesystem.listStatus is very slow due to O(n!) algorithm to remove duplicates and uses too much memory due to the extra conversion from BlobListItem to FileMetadata to FileStatus. It takes over 30 minutes to list 700,000 files. So if ListBlobs is being called aggressively by SparkSQL every micro-batch, it will cause subsequent micro-batches to lag behind resulting in what you experience as high scheduling delays. This patch https://issues.apache.org/jira/browse/HADOOP-15547 fixes the issue, but if it is missing in your environment, ListBlobs will experience high latency. Also, even if you delete files every hour, the listing in the backend has to iterate over all rows (including deleted) because garbage collection process didn’t kick in yet. While the patch might solve bulk of your problem, the latter issue might kick in and cause you to still lag behind in stream processing of batches.  
-   
-   Temp Workaround (before the HADOOP-15547 fix): use HDFS as the check point location: Set checkpointDirectory to something like: "hdfs://mycluster/checkpoint"
-
-
+Apply the [HADOOP-15547](https://issues.apache.org/jira/browse/HADOOP-15547) fix.  If that is not possible, you can use HDFS as the check point location. Set `checkpointDirectory` to something like: "hdfs://mycluster/checkpoint"
