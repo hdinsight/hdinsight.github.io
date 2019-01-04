@@ -1,16 +1,30 @@
-## How to fix disk encryption alerts on Resource Health Center (RHC)?
+---
+title: Azure HDInsight Solutions | Kafka | The HDInsight cluster is unable to access the key for BYOK encryption at rest.
+description: How to fix disk encryption alert - The HDInsight cluster is unable to access the key for BYOK encryption at rest.
+services: hdinsight
+author: karunasagark
+ms.author: karkrish
+ms.service: hdinsight
+ms.custom: troubleshooting
+ms.topic: conceptual
+ms.date: <01/03/2019>
+---
 
-### Issue
+# Azure HDInsight Solutions | Kafka | The HDInsight cluster is unable to access the key for BYOK encryption at rest.
 
-HDI clusters configured with disk encryption i.e. BYOK clusters show RHC alerts on Azure portal when the KV is not accessible. RHC alerts are driven out of probe results. Similar alerts are also seen on the Ambari UI.
+## Scenario: HDInsight clusters configured with disk encryption can lose access to the Key Vault holding the disk encryption key. This leads to alerts in Resource Health Center of Azure portal.
 
-### Description
+## Issue
 
-This alert ensures that the KV is accessible from the cluster nodes, thereby ensuring the network connection, KV health and access policy for the user assigned Managed Identity. This alert is only a warning of impending broker shutdown on subsequent node reboots, the cluster continues to function until nodes reboot.
+The RHC alert - The HDInsight cluster is unable to access the key for BYOK encryption at rest, is shown for BYOK (Bring Your Own Key) clusters where the cluster nodes have lost access to customers Key Vault (KV). Similar alerts can also be seen on Ambari UI.
+
+## Cause
+
+The alert (The HDInsight cluster is unable to access the key for BYOK encryption at rest) ensures that KV is accessible from the cluster nodes, thereby ensuring the network connection, KV health and access policy for the user assigned Managed Identity. This alert is only a warning of impending broker shutdown on subsequent node reboots, the cluster continues to function until nodes reboot.
 
 Navigate to Ambari UI to find more information about the alert from "Disk Encryption Key Vault Status". This would have details about the reason for verification failure.
 
-### Mitigate
+## Solution
 
 1. KV/AAD outage
     - Look at KV DR - https://docs.microsoft.com/en-us/azure/key-vault/key-vault-disaster-recovery-guidance and Azure status page for more details https://azure.microsoft.com/en-us/status/
