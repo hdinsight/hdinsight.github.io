@@ -35,7 +35,7 @@ Use the Spark FAQ for answers to common questions on Spark on Azure HDInsight pl
 #### [Spark job becomes slow when the destination folder has too many files?](spark-job-slowness-when-destination-folder-has-too-many-files.md)
 #### [How to retrieve livy session details?](debug-jupyter-livy-spark.md)
 #### [How to increasing Spark history heap-memory configuration](spark-history-heap-memory-configuration.md)
-#### [Getting java.lang.OutOfMemoryError when attempting to restart Livy server](spark-livy-nativethread-exhaustion.md)
+#### [Getting java.lang.OutOfMemoryError when attempting to restart Livy server](livy-nativethread-exhaustion.md)
 #### [Spark 1.6 jar are used when Spark application is launched using Oozie Shell](spark-oozie-shell-action-launch-error.md)
 #### [Jupyter server 404 Not Found error due to Blocking Cross Origion API](jupyter-404-Not-Found-due-to-Blocking-Cross-Origin-API.md)
 #### [how to access wasb?](howto-wasb.md)
