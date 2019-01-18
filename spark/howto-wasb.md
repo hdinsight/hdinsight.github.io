@@ -4,7 +4,7 @@ description: Use the Spark FAQ for answers to common questions on Spark on Azure
 keywords: Azure HDInsight, FAQ, troubleshooting guide, common problems, accessing folder
 services: Azure HDInsight
 documentationcenter: na
-author: Sunilkc
+author: csunilkumar
 manager: ''
 editor: ''
 
@@ -18,11 +18,11 @@ ms.date: 02/01/2018
 ms.author: sunilkc
 ---
 
-This article capture 
+# Azure HDInsight Solutions | Spark |  accessing blob store from jupyter
 
-### How to access blob store from jupyterthat is not part of HDInsight cluster?
+## Scenario: Accessing blob store part of HDInsight cluster from jupyter notebook
 
-Scala syntax
+### Scala syntax
 
 ```
 sc.hadoopCconfiguration.set("fs.azure.account.keyprovider.{blobname}.blob.core.windows.net","org.apache.hadoop.fs.azure.SimpleKeyProvider")
@@ -46,7 +46,7 @@ spark.read.csv("wasb://{containername}@{blobname}.blob.core.windows.net/students
 
 ```
 
-PySpark as :
+### PySpark Syntax
 
 ```
 spark._jsc.hadoopConfiguration().set("fs.azure.account.keyprovider.{blobname}.blob.core.windows.net","org.apache.hadoop.fs.azure.SimpleKeyProvider")
@@ -56,7 +56,7 @@ spark.read.csv("wasb://{containername}@{blobname}.blob.core.windows.net/students
 
 ### How to access windows azure storage blob from within scala application?
 
-One can use following syntax to access the default storage account from Spark cluster using scala
+Following code is to access the default storage account from Spark cluster using scala
 
 ```
 scala> val fs = org.apache.hadoop.fs.FileSystem.get(new java.net.URI("wasb:///"),sc.hadoopConfiguration)
