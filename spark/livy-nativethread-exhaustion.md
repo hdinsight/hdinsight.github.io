@@ -1,7 +1,23 @@
+---
+title: Azure HDInsight Solutions | Spark | Unable to start Livy Server on a HDInsight Spark Cluster
+description: Learn how to resolve <scenario>
+services: hdinsight
+author: csunilkumar
+ms.author: sunilkc
+ms.service: hdinsight
+ms.custom: troubleshooting
+ms.topic: conceptual
+ms.date: <date>
+---
+# Azure HDInsight Solutions | Livy | java.lang.OutOfMemoryError
 
-#### Issue : Livy Server was down in HDInsight Spark Production Cluster [(Spark 2.1 on Linux (HDI 3.6)]
-#### Attempting to restart results in the following error stack.
-##### Found the following entries in the latest livy Logs 
+## Scenario: Livy Server fails to start with *java.lang.OutOfMemoryError*
+
+## Issue 
+Livy Server cannot be started on a HDInsight Spark Production Cluster [(Spark 2.1 on Linux (HDI 3.6)]. 
+Attempting to restart results in the following error stack.
+Found the following entries in the latest livy Logs 
+
 ~~~~
  17/07/27 17:52:50 INFO CuratorFrameworkImpl: Starting
  17/07/27 17:52:50 INFO ZooKeeper: Client environment:zookeeper.version=3.4.6-29--1, built on 05/15/2017 17:55 GMT
@@ -55,24 +71,23 @@
   at com.cloudera.livy.server.LivyServer$.main(LivyServer.scala:302)
   at com.cloudera.livy.server.LivyServer.main(LivyServer.scala)
   
-  ## using "vmstat" found for free memory on the server, we had enough free memory
+  ## using "vmstat" found  we had enough free memory
 ~~~~
 
-java.lang.OutOfMemoryError: unable to create new native thread highlights; highlights OS cannot assign more native threads to JVMs
-Confirmed that this Exception is caused by the violation of the per-process thread count limit
+## Cause
 
-Looking at Livy implementation we found that livy will save the session state in ZK (in HDInsight) and recover those sessions on restart. When restarting, livy will create a thread for each session. 
+java.lang.OutOfMemoryError: unable to create new native thread highlights; highlights OS cannot assign more native threads to JVMs.
+Confirmed that this Exception is caused by the violation of per-process thread count limit.
 
-This is part of High Availability for LivyServer
-refer section High Availability under https://hortonworks.com/blog/livy-a-rest-interface-for-apache-spark/
-In case if Livy Server fails, all the connections to  Spark Clusters are also terminated, which means that all the jobs and related data will be lost.
-As a session recovery mechanism Livy stores the session details in Zookeeper to be recovered after the livy Server is back.
+When Livy Server teminates unexpectedly, all the connections to Spark Clusters are also terminated, which means that all the jobs and related data will be lost. In HDP 2.6 session recovery mechanism was introduced, Livy stores the session details in Zookeeper to be recovered after the livy Server is back.
 
+refer section [High Availability](https://hortonworks.com/blog/livy-a-rest-interface-for-apache-spark/)
 
-In this scenario we found customer had submitted a large number of jobs to livy. So it accumulated a certain amount of to-be-recovered sessions causing too many threads being created.
+When large number of jobs are submitted via livy, as part of High Availability for Livy Server stores these session state in ZK (on HDInsight clusters) and recover those sessions when livy services is restarted. On restart after unexpected termination, livy creates one thread per session and this accumulates a certain amount of to-be-recovered sessions causing too many threads being created.
 
+## Solution
 
-##### Mitigation: Delete all entries using steps detailed below.
+Delete all entries using steps detailed below.
 
 - Get the IP address of the zookeeper Nodes using 
 ~~~~  
@@ -80,36 +95,34 @@ grep -R zk /etc/hadoop/conf
 ~~~~
 
 - Above command listed all the zookeepers for my cluster 
+~~~~
+/etc/hadoop/conf/core-site.xml:      <value>zk1-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk2-      hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk4-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181</value>
+~~~~
 
-~~~~
-    /etc/hadoop/conf/core-site.xml:      <value>zk1-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk2-      hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181,zk4-hwxspa.lnuwp5akw5ie1j2gi2amtuuimc.dx.internal.cloudapp.net:2181</value>
-~~~~
 - Get all the IP address of the zookeeper nodes using ping Or you can also connect to zookeeper from headnode using zk name 
-
 ~~~~  
 /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server zk2-hwxspa:2181   
 ~~~~
-##### Once you are connected to zookeeper execute the following command to list all the session that are attempted to restart. ####
-##### Most of the cases this could be a list more than 8000 sessions ####
-~~~~  
-ls /livy/v1/batch  
-~~~~
+- Once you are connected to zookeeper execute the following command to list all the session that are attempted to restart. 
+  - Most of the cases this could be a list more than 8000 sessions ####
+    ~~~~  
+    ls /livy/v1/batch  
+    ~~~~
 
-##### Following command is to remove all the to-be-recovered sessions. #####
-~~~~  
-rmr /livy/v1/batch  
-~~~~
-##### Wait for the above command to complete and the cursor to return the prompt and then restart livy service from ambari which should succeed. 
+  - Following command is to remove all the to-be-recovered sessions. #####
+    ~~~~  
+    rmr /livy/v1/batch  
+    ~~~~
+- Wait for the above command to complete and the cursor to return the prompt and then restart livy service from ambari which should succeed. 
 
 
-##### Note: Deleting the session maintained under zookeeper is a workaround.
-. 
-
-### DELETE the livy session once it is completed its execution.
+## Note: Deleting the session maintained under zookeeper is a workaround.
+DELETE the livy session once it is completed its execution.
 The Livy batch sessions will not be deleted automatically as soon as the spark app completes, which is by design. 
 A Livy session is an entity created by a POST request against Livy Rest server. A “DELETE” call is needed to delete that entity. Or we should wait for the GC to kick in.
 
-##### Continue reading for some more details that was explored while troubleshooting this issue
+## Additional Information
+Continue reading for some more details that was explored while troubleshooting this issue
 ADF uses livy server to submit job, scheduled a python job to be processed part of pipleline every 15 minutes. Tracked the zookeeper entries to find the session were not getting for more than 12 hours. Looking at the state of the session set to dead, they should have been Garbage collected which is not happening.
 
 ~~~~ 
@@ -118,7 +131,7 @@ ADF uses livy server to submit job, scheduled a python job to be processed part 
 
 ~~~~
 
-There is an issue with Livy 0.3 that’s mixing the concepts of GC and session timeout. We are setting the timeout to 24 days to make sure the spark streaming apps don’t get killed by GC. This is causing some Livy OOM issue when the server gets restarted and tries to restore sessions from ZK. So it is required to delete the batch sessions explicitly when the spark app is completed.
+In Livy 0.3 the concepts of GC and session timeout seems to be mixed up. We are setting the timeout to 24 days to make sure the spark streaming apps don’t get killed by GC. This is causing some Livy OOM issue when the server gets restarted and tries to restore sessions from ZK. So it is required to delete the batch sessions explicitly when the spark app is completed.
 
 Livy 0.4 has GC and session timeout separated into different settings, which is the ideal solution
 
