@@ -17,15 +17,16 @@ ms.topic: article
 ms.date: 03/01/2018
 ms.author: sunilkc
 ---
+# Azure HDInsight Solutions | Spark | Probing Questions
 
-## Probing Questions ##
-
-* _Was this application working fine? If application was working fine then check what changed between working and non-working scenario?_
-* _How are you submitting the Spark Job? (notebooks/Spark Thrift Server/Spark-Shell)_ 
-* _If Application is submitted using notebooks then is it a batch or interactive session?_ 
+* Was this application working fine? 
+     * If application was working fine then check what changed between working and non-working scenario?_
+* _How are the Spark application submitted to the HDInsight? 
+     * Spark applications can be submitted using notebooks (Juptyer/Zeppelin)/ using ODBC clients that gets connected to Spark Thrift Server/ directly on from Headnode using Spark-Shell)_ 
+     * if Application is submitted using notebooks then is it a batch or interactive session?_ 
 * _Is this a Spark SQL / Spark Steaming  or Just a batch job?_ 
 
-#### Minimum data needed to better understand and start troubleshooting any Spark Application performance or Spark Application failure issues.
+## Minimum data required to better understand any Spark Application performance or Spark Application failure issues.
 
 Spark Applications are usually submitting to HDInsight clusters from Azure Data Factory, Jupyter, Zeppelin, JDBC, SSH or Livy directly using curl command.
 
@@ -34,9 +35,10 @@ Spark Applications are usually submitting to HDInsight clusters from Azure Data 
 | Jupyter       | Livy                       |
 | ADF           | Livy                       |
 | Zeppelin      | Interpreter(Livy, Spark)   |
+| Curl          | Livy                       |
 
 
-##### Here are the details that you need to capture to troubleshoot Spark Application issues (Slow Performance, Unexpected Failure, Exception or Application hang-Never gets into finished state). #####
+## Following details need to troubleshoot Spark Application issues (Slow Performance, Unexpected Failure, Exception or Application hang-Never gets into finished state). ##
 
 1. Spark application uses livy to submit to spark, when application submission is initiated from ADF or any other client application like curl in that case follow the steps below.  
 a. Confirm livy server is started on HN0 from Ambari UI, incase it is stopped start the service.  
