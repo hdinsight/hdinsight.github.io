@@ -17,7 +17,7 @@ ms.topic: article
 ms.date: 03/01/2018
 ms.author: sunilkc
 ---
-# Azure HDInsight Solutions | Spark | Probing Questions
+# Azure HDInsight Solutions | Spark | Application Failure Probing Questions
 
 * Was this application working fine? 
      * If application was working fine then check what changed between working and non-working scenario?_
@@ -36,7 +36,6 @@ Spark Applications are usually submitting to HDInsight clusters from Azure Data 
 | ADF           | Livy                       |
 | Zeppelin      | Interpreter(Livy, Spark)   |
 | Curl          | Livy                       |
-
 
 ## Details required to start troubleshooting following Spark Application issues 
     *   Slow Performance : Spark application takes more time compared to another HDInsight cluster, still complete successfully.
@@ -63,6 +62,6 @@ Spark Applications are usually submitting to HDInsight clusters from Azure Data 
 
 5. Get screenshot of YARN UI showing the start datetime, end datetime and the status for the failed application.
 
-6. If this application had completed successful  early then capture start, end datetime, application status and also the YARN logs for this successfully completed Spark Application [How do I download Yarn logs from HDInsight cluster?](/yarn/yarn-download-logs.html). 
+6. If this application had completed successful early then capture start, end datetime, application status and also the YARN logs for this successfully completed Spark Application [How do I download Yarn logs from HDInsight cluster?](/yarn/yarn-download-logs.html). 
 
 For General Spark Tuning [Refer](https://spark.apache.org/docs/latest/tuning.html)
