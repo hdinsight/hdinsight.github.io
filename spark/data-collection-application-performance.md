@@ -64,4 +64,12 @@ Spark Applications are usually submitting to HDInsight clusters from Azure Data 
 
 6. If this application had completed successful early then capture start, end datetime, application status and also the YARN logs for this successfully completed Spark Application [How do I download Yarn logs from HDInsight cluster?](/yarn/yarn-download-logs.html). 
 
+7. Apart from the YARN Logs get details about the environment.
+    *   Number of Workernodes.
+    *   Executors 
+    *   Source and Sink (Ex Kakfa to Storage)
+    
+ ## Spark Streaming 
+  
+
 For General Spark Tuning [Refer](https://spark.apache.org/docs/latest/tuning.html)
