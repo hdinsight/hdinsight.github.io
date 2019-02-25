@@ -18,12 +18,9 @@ ms.date: 02/01/2018
 ms.author: sunilkc
 ---
 
-# Azure HDInsight Solutions | Spark | Explaining Spark-submit parameter options
+# Azure HDInsight Solutions | Apache Spark | Using Spark-Submit to create Apache Spark jobs
 
-spark-submit shell script is used to launch spark applications on a Cluster, different options are available to launch an application. sometimes these parameters (options) could get ambigious.  Listed here are few parameters to clarify specific scenarios.
-
-## Scenario:  
-This Spark Application requires class that is available only in a specific jar (mssql-jdbc-6.2.2.jre8.jar) file. specific class and its implementation available in mssql-jdbc-6.2.2.jre8.jar is not available in the default JDBC jar shipped with the cluster.
+## Scenario: You would like to use the spark-submit shell script to create Apache Spark jobs, but the required parameters are unclear.
 
 Three Parameters listed below are used to load external jar file.
 
