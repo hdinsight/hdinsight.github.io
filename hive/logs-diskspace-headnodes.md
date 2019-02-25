@@ -38,6 +38,17 @@ Ex: ```hive.root.logger=DEBUG,RFA```
   - If **log4j.appender.RFA.MaxBackupIndex** parameter has been omitted, the log files will be generated endless.
 
 ```
+hive.root.logger=DEBUG,RFA
+hive.log.dir=${java.io.tmpdir}/${user.name}
+hive.log.file=hive.log
+
+log4jhive.log.maxfilesize=1024MB
+log4jhive.log.maxbackupindex=10
+
+
+log4j.rootLogger=${hive.root.logger}, EventCounter, ETW, FullPIILogs
+log4j.threshold=${hive.log.threshold}
+
 log4j.appender.RFA=org.apache.log4j.RollingFileAppender
 log4j.appender.RFA.File=${hive.log.dir}/${hive.log.file}
 log4j.appender.RFA.MaxFileSize=${log4jhive.log.maxfilesize}
