@@ -51,6 +51,32 @@ To verify that your upgrade was successful check that the relevant HBase process
 
 We have seen incidents where the Region Server fails to start due to multiple Splitting WAL directories.
 
+Sample errors seen in var/log/hbase/region server log file:
+
+2019-03-06 01:51:06,045 ERROR [RS_LOG_REPLAY_OPS-wn0-advana:16020-0] executor.EventHandler: Caught throwable while processing event RS_LOG_REPLAY
+2019-03-06 01:51:13,129 ERROR [main] regionserver.HRegionServerCommandLine: Region server exiting
+2019-03-06 01:58:04,847 ERROR [RS_LOG_REPLAY_OPS-wn0-advana:16020-0] executor.EventHandler: Caught throwable while processing event RS_LOG_REPLAY
+2019-03-06 01:58:10,422 ERROR [main] regionserver.HRegionServerCommandLine: Region server exiting
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /hbase-unsecure/region-in-transition/c26a119d9014497f11f7945ee5765707
+2019-03-06 01:58:04,847 ERROR [RS_LOG_REPLAY_OPS-wn0-advana:16020-0] executor.EventHandler: Caught throwable while processing event RS_LOG_REPLAY
+2019-03-06 01:58:06,828 ERROR [RS_OPEN_REGION-wn0-advana:16020-2] handler.OpenRegionHandler: Failed open of region=SALES:SALES_TRANS_SKU,2016-04-16_14940401167_276107,1549148647976.3b69ed680668388f7c5723f491edc1c7., starting to roll back the global memstore size.
+2019-03-06 01:58:08,672 ERROR [RS_CLOSE_META-wn0-advana:16020-0] regionserver.HRegion: Memstore size is 490232
+2019-03-06 01:58:10,056 ERROR [RS_OPEN_REGION-wn0-advana:16020-8] regionserver.HRegion: Could not initialize all stores for the region=SALES:SALES_TRANS_SKU,2016-07-26_16381202590_129836,1549502700390.348bd64e19335f27a9f50f0b4bba5802.
+2019-03-06 01:58:10,056 ERROR [RS_OPEN_REGION-wn0-advana:16020-1] regionserver.HRegion: Could not initialize all stores for the region=SALES:SALES_TRANS_SKU,2016-06-20_15881302257_70096,1549355619258.8eadc37b6743124b2b1c228fbc7fcd69.
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /hbase-unsecure/region-in-transition/d7107da93effb7d0476952020a45e93f
+2019-03-06 01:58:10,424 ERROR [RS_OPEN_REGION-wn0-advana:16020-10] zookeeper.ZooKeeperWatcher: regionserver:16020-0x16884cf76828906, quorum=zk4-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net:2181,zk3-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net:2181,zk0-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net:2181, baseZNode=/hbase-unsecure Received unexpected KeeperException, re-throwing exception
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /hbase-unsecure/region-in-transition/c26a119d9014497f11f7945ee5765707
+2019-03-06 01:58:10,425 ERROR [RS_OPEN_REGION-wn0-advana:16020-9] zookeeper.ZooKeeperWatcher: regionserver:16020-0x16884cf76828906, quorum=zk4-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net:2181,zk3-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net:2181,zk0-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net:2181, baseZNode=/hbase-unsecure Received unexpected KeeperException, re-throwing exception
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /hbase-unsecure/region-in-transition/d7107da93effb7d0476952020a45e93f
+2019-03-06 01:58:10,427 ERROR [RS_OPEN_REGION-wn0-advana:16020-9] coordination.ZkOpenRegionCoordination: Failed transitioning node SALES:SALES_TRANS_SKU,2016-03-30_14396103271_227839,1549950999690.d7107da93effb7d0476952020a45e93f. from OPENING to FAILED_OPEN
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /hbase-unsecure/region-in-transition/d7107da93effb7d0476952020a45e93f
+2019-03-06 01:58:10,427 ERROR [RS_OPEN_REGION-wn0-advana:16020-10] coordination.ZkOpenRegionCoordination: Failed transitioning node SALES:SALES_TRANS_SKU,2016-07-22_16395391578_222034,1549409261112.c26a119d9014497f11f7945ee5765707. from OPENING to FAILED_OPEN
+
+
+
+
+Check the following things:
+
 1) Get list of current wals
 hadoop fs -ls -R /hbase/WALs/ > /tmp/wals.out
 
