@@ -47,3 +47,6 @@ To verify that your upgrade was successful check that the relevant HBase process
 "ps -aux &#124; grep regionserver, and verify the version like '''/usr/lib/jvm/java-8-openjdk-amd64/bin/java"
 
 
+
+
+
