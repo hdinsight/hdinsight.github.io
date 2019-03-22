@@ -47,6 +47,29 @@ To verify that your upgrade was successful check that the relevant HBase process
 "ps -aux &#124; grep regionserver, and verify the version like '''/usr/lib/jvm/java-8-openjdk-amd64/bin/java"
 
 
+# Region Servers dead due to WAL splitting
 
+We have seen incidents where the Region Server fails to start due to multiple Splitting WAL directories.
+
+1) Get list of current wals
+hadoop fs -ls -R /hbase/WALs/ > /tmp/wals.out
+
+2) Inspect the wals.out to see if there are empty files
+eg:
+Empty files from the wals output:
+Line 110: -rw-rwx---+  1 sshuser sshuser          0 2019-01-24 08:42 /hbase/WALs/wn1-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net,16020,1543299776294-splitting/wn1-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net,16020,1543299776294/wn1-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net%2C16020%2C1543299776294.default.1548319335505
+Line 490: -rw-r-----+  1 sshuser sshuser          0 2019-03-08 04:21 /hbase/WALs/wn11-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net,16020,1552018852657-splitting/wn11-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net%2C16020%2C1552018852657..meta.1552018872799.meta
+Line 788: -rw-r-----+  1 sshuser sshuser          0 2019-03-06 01:51 /hbase/WALs/wn2-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net,16020,1548362872417-splitting/wn2-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net,16020,1548362872417/wn2-advana.svtv1pmtfjtunof0lhxfjaxxoe.cx.internal.cloudapp.net%2C16020%2C1548362872417.default.1551837050362
+
+3) If there are too many splitting directories (starting with *-splitting) the region server is probably failing because of these directories.
+
+Mitigation: 
+1) Stop Hbase from Ambari portal
+2) Rerun hadoop fs -ls -R /hbase/WALs/ > /tmp/wals.out  to get fresh list of WALs
+3) Move the *-splitting directories to a temporary folder and delete the *-splitting directories.
+4) 
+Run ‘hbase zkcli’ command to connect with zookeeper shell. 
+Run ‘rmr /hbase-unsecure/splitWAL’ 
+Restart hbase service
 
 
