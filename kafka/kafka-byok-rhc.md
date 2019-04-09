@@ -38,19 +38,22 @@ Navigate to Ambari UI to find more information about the alert from "Disk Encryp
     - Customer should regularly audit and test access policies.
     - To mitigate, restore the access policies for the user assigned Managed Identity that is assigned to HDI cluster for accessing the KV.
 
-4. Key deletion
+4. Key permitted operations
+    - For each key in KV, customers can choose the set of permitted operations. Ensure that we have wrap and unwrap operations enabled for the BYOK key
+
+5. Key deletion
     - Cluster should be deleted before key deletion, if key deletion is intentional.
     - To mitigate, customer can restore deleted key on KV and we should be able to auto recover, if key deletion is accidental. See https://docs.microsoft.com/en-us/rest/api/keyvault/recoverdeletedkey
 
-5. Expired key
+6. Expired key
     - Customers should back up their keys to their HSM.
     - To mitigate,
         * customer can use a key without any expiry set.
         * If expiry needs to be set, customer should rotate the keys before the expiration date.
         * In case, the expiry has passed and key is not rotated, customer needs to restore key from backup HSM or contact KV team to clear the expiry date.
 
-6. KV firewall blocking access
+7. KV firewall blocking access
     - To mitigate, customer needs to fix the KV firewall settings to allow BYOK cluster nodes to access the KV.
 
-7. NSG rules on VNet blocking access
+8. NSG rules on VNet blocking access
     - To mitigate, customer needs to check the NSG rules associated with the VNet attached to the cluster.
