@@ -2,12 +2,12 @@
 title: Azure HDInsight Solutions | Ambari | Hive check is failing 
 description: Learn how to resolve <scenario>
 services: hdinsight
-author: <author_github_account>
-ms.author: <author_ms_alias>
+author: csunilkumar
+ms.author: sunilkc
 ms.service: hdinsight
 ms.custom: troubleshooting
 ms.topic: conceptual
-ms.date: <date>
+ms.date: April 4th 2019
 ---
 
 # Azure HDInsight Solutions | Ambari | Hive View check is failing 
