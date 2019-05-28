@@ -12,6 +12,9 @@ ms.date: <date>
 
 # Azure HDInsight Solutions | Hive | ODBC / JDBC connectivity Issues
 
+What is Beeline?  
+Beeline is a thin client that connects to HiveServer2 using Hive JDBC driver and executes queries through HiveServer2.  Beeline unlike hive does not require the installation of Hive libraries on the same machine as the client.
+
 ## Scenario: 
   -  Getting error ```The remote server returned an error: (502) Bad Gateway``` frequently when connecting to Hive on HDInsight cluster using ODBC / JDBC Drivers.
 ## Scoping Questions:
