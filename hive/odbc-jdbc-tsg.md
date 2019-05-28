@@ -21,6 +21,8 @@ Beeline is a thin client that connects to HiveServer2 using Hive JDBC driver and
   -   Is the Hiveserver2 running
   -   Can you successfully connect to hive using JDBC connectivity from beeline:
   [Beeline client with Apache Hive](https://docs.microsoft.com/en-us/azure/hdinsight/hadoop/apache-hadoop-use-hive-beeline)
+  -   If cusotmer is using a Thirdparty Client Application to connect to Hive then the first confirm the connection using Microsoft® Hive ODBC Driver
+  [Connect Excel to Apache Hadoop in Azure HDInsight with the Microsoft Hive ODBC driver](https://docs.microsoft.com/en-us/azure/hdinsight/hadoop/apache-hadoop-connect-excel-hive-odbc-driver)
   -   Are there too many YARN jobs taking up resources.
   
 
