@@ -18,7 +18,6 @@ ms.date: 06/10/2019 (mm/dd/yyyy)
 
 First step in troubleshooting Jupyter startup issue is to checking jupyter logs stored under ```/var/log/jupyter``` on headnode0.
 With Jupyter Highavailability introduced recently (June 2019), we might have to check jupyter logs on the active headnode.
-ADLS or WASBs based
 
 ## Issue: 
 Analyzing the jupyter logs found following entry
