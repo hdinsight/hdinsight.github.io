@@ -43,7 +43,8 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
   
   ./bin/storm set_log_level [topology name]-l [logger name]=[LEVEL]:[TIMEOUT]  
   
-  Example:
+  *Example:*
+  
   cd /usr/hdp/2.6.2.2-5/storm
   
   ./bin/storm set_log_level cy17-binary-decoder -l ROOT=DEBUG:30
