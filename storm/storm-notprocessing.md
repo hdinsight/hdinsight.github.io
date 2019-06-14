@@ -16,20 +16,21 @@ Before you open a support ticket please collect the DEBUG logs when the issue is
 1. *Storm UI* and navaigate to the topology that is not processing messages under Topology Summary
 https://<clustername>.azurehdinsight.net/stormui
 
-2. Topology Stats 10m 0s window
+2. Topology Stats 10m 0s window - This would give you the number of messages that are being processed in the last 10 minutes.
+3. Topology Summary (Uptime)  - The column uptime gives you how long the topology has been running... If its a few minutes it means the customer redeployed the topology and it will take sometime to catch up. So you should wait for an hour or so before you make any judgement about state of the cluster and what is happening.
 
-2. Bolts (All time) *Capacity* - In Storm UI for topology that is affected check at column *Capacity* for bolts. Any value greater than or close to 1 is an issue. A capacity of 1 means that we are executing at the limit for that particular bolt.
+4. Bolts (All time) *Capacity* - In Storm UI for topology that is affected check at column *Capacity* for bolts. Any value greater than or close to 1 is an issue. A capacity of 1 means that we are executing at the limit for that particular bolt.
 There are multiple bolts and spouts which form a storm processing pipeline. Bottleneck in any one of them can cause issues in the whole pipeline not being able to process messages.
 
-If the Capacity is higher than 1
-  - Ask the customer to look at code optimizations to reduce capacity
-  - Suggest increasing parallism and having more executors for the problematic bolt.
+  If the Capacity is higher than 1
+    - Ask the customer to look at code optimizations to reduce capacity
+    - Suggest increasing parallism and having more executors for the problematic bolt.
 
-3. *Kafka Spouts Lag*
-  - Check the column *Lag* from the Kafka Spout. A value of 0 is what we desire over here
-  - Right after redeploy of topology there might be a small amount of time when the lag is not zero when Storm is processing messages from Kafka from the last time it was stopped. Its expected to take sometime to catch up.
+6. Kafka Spouts Lag
+    - Check the column *Lag* from the Kafka Spout. A value of 0 is what we desire over here
+    - Right after redeploy of topology there might be a small amount of time when the lag is not zero when Storm is processing messages from Kafka from the last time it was stopped. Its expected to take sometime to catch up.
  
-4. How to get DEBUG Logs.
+7. How to get DEBUG Logs.
   Before you open a support ticket please make sure you have collected atleast 1 minute worth of DEBUG logs from the worker nodes where the problem might be happening.
   Here are the steps to turn DEBUG logging ON and OFF.
   
