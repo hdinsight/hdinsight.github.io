@@ -37,6 +37,8 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
   Here are the steps to turn DEBUG logging ON and OFF.
   
   Please replace [VERSION]  [topology name] [logger name] [LEVEL] and [TIMEOUT] with real values corresponding to customers cluster.
+  
+  
   cd /usr/hdp/[VERSION]/storm
   
   ./bin/storm set_log_level [topology name]-l [logger name]=[LEVEL]:[TIMEOUT]  
