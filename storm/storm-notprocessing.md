@@ -9,8 +9,10 @@ Customer reports that the Topologies going stale after few hours of processing.
 
 There could be several reasons why the topology is not processing messages. 
 From the incidents that we have seen with Storm topologies, the issue usually hasn't been with the Apache Storm project itself, but with the customer code issues / excessive logging in some cases.
+
 There are multiple bolts and spouts which form a storm processing pipeline. Bottleneck in any one of them can cause issues in the whole pipeline not being able to process messages.
-Before you open a support ticket please collect the DEBUG logs when the issue is happening.
+
+Before you open an ICM please collect the DEBUG logs when the issue is happening.
 
 ### What to check:
 1. *Storm UI* and navaigate to the topology that is not processing messages under Topology Summary
@@ -30,8 +32,8 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
     - Check the column *Lag* from the Kafka Spout. A value of 0 is what we desire over here
     - Right after redeploy of topology there might be a small amount of time when the lag is not zero when Storm is processing messages from Kafka from the last time it was stopped. Its expected to take sometime to catch up.
  
-7. How to get DEBUG Logs.
-  Before you open a support ticket please make sure you have collected atleast 1 minute worth of DEBUG logs from the worker nodes where the problem might be happening.
+### How to get DEBUG logs:
+  Before you open an ICM please make sure you have collected atleast 1 minute worth of DEBUG logs from the worker nodes where the problem might be happening.
   Here are the steps to turn DEBUG logging ON and OFF.
   
   Please replace <version>  [topology name] [logger name] [LEVEL] and [TIMEOUT] with real values corresponding to customers cluster.
