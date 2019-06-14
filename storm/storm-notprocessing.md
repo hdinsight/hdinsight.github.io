@@ -36,13 +36,16 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
   Before you open an ICM please make sure you have collected atleast 1 minute worth of DEBUG logs from the worker nodes where the problem might be happening.
   Here are the steps to turn DEBUG logging ON and OFF.
   
-  Please replace <version>  [topology name] [logger name] [LEVEL] and [TIMEOUT] with real values corresponding to customers cluster.
-  cd /usr/hdp/ <version> /storm
+  Please replace [VERSION]  [topology name] [logger name] [LEVEL] and [TIMEOUT] with real values corresponding to customers cluster.
+  cd /usr/hdp/[VERSION]/storm
+  
   ./bin/storm set_log_level [topology name]-l [logger name]=[LEVEL]:[TIMEOUT]  
   
   Example:
   cd /usr/hdp/2.6.2.2-5/storm
+  
   ./bin/storm set_log_level cy17-binary-decoder -l ROOT=DEBUG:30
+  
   ./bin/storm set_log_level cy17-binary-decoder -l ROOT=INFO:30
   
   
