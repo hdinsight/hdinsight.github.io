@@ -21,6 +21,7 @@ ms.author: raviperi
 ## Storm FAQ: Answers to common questions on Storm on Azure HDInsight
 Use the Storm FAQ for answers to common questions on Storm on Azure HDInsight platform.
 
+### [Storm Topology Stopped Processing Messages now. Was working before.](storm-notprocessing.md)
 ### [Where are Storm binaries on HDInsight cluster?](storm-binaries-location.md)
 ### [Where are Storm log4j configuration files on HDInsight cluster?](storm-log4j-configuration.md)
 ### [What is the deployment topology of HDInsight Storm cluster?](storm-deployment-topology.md)
