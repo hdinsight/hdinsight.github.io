@@ -33,6 +33,7 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
     - Right after redeploy of topology there might be a small amount of time when the lag is not zero when Storm is processing messages from Kafka from the last time it was stopped. Its expected to take sometime to catch up.
  
 ### How to get DEBUG logs:
+
   Here are the steps to turn DEBUG logging ON and OFF.
   
   Please replace [VERSION]  [topology name] [logger name] [LEVEL] and [TIMEOUT] with real values corresponding to customers cluster.
@@ -49,6 +50,13 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
   ./bin/storm set_log_level cy17-binary-decoder -l ROOT=DEBUG:30
   
   ./bin/storm set_log_level cy17-binary-decoder -l ROOT=INFO:30
+  
+  ### Immeditate Mitigation
+  
+A redeploy of topology usually mitigates the problems.
+
+BUT you should strongly consider tuning the topology so that these issues do not occur
+  
   
   
   
