@@ -34,6 +34,8 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
  
 ### How to get DEBUG logs:
 
+  SSH into Worker Node for running these commands
+  
   Here are the steps to turn DEBUG logging ON and OFF.
   
   Please replace [VERSION]  [topology name] [logger name] [LEVEL] and [TIMEOUT] with real values corresponding to customers cluster.
