@@ -51,7 +51,7 @@ There are multiple bolts and spouts which form a storm processing pipeline. Bott
   
   ./bin/storm set_log_level cy17-binary-decoder -l ROOT=INFO:30
   
-  ### Immeditate Mitigation
+### Immeditate Mitigation
   
 A redeploy of topology usually mitigates the problems.
 
