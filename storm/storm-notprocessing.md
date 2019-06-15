@@ -2,8 +2,8 @@
 
 ### Issue
 
-Customer reports that their storm topology is not processing any data from Kafka. It was working before.
-Customer reports that the Topologies going stale after few hours of processing.
+The storm topology is not processing any data from Kafka. It was working before.
+OR Topologies going stale after few hours of processing.
 
 ### Description
 
