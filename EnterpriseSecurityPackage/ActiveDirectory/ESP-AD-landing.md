@@ -5,4 +5,4 @@ Use the Azure AD Management FAQ for answers to common questions on Azure AD Mana
 
 #### [Authentication issues](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/DomainLoginIssues.md)
 
-### [Managing SSH access](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/SshUsingDomainAccounts.md)
+#### [Managing SSH access](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/SshUsingDomainAccounts.md)
