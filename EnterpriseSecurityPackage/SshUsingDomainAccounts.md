@@ -2,8 +2,9 @@ On secure clusters, by default, all domain users in AAD DS are allowed to SSH in
 
 To restrict SSH access to specific users or groups, update the /etc/ssh/sshd_config on each of the nodes. Add or edit the following line. You can add any number of values separated by a space. You can either allow specific users or specific groups.
 
-AllowUsers <useralias1> <useralias2>
-AllowGroups <groupname1> <groupname2>
+AllowUsers useralias1 useralias2
+
+AllowGroups groupname1 groupname2
 
 Save the file and restart sshd using the following command
 sudo systemctl restart sshd
