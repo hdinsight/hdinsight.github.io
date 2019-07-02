@@ -14,7 +14,7 @@
 >
 > \</property>
 >
-These property from core-site.xml are only applicable for local HDFS. These won't affect the remote storage accounts(WASB, ADLS GEN1, ABFS).
+This property from core-site.xml are only applicable for local HDFS. These won't affect the remote storage accounts(WASB, ADLS GEN1, ABFS).
 >
 >[Offcial core-default.xml doc](https://hadoop.apache.org/docs/r2.7.3/hadoop-project-dist/hadoop-common/core-default.xml)  
 >
