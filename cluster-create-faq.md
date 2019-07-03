@@ -22,3 +22,7 @@ ms.date: 06/18/2019
 - HDInsight clusters includes the new [Azure Blob Filesystem](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-abfs-driver) driver required to connect to Azure Data Lake Storage Gen2.
 ABFS Driver is available only on HDInsight 3.6 cluster with minor version of 1000.65,  starting from 3.6.1000.65 and above.
 Where as Machine Learning Services image version is lesser than 3.6.1000.65, one cannot create HDInsight Machine Learning Services cluster type with ADL Gen2 as ABFS driver is not available.
+
+## Unable to Scale HDInsight Cluster when tried to scale using ARM templates.
+
+- Cluster Resize using ARM templates are not supported yet, use alternative means to resize the cluster.
