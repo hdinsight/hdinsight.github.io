@@ -77,4 +77,6 @@ The search / browse results should show you the sAMAccountName attribute. Also, 
 This implies the username or password is incorrect.
 
 ### Job / HDFS command fails due to TokenNotFoundException
-This implies that the required OAuth access token was not found / registered for the job / command to succeed. Ensure that you have successfully logged in to the Ambari portal once through the username whose identity is used to run the job.
+This implies that the required OAuth access token was not found for the job / command to succeed. The ADLS / ABFS driver will try to retreive the OAuth access token from the credential service before making storage requests. This token gets registered when you login to the Ambari portal using the same user. 
+
+Resolution: Ensure that you have successfully logged in to the Ambari portal once through the username whose identity is used to run the job.
