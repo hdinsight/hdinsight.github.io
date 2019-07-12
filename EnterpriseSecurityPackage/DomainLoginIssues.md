@@ -76,6 +76,8 @@ The search / browse results should show you the sAMAccountName attribute. Also, 
 ### kinit fails with Preauthentication failure
 This implies the username or password is incorrect.
 
+Resolution: Check your username and password. Also check for other properties described above. To enable verbose debugging, run export KRB5_TRACE=/tmp/krb.log from the session before trying kinit.
+
 ### Job / HDFS command fails due to TokenNotFoundException
 This implies that the required OAuth access token was not found for the job / command to succeed. The ADLS / ABFS driver will try to retreive the OAuth access token from the credential service before making storage requests. This token gets registered when you login to the Ambari portal using the same user. 
 
