@@ -7,5 +7,4 @@ Use the Azure AD Management FAQ for answers to common questions on Azure AD Mana
 
 #### [Managing SSH access](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/SshUsingDomainAccounts.md)
 
-#### [LDAP sync]
-(https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/LdapUserSync.md)
+#### [LDAP sync](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/LdapUserSync.md)
