@@ -8,7 +8,7 @@ author: jiesh
 manager: ''
 editor: ''
 
-ms.assetid: 64118ED6-7434-4131-A264-34E8AC39BFD1
+ms.assetid:
 ms.service: multiple
 ms.workload: na
 ms.tgt_pltfrm: na
