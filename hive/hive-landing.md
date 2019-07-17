@@ -1,5 +1,5 @@
 ---
-Hive FAQ for Azure HDInsight| Microsoft Docs
+title: Hive FAQ for Azure HDInsight| Microsoft Docs
 description: Use the Hive FAQ for answers to common questions on Hive on Azure HDInsight platform.
 keywords: Azure HDInsight, Hive, FAQ, troubleshooting guide, common problems
 services: Azure HDInsight
