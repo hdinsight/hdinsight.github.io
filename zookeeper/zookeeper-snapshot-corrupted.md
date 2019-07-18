@@ -24,7 +24,7 @@ ms.author: jiesh
 Zookeeper server is unhealthy, 
 
 ### Cause:
-Zookeeper server will not remove old snapshot files from its data directory, instead, it is a periodic task to be performed by users to maintain the heathiness of zookeeper. When the snapshot files are corrupted, zookeeper server will fail to form a quarum, which causes zookeeper related services unhealthy.
+Zookeeper server will not remove old snapshot files from its data directory, instead, it is a periodic task to be performed by users to maintain the heathiness of zookeeper. When the snapshot files are corrupted, zookeeper server will fail to form a quorum, which causes zookeeper related services unhealthy.
 
 ### Resolution Steps:
 1. Backup snapshots in /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2.
