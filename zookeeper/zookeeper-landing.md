@@ -21,4 +21,4 @@ ms.author: jiesh
 # Zookeeper FAQ: Answers to common questions on Zookeeper on Azure HDInsight
 Use the Zookeeper FAQ for answers to common questions Zookeeper on Azure HDInsight platform.
 
-#### [Zookeeper snapshot is corrupted](zookeeper-snapshot-corrupted.md)
+#### [Manage zookeeper snapshot](manage-zookeeper-snapshot.md)
