@@ -29,7 +29,7 @@ Zookeeper server is unhealthy, symptoms could include: both Resource Managers/Na
 
 ### Trouble Shoot:
 1. Check Yarn/Spark/Livy logs to find out if the failure is related to Zookeeper errors.
-2. Run commands "echo mntr | nc {zk_host_ip} 2181" and "echo mntr | nc {zk_host_ip} 2182" for all zookeeper hosts, if either of the commands returns nothing or "This ZooKeeper instance is not currently serving requests", Zookeeper is not healthy on that machine.
+2. Run commands ```echo mntr | nc {zk_host_ip} 2181" and "echo mntr | nc {zk_host_ip} 2182``` for all zookeeper hosts, if either of the commands returns nothing or "This ZooKeeper instance is not currently serving requests", Zookeeper is not healthy on that machine.
 3. Restart Zookeeper server does not solve the problem.
 4. Check Zookeeper data directory /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2 to find out if the snapshots file size is large.
 
@@ -39,5 +39,5 @@ Zookeeper server will not remove old snapshot files from its data directory, ins
 ### Resolution Steps:
 1. Backup snapshots in /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2.
 2. Clean up snapshots in /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2.
-3. Restart all zookeeper servers.
+3. Restart all zookeeper servers from Ambari UI.
 
