@@ -20,7 +20,12 @@ ms.author: jiesh
 ---
 
 ### Issue:
-Zookeeper server is unhealthy, symptoms could include: Yarn/Spark/Livy jobs fail due to Zookeeper errors, both Resource Managers/Name Nodes are in standby mode, simple HDFS operations do not work, zkFailoverController is stopped and cannot be started.
+Zookeeper server is unhealthy, symptoms could include: both Resource Managers/Name Nodes are in standby mode, simple HDFS operations do not work, zkFailoverController is stopped and cannot be started, Yarn/Spark/Livy jobs fail due to Zookeeper errors.
+
+```
+19/06/19 08:27:08 ERROR ZooKeeperStateStore: Fatal Zookeeper error. Shutting down Livy server.
+19/06/19 08:27:08 INFO LivyServer: Shutting down Livy server.
+```
 
 ### Trouble Shoot:
 1. Check Yarn/Spark/Livy logs to find out if the failure is related to Zookeeper errors.
