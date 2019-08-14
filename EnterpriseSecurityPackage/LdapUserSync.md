@@ -17,9 +17,15 @@ When a secure cluster is deployed, we sync the group members transitively (all t
 ### Ambari user sync and configuration
 From the head nodes, a cron job (/opt/startup_scripts/start_ambari_ldap_sync.py) is run every hour to schedule the user sync. The cron job calls the ambari rest apis to perform the sync. The script submits a list of users and groups to sync (as the users may not belong to the specified groups, both are specified individually). Ambari syncs the sAMAccountName as the username and all the group members, transitively.
 
-The logs should be in /var/log/ambari-server/ambari-server.log. You can increase the log levels by following https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.3.0/administering-ambari/content/amb_configure_ambari_logging_level.html
+The logs should be in /var/log/ambari-server/ambari-server.log. You can increase the [log levels]( https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.3.0/administering-ambari/content/amb_configure_ambari_logging_level.html)
 
 In datalake clusters, we use the post user creation hook to create the home folders for the synced users and set them as the owners of the home folders.
+
+#### How to update the groups to be synced to Ambari?
+You cannot update the existing script to add new groups. If you cannot manage groups memberships in AAD, you have 2 choices. 
+
+1. One time only sync as explained [here](https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/ambari-authentication-ldap-ad/content/authe_ldapad_synchronizing_ldap_users_and_groups.html)
+2. Write a cron job, call the [Ambari API periodically](https://community.hortonworks.com/questions/2909/how-do-i-automate-the-ambari-ldap-sync.html) with the new groups.
 
 ### Ranger User sync and configuration
 Ranger has an inbuilt sync engine that runs every hour to sync the users. It doesn't share the user database with Ambari. 
@@ -30,8 +36,13 @@ HDInsight configures the search filter to sync the admin user, the watchdog user
 * Specify the search filter to include the transitive group members
 * Sync sAMAccountName for users and name attribute for groups
 
-#### Why doesn't HDI sync Ranger groups directly
-Ranger does support a sync filter to sync users who are either from a list of users or part ofthe specified groups. Instead, Ranger will intersect the user names and memberships. So, we specifiy Ranger to sync the users from a filter with all their group memberships.
+#### Why doesn't HDI use Ranger group sync or incremental sync
+Ranger does support a way to sync users from a list of users or those part of the specified groups. Instead, Ranger will intersect the user names and memberships, instead of an union. The users we are syncing may not be part of the group. Hence we have to use Ranger user sync.
+
+Incremental sync will only work for the users who are already synced - will not sync any new users into the system.
+
+#### How do I update the ranger sync filter?
+The LDAP filter can be found in the Ambari UI, under the Ranger user-sync configuration section. The existing filter will be in the form (|(userPrincipalName=bob@contoso.com)(userPrincipalName=hdiwatchdog-core01@CONTOSO.ONMICROSOFT.COM)(memberOf:1.2.840.113556.1.4.1941:=CN=hadoopgroup,OU=AADDC Users,DC=contoso,DC=onmicrosoft,DC=com)). Ensure that you add predicate at the end and test the filter by using net ads search command or ldp.exe or something.
 
 ### Ranger  User sync logs
 Ranger user sync can happen out of either of the headnodes. The logs are in /var/log/ranger/usersync/usersync.log. To increase the verbosity of the logs, do the following
