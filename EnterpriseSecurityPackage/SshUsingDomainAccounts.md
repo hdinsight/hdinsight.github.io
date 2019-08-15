@@ -8,8 +8,15 @@ AllowUsers useralias1 useralias2
 
 AllowGroups groupname1 groupname2
 
+NOTE: If you restrict users to certain groups, then the local accounts cannot SSH into that node.
+
 Save the file and restart sshd using the following command
 sudo systemctl restart sshd
 
 ### SSH Authentication log
 SSH authentication log is written into /var/log/auth.log. If you see any login failures throug SSH for local or domain accounts, you will need to go through the log to debug the errors yourself. Often the issue might be related to specific user accounts and it is usually a good practise to try other user accounts or SSH using the default SSH user (local account) and then attemptint a kinit. 
+
+### Debug log for SSH
+To enable verbose logging, you will need to restart sshd with the -d option. 
+Like /usr/sbin/sshd -d
+You can also run sshd at a custom port (like 2222) so that you don't have to stop the main SSH daemon.
