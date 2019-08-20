@@ -60,4 +60,6 @@ Before Ambari agent reports that an configured alert missed its schedule, there 
 
 The default alert_grace_period value is 5 second. This alert_grace_period setting is configurable in /etc/ambari-agent/conf/ambari-agent.ini. For those hosts from which the stale alerts are fired at regular intervals, try to increase to a value of 10. And restart the ambari agent
 
-
+### **Further Reading**
+1) https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.3.0/managing-and-monitoring-ambari/content/amb_managing_alerts_and_notifications.html
+2) https://issues.apache.org/jira/browse/AMBARI-13434
