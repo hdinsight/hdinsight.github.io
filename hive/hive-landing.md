@@ -29,6 +29,7 @@ Use the Hive FAQ for answers to common Hive questions on Hive on Azure HDInsight
 #### [Why is my reducer extremely slow?](hive-slow-reducer.md)
 #### [Why does Ambari Tez View load very slowly?](tez-view-poor-performance.md)
 #### [Why does Tez application hang?](hive-tez-job-hang.md)
+#### [Why is hive not able to connect?](hive-unable-to-connect.md)
 #### [Why do I see 'permission denied' when attempting to create a table in Secure Hive?](hive-createtable-permissiondenied.md)
 #### [Why do some joins in Hive give an Out of Memory error?](hive-join-oom.md)
 #### [Why are my LLAP queries running slow?](hive-llap-query-perf.md)
