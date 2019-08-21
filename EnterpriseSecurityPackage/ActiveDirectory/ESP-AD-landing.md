@@ -1,6 +1,8 @@
 # Azure AD Management FAQ: Answers to common questions on Azure AD
 Use the Azure AD Management FAQ for answers to common questions on Azure AD Management
 
+#### [Guidance for secure clusters](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance.md)
+
 #### [Authentication issues](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/DomainLoginIssues.md)
 
 #### [Creation failure due to DNS issues](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/DomainJoinIssues.md)
