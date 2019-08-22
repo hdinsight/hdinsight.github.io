@@ -24,3 +24,4 @@ Use the Yarn FAQ for answers to common questions Yarn on Azure HDInsight platfor
 #### [How do I create new Yarn queue on HDInsight cluster?](yarn-create-new-queue.md)
 #### [How do I download Yarn logs from HDInsight cluster?](yarn-download-logs.md)
 #### [TSG Yarn RM REST API request timeout](yarn-rm-rest-api-request-timeout.md)
+#### [How do I enable soft delete in Azure?](trash-purging.md)
