@@ -31,9 +31,13 @@ From hive server logs ```/var/log/hive``` identified following error to confirm 
 /var/log/hive has error
 `ERROR [Curator-Framework-0]: curator.ConnectionState (ConnectionState.java:checkTimeouts(200)) - Connection timed out for connection string (zk0-cluster.cloud.wbmi.com:2181,zk1-cluster.cloud.wbmi.com:2181,zk2-cluster.cloud.wbmi.com:2181) and timeout (15000) / elapsed (21852)` 
 ```
+3. **If it is an LLAP cluster**. Check if "Use Interactive Mode" is enabled. You can see this config from Ambari portal. Make sure it's on.
 
-3. Check if Zookeeper has a entry of znode for hiveserver2
-	a. to Connect to ZooKeeper node from headnode
+   **If it is not an LLAP cluster, skip this check.**
+   
+4. Check if Zookeeper has a entry of znode for hiveserver2
+
+a. to Connect to ZooKeeper node from headnode
 	
 
 ```
@@ -41,7 +45,7 @@ cd /usr/hdp/2.6.2.25-1/zookeeper/bin
   ./zkCli.sh -server zk1-wbwdhs
 ```
 
-	b. Issue the commands below to check for entry for HiveServer2 in Zookeeper
+b. Issue the commands below to check for entry for HiveServer2 in Zookeeper
 
 ```
 [zk: zk0-cluster(CONNECTED) 0] ls /hiveserver2-hive2
@@ -49,10 +53,10 @@ cd /usr/hdp/2.6.2.25-1/zookeeper/bin
 [zk: zk0-cluster(CONNECTED) 1]
 ```
 
-4. If ERROR log is seen as mentioned in Step 2 and Zookeeper does not have Entry for Hive Server 2 as shown in Step 3. 
+5. If ERROR log is seen as mentioned in Step 2 and Zookeeper does not have Entry for Hive Server 2 as shown in Step 3. 
 
-5. To reestablish Connectivity, Restarted Zookeeper nodes and HiveServer2.
+6. To reestablish Connectivity, Restarted Zookeeper nodes and HiveServer2.
 
-6. Check for Entry in ZooKeeper node for HiveServer2. If the Entry Exists.
+7. Check for Entry in ZooKeeper node for HiveServer2. If the Entry Exists.
 
-7. Hive View should be up and running.
+8. Hive View should be up and running.
