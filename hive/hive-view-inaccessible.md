@@ -31,8 +31,10 @@ From hive server logs ```/var/log/hive``` identified following error to confirm 
 /var/log/hive has error
 `ERROR [Curator-Framework-0]: curator.ConnectionState (ConnectionState.java:checkTimeouts(200)) - Connection timed out for connection string (zk0-cluster.cloud.wbmi.com:2181,zk1-cluster.cloud.wbmi.com:2181,zk2-cluster.cloud.wbmi.com:2181) and timeout (15000) / elapsed (21852)` 
 ```
-3. Check if "Use Interactive Mode" is enabled. You can see this config from Ambari portal. Make sure it's on.
+3. **If it is a LLAP cluster**. Check if "Use Interactive Mode" is enabled. You can see this config from Ambari portal. Make sure it's on.
 
+   **If it is not a LLAP cluster, skip this check.**
+   
 4. Check if Zookeeper has a entry of znode for hiveserver2
 
 a. to Connect to ZooKeeper node from headnode
