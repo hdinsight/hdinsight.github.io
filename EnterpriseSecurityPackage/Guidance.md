@@ -1,4 +1,3 @@
-
 ### Summary
 When deoploy a secure HDI cluster, there are some best practices that should make the deployment and cluster management easier. We will outline them here.
 
@@ -13,27 +12,13 @@ When deoploy a secure HDI cluster, there are some best practices that should mak
 ### Guidance on individual components
 * [AAD DS](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AADDS.md)
 * [AAD](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AAD.md)
+* [Azure Resources](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AzureResources.md)
 
 ### How does HDI bring OAuth and Kerberos together
 * All the storage requests require OAuth access tokens
 * All the Hadoop services require Kerberos tickets or delegation tokens
 * HDI Gateway, as a part of single sign on, will register the OAuth access tokens in credential service and will attach Kerberos ticket before forwarding it to the downstream service
 * Storage drivers are configured to call the credential service with Kerberos tickets and get the OAuth tokens
-
-### AAD policies
-* Disable conditional access policy using the IP address based policy
-  * This requires service endpoints to be enabled on the VNETs where the clusters are deployed
-  * If you use an external service for MFA (something other than AAD), the IP address based policy won't work
-* AllowCloudPasswordValidation policy is required for federated isers
-  * Since HDI uses the username / password directly to get tokens from AAD, this policy has to be enabled for all federated users
-
-### Resource groups
-* Use a new resource group for each cluster so that you can distinguish between cluster resources
-
-### AAD Groups
-* Always deploy clusters with a group
-* Use AAD to do manage group memberships (easier than trying to manage the individual services in the cluster)
-* Read about [how LDAP group sync works](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/LdapUserSync.md) in HDI
 
 ### Storage
 * ABFS with HNS enabled (HNS provides a file system, with hierarchy and ACLs required for secure clusters)
