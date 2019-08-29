@@ -9,33 +9,8 @@ When deoploy a secure HDI cluster, there are some best practices that should mak
 * If you are going to run only automated jobs (like single user account), a standard cluster is good enough
 * You can do all the data import using a standard cluster and use the same storage account on a different secure cluster where users can run analytics jobs
 
-### Why do we need AAD DS?
-* Secure clusters require domain joining
-* Depending on on-premise domain controllers creates from the cloud creates stability issues
-
-### AAD DS instance
-* Create the instance with the .onmicrosoft.com domain. This way, there won't be multiple DNS servers for the domain
-* Create a self-signed certificate
-* Use a peered vnet for deploying clusters (when you have a number of teams deploying HDI ESP clusters, this will be helpful)
-* Configure the DNS for the VNETs properly (the AAD DS domain name should resolve without any hosts file entries)
-* If you are using NSGs make sure that you have read through the [firewall support in HDI](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-restrict-outbound-traffic)
-
-### Understand how password hash sync works
-* Only non reversible password hashes are synced
-* On-premise to AAD has to be enabled through AD Connect
-* AAD to AAD DS sync is automatic (latencies are under 20 minutes)
-* Password hashes are synced only when there is a change password
-  * When you enable password hash sync, all existing passwords do not get synced automatically as they are stored irreversibly
-  * When you change the password, password hashes get synced
-
-### How does multiple domains work in HDI
-* AAD DS (domain controllers) support a single REALM
-* AAD supports multiple verified domains
-* Let us say your AAD DS realm is CONTOSO.ONMICROSOFT.com
-* Let us say the userPrincipalName in AAD is bob@contoso.com
-* Let us say the sAMAccountName in AAD DS for this user is 'bob'
-* Kerberos tickets will be issued for bob@CONTOSO.ONMICROSOFT.com
-* AAD Oauth tokens will have UPN as bob@contoso.com
+### How should we configure AAD DS for HDI?
+* Please look at [this page](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AADDS.md)
 
 ### How does HDI bring OAuth and Kerberos together
 * All the storage requests require OAuth access tokens
@@ -75,15 +50,6 @@ When deoploy a secure HDI cluster, there are some best practices that should mak
 
 ### You have tried creating a secure cluster unsuccessfully a few times, how to get there faster?
 * For domain join issues, spin up a Ubuntu VM and domain join the VM using this [documentation](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/DomainJoinIssues.md)
-
-### What is the best way to inspect the properties of users in AAD DS?
-* Using a windows VM joined to the [AAD DS domain](https://docs.microsoft.com/en-us/azure/active-directory-domain-services/manage-domain)
-* If you have successfully deployed a cluster, you can use one of the head nodes to inspect properties (net ads search commands)
-
-### Where are the computer objects located in AAD DS?
-* Each cluster is associated with a single OU
-* We provision an internal user in this OU for this cluster
-* We domain join all the nodes (head nodes, worker nodes, egde nodes, zookeeper nodes) into the same OU.
 
 ### Performance impact
 * Ranger authorizer will evaluate all Ranger policies for that service for each request
