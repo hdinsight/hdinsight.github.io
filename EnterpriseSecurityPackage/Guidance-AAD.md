@@ -15,3 +15,6 @@
   * Like, use an account for import, use another for query or other processing jobs
 * Use group based Ranger policies instead of individual policies
 * Have a plan on how to manage users who shouldn't have access to clusters anymore
+
+### SSH access
+* Refer to this doc for [how to configure](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/SshUsingDomainAccounts.md)
