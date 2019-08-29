@@ -1,3 +1,4 @@
+
 ### Summary
 When deoploy a secure HDI cluster, there are some best practices that should make the deployment and cluster management easier. We will outline them here.
 
@@ -9,8 +10,9 @@ When deoploy a secure HDI cluster, there are some best practices that should mak
 * If you are going to run only automated jobs (like single user account), a standard cluster is good enough
 * You can do all the data import using a standard cluster and use the same storage account on a different secure cluster where users can run analytics jobs
 
-### How should we configure AAD DS for HDI?
-* Please look at [this page](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AADDS.md)
+### Guidance on individual components
+* [AAD DS](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AADDS.md)
+* [AAD](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AAD.md)
 
 ### How does HDI bring OAuth and Kerberos together
 * All the storage requests require OAuth access tokens
