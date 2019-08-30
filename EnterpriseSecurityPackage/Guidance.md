@@ -15,6 +15,14 @@ When deoploy a secure HDI cluster, there are some best practices that should mak
 * [Azure Resources](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-AzureResources.md)
 * [Ranger](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/Guidance-Ranger.md)
 
+### Secure cluster creation fails repeatedly. What could be wrong?
+* Most common issues are below
+   * DNS configuration is not correct, domain join of cluster nodes fail
+   * NSGs are too restrictive, preventing domain join
+   * Managed Identity doesn't have sufficient permissions
+   * Cluster name is not unique on the first 6 characters (either with another live cluster, or with a deleted cluster)
+* For domain join issues, spin up a Ubuntu VM and domain join the VM using this [documentation](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/DomainJoinIssues.md)
+
 ### How does HDI bring OAuth and Kerberos together
 * All the storage requests require OAuth access tokens
 * All the Hadoop services require Kerberos tickets or delegation tokens
@@ -25,9 +33,6 @@ When deoploy a secure HDI cluster, there are some best practices that should mak
 * ABFS with HNS enabled (HNS provides a file system, with hierarchy and ACLs required for secure clusters)
 * With WASB, there are no OAuth tokens involved. Access keys are used.
     * Anyone with HDFS access can access all the files.
-
-### You have tried creating a secure cluster unsuccessfully a few times, how to get there faster?
-* For domain join issues, spin up a Ubuntu VM and domain join the VM using this [documentation](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/DomainJoinIssues.md)
 
 ### Performance impact
 * Ranger authorizer will evaluate all Ranger policies for that service for each request
