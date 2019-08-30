@@ -21,7 +21,7 @@
 * Ranger audit logs are available in HDFS and Solr
 
 ### Default HDFS permissions
-* By default, only root has access to the / folder
+* By default, only user do not have access to the / folder on hdfs (they need to be in the storage blob owner role for this to succeed)
 * For the staging directory for mapreduce and others, an user specific directory is created and we provide sticky _wx permissions. 
   * Users can create files and folders underneath, but cannot look at other stuff
   
