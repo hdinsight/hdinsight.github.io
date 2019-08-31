@@ -11,4 +11,6 @@ Use the Azure AD Management FAQ for answers to common questions on Azure AD Mana
 
 #### [LDAP sync](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/LdapUserSync.md)
 
+#### [Random auth failures](https://github.com/hdinsight/hdinsight.github.io/blob/master/EnterpriseSecurityPackage/RandomAuthIssues.md)
+
 #### [How to delete Azure AD](https://blogs.technet.microsoft.com/jeffgilb/2017/03/09/deleting-azure-active-directory/)
