@@ -10,7 +10,7 @@ Customers have run into seemingly random authentication failures, where the user
     * Other users can SSH into the same node, but not this one user
 * Authorization errors
   * Some queries or hdfs dfs -ls commands are working and some are not
-    * Most common cause is that the user doesn't have permissions to some files or folders and has access to others
+    * Most common cause is that the user doesn't have permissions to some files or folders but has access to other files or folders
   
 ### Debugging authentication errors
 * Common questions we get are
@@ -23,13 +23,24 @@ Customers have run into seemingly random authentication failures, where the user
   * You can increase kerberos tracing by setting export KRB5_TRACE=/tmp/krb.log
   * If you are using a custom PAM module for authentication, then find out how to enable its log level to debug mode
   * SSHd logs into the auth.log facility
-  * If the user is locked out in AAD, it doesn't impact AAD DS and vice versa. Those 2 systems do not sync on this property
+  * If the user is locked out in AAD, it doesn't impact AAD DS and vice versa. Those 2 systems do not sync this particular property
 
 ### How to know more about who attempted bad logins?
 * Follow the steps to [manage AAD DS domain] (https://docs.microsoft.com/en-us/azure/active-directory-domain-services/manage-domain)
-  * Each user object has properties like pwdLastSet, badPasswordTime, lastLoginTimestamp etc... that will give you more information
+  * Each user object has properties like that will give you more information
+    * pwdLastSet
+    * badPasswordTime
+    * lastLoginTimestamp
+    * badPasswordCount
+  * You can look at the properties yourself if you have a VM joined to the AAD DS domain (Windows or Linux). You can also script it using powershell
   * If you are able to look at these values within 15 minutes from the time the problem started, you will get a much better picture
     
+### We use custom code to encrypt / decrypt password. We auto-rotate passwords
+* This is a very good design, makes the system secure against many password guessing attacks
+* However, bugs in the custom code can bring down the system to a crash
+* Whenever you get a password encrypted or decrypted, log the hash of the password. Handle null or empty passwords carefully
+  * Logging hashes will help you in detecting when the password change was picked up etc...
+  
 ### How to avoid these errors?
   * It is easier and sometimes faster to review the issues around cluster access instead of going through tons of logs
   * If you shared the username and password with many of your team members, they could try a bad password or run a bad script bringing down all the jobs
@@ -45,10 +56,10 @@ Customers have run into seemingly random authentication failures, where the user
   * Use keytabs and kinit wherever possible, instead of custom ACLing and custom encryption
   
 ### How to debug using Kerberos client side traces?
-* Easiest way is to compare a successful and failed case and see the stage where the problem starts
-* Pre-authentication failure will contain specific error codes that should have more meaningful information
+ * This cannot be done by customers, requires a support request
+ * Easiest way is to compare a successful and failed case and see the stage where the problem starts
+ * Pre-authentication failure will contain specific error codes that should have more meaningful information
   
 ### How about server side logs?
  * Turning on kerberos tracing and looking for failed events is very expensive
  * Domain Controllers will not log explicitly what you are looking for. You will be trying to eliminate good and bad login attempts from too many logs
- * This cannot be done by customers, requires a support request
