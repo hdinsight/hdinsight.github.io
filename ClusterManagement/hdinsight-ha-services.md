@@ -8,15 +8,13 @@ The HA components in an HDInsight cluster are distributed as:
 HdInsight provides following components with high availability (HA), HA components may differ with respect to cluster type:
 
 •	Ambari server
-
 •	Application Timeline Server for YARN
-
 •	Job History Server for MapReduce
-
 •	Livy for Spark2 Server
 
 HDInsight utilizes HDInsight zookeeper to determine status of HA services and does failover accordingly. The HDI zookeeper is another quorum of zookeeper server running on zookeeper nodes in parallel with Apache zookeeper, which is used to decide the active headnode. The HDI HA services only run on headnodes. They should always be running only on the active headnode and should be stopped and put in maintenance mode on the standby headnode.
-2. Startup
+
+### **Startup**
 During deployment, HDInsight agent starts HA-service-related components in the order of HDI zookeeper, master failover controller, and slave failover controller.
 3. Slave failover controller
 The slave failover controller runs on every node of the cluster. It is responsible for starting Ambari agent and slave-ha-service, which is an HA service handler, on each node. It also periodically queries HDI zookeeper about the active headnode. If there is a change in the active/standby headnodes, the slave failover controller updates the hosts configuration file, restarts Ambari agent and slave-ha-service. The slave-ha-service is responsible for stopping HDI HA services on standby headnode.
