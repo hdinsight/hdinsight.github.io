@@ -1,4 +1,4 @@
-# I can't access files in DataLake storage account from my cluster
+# I can't access files in DataLake Gen1 storage account from my cluster
 
 ####ACL verification failed on files/folders
 #####Error message :
@@ -12,10 +12,9 @@ If the error message indicates forbidden access, the user might have revoked per
 1. Check that the SP has ‘x’ permissions to traverse along the path. For more information see [here](../ClusterCRUD/ADLS/adls-create-permission-setup.md)
 2. Sample dfs command to check access to files/folders in datalake storage account
 	~~~
-	hdfs dfs -ls /<path to check access>
+	hdfs --loglevel DEBUG dfs -ls
 	~~~
 3. Set up required permissions to access the path based on the read/write operation being performed. See [here](https://docs.microsoft.com/en-us/azure/data-lake-store/data-lake-store-access-control) for permissions required for various file system operations.
-
 
 ####Service principal certificate expiry
 #####Error message :
@@ -26,7 +25,7 @@ Token Refresh failed - Received invalid http response: 500
 The certificate provided for Service principal access might have expired.
 1. SSH into headnode. Check access to storage account using following dfs command
 ~~~
-hdfs dfs -ls /
+hdfs --loglevel DEBUG dfs -ls
 ~~~
 2. Confirm that the error message is similar to the following
 ~~~
@@ -50,6 +49,7 @@ Timestamp: 2017-10-06 20:44:56Z ---> System.Net.WebException: The remote server 
 at System.Net.HttpWebRequest.GetResponse()
 at Microsoft.IdentityModel.Clients.ActiveDirectory.HttpWebRequestWrapper.<GetResponseSyncOrAsync>d__2.MoveNext()
 ~~~
+
 7. Any other Azure Active Directory related errors/certificate related errors can be recognized by pinging the gateway url to get the OAuth token.
 
 8. If you are getting following error when attempting to access ADLS from the HDI Cluster. Check if the Certificate has Expired by following the steps mentioned above
@@ -67,5 +67,4 @@ Create a certificate, have the .pfx file and password ready.
 Associate the certificate with the service principal that the cluster was created with and have the AppId ready.
 
 Excecute the powershell command after you Substitute the parameters with the actual values.
-
 
