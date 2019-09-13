@@ -49,3 +49,6 @@ Timestamp: 2019-08-28 23:59:57Z ---> System.Net.WebException: The remote server 
 ~~~
 
 7. Any other Azure Active Directory related errors/certificate related errors can be recognized through the errors retuned in the hdfs command, run in debug mode
+
+Resolution Steps:
+The only resoulution step here is to recreate the cluster
