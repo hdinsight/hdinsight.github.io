@@ -25,6 +25,7 @@ In datalake clusters, we use the post user creation hook to create the home fold
 You cannot update the existing script to add new groups. If you cannot manage groups memberships in AAD, you have 2 choices. 
 
 1. One time only sync as explained [here](https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/ambari-authentication-ldap-ad/content/authe_ldapad_synchronizing_ldap_users_and_groups.html)
+  * Whenever the group membership changes, you will have to do this sync again.
 2. Write a cron job, call the [Ambari API periodically](https://community.hortonworks.com/questions/2909/how-do-i-automate-the-ambari-ldap-sync.html) with the new groups.
 
 ### Ranger User sync and configuration
