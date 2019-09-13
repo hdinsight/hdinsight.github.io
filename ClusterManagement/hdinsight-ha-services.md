@@ -30,5 +30,9 @@ There is a health monitor, which is a daemon, running along with each master fai
 ### **HDFS NameNode high availability**
 HDInsight clusters based on Hadoop 2.0 or higher also provide NameNode high availability. There are two namenodes running on two headnodes, respectively, which are configured for automatic failover. The namenodes utilize ZKFailoverController to communicate with Apache zookeeper to elect for active/standby status. ZKFailoverController runs on both headnodes and works in the same way as the master failover controller above. Please notices that Apache zookeeper is independent of HDI zookeeper, thus, active namenode may not run on active headnode. When the active namenode is dead or unhealthy, the standby namenode will win the election and become active.
 
-### **Gaps**
-It is expected that HDI HA services should only be running on active headnode and should be automatically restarted when necessary. However, since individual HA service does not have its own health monitor, failover cannot be triggered at single service level. Some known issues include: 1) when manually start an HA service on the standby headnode, it will not stop until next failover happens; 2) when an HA service on the active headnode stops, it will not restart until next failover happens or the master-ha-service restarts.
+### **Gaps and Issues due to inadvertent manual intervention**
+It is expected that HDI HA services should only be running on active headnode and should be automatically restarted when necessary. However, since individual HA service does not have its own health monitor, failover cannot be triggered at single service level. In essence failover and availability of HDI HA services is at a node level and not at a service level.
+
+### **Some known issues**
+1. when manually start an HA service on the standby headnode, it will not stop until next failover happens.
+2. when an HA service on the active headnode stops, it will not restart until next failover happens or the master-ha-service restarts.
