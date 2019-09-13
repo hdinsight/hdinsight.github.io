@@ -34,5 +34,5 @@ HDInsight clusters based on Hadoop 2.0 or higher also provide NameNode high avai
 It is expected that HDI HA services should only be running on active headnode and should be automatically restarted when necessary. However, since individual HA service does not have its own health monitor, failover cannot be triggered at single service level. In essence failover and availability of HDI HA services is at a node level and not at a service level.
 
 ### **Some known issues**
-1. when manually start an HA service on the standby headnode, it will not stop until next failover happens.
-2. when an HA service on the active headnode stops, it will not restart until next failover happens or the master-ha-service restarts.
+1. When manually start an HA service on the standby headnode, it will not stop until next failover happens.
+2. When an HA service on the active headnode stops, it will not restart until next failover happens or the master-ha-service restarts.
