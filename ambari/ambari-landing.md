@@ -25,3 +25,4 @@ Use the Ambari FAQ for answers to common questions on Ambari on Azure HDInsight 
 #### [Ambari agent heartbeat lost issue](ambari-agent-heartbeat-lost.md)
 #### [Ambari UI 502 error](ambari-ui-502-error.md)
 #### [Ambari UI shows all hosts and services are down](ambari-ui-all-hosts-down.md)
+#### [Ambari alert shows dirs have errors, can not create directory](Cannot-create-directory-alert.md)
