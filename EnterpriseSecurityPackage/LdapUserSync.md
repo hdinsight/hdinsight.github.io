@@ -19,7 +19,7 @@ From the head nodes, a cron job (/opt/startup_scripts/start_ambari_ldap_sync.py)
 
 The logs should be in /var/log/ambari-server/ambari-server.log. You can increase the [log levels]( https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.3.0/administering-ambari/content/amb_configure_ambari_logging_level.html)
 
-In datalake clusters, we use the post user creation hook to create the home folders for the synced users and set them as the owners of the home folders.
+In datalake clusters, we use the post user creation hook to create the home folders for the synced users and set them as the owners of the home folders. If the user is not synced to Ambari correctly, then the user could face failures in accessing staging and other temporary folders.
 
 #### How to update the groups to be synced to Ambari?
 You cannot update the existing script to add new groups. If you cannot manage groups memberships in AAD, you have 2 choices. 
