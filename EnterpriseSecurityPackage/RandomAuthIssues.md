@@ -11,7 +11,12 @@ Customers have run into seemingly random authentication failures, where the user
 * Authorization errors
   * Some queries or hdfs dfs -ls commands are working and some are not
     * Most common cause is that the user doesn't have permissions to some files or folders but has access to other files or folders
-  
+### What is the lockout policy?
+* AAD DS locks out user accounts for 30 minutes if there are 5 or more bad password attempts in 2 minutes
+* [AAD lockout policy](https://docs.microsoft.com/en-us/azure/active-directory/authentication/howto-password-smart-lockout)
+
+Needless to say, it is importatnt to determine where the account is locked out. If it is locked out in AAD, then you will not be able to login to any Azure resources. If it is locked out in AAD DS, any cluster operation will fail (including kinit)
+
 ### Debugging authentication errors
 * Common questions we get are
   * What logs will help debug this issue?
@@ -23,7 +28,8 @@ Customers have run into seemingly random authentication failures, where the user
   * You can increase kerberos tracing by setting export KRB5_TRACE=/tmp/krb.log
   * If you are using a custom PAM module for authentication, then find out how to enable its log level to debug mode
   * SSHd logs into the auth.log facility
-  * If the user is locked out in AAD, it doesn't impact AAD DS and vice versa. Those 2 systems do not sync this particular property
+  * If the user is locked out in AAD, it doesn't impact AAD DS and vice versa. 
+   * AAD DS doesn't sync the expiration / lockout related properties from on-premise or from AAD
 
 ### How to know more about who attempted bad logins?
 * Follow the steps to [manage AAD DS domain] (https://docs.microsoft.com/en-us/azure/active-directory-domain-services/manage-domain)
