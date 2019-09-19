@@ -15,6 +15,7 @@ ms.author: vijaysr
 ### Why do we need AAD DS?
 * Secure clusters require joining to a domain
 * HDI cannot depend on on-premise domain controllers or custom domain controllers, as it introduces too many fault points, credential sharing, DNS permissions etc...
+* [AAD DS FAQs](https://docs.microsoft.com/en-us/azure/active-directory-domain-services/faqs) has a good list of questions you may have
 
 ### AAD DS instance
 * Create the instance with the .onmicrosoft.com domain. This way, there won't be multiple DNS servers serving the domain
@@ -32,8 +33,16 @@ ms.author: vijaysr
   * Since HDI uses the username / password directly to get tokens from AAD, this policy has to be enabled for all federated users
 * Enable service endpoints for AD if you require conditional access bypass using Trusted IPs
 
-
-### Understand how AAD DS sync works
+### What properties are synced from AAD to AAD DS
+* There are 2 syncs involved in sync
+ * Azure AD connect syncs from on-premise to AAD
+ * AAD DS syncs from AAD
+ * During each stage of sync, unique properties may get into conflict and renamed
+* Azure AD has some good documentation explaining the first part of the sync
+ * [UPN Calculation](https://docs.microsoft.com/en-us/azure/active-directory/hybrid/plan-connect-userprincipalname) is described here
+* Azure AD Directory services sync has a documentation explaining the second half of the sync
+ * [AAD DS Sync](https://docs.microsoft.com/en-us/azure/active-directory-domain-services/synchronization)
+ * Pay attention to the property mapping from AAD to AAD DS
 * AAD DS syncs objects from AAD periodically. The AAD DS blade on the Azure portal displays the sync status
 
 ### Understand how password hash sync works
