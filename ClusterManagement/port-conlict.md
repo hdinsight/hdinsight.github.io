@@ -15,3 +15,6 @@ kill -9 <service>
 
 2.
 or you can reboot the node, which will also cleanup the ports being used for each service.
+
+
+### We highly recommend CX to redeploy the cluster with new version. The port conflict issue is fixed in newer images.
