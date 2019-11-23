@@ -17,27 +17,28 @@ ms.topic: article
 ms.date: 07/17/2019
 ms.author: jiesh
 ---
-# Azure HDInsight Solutions | Zookeeper |  Zookeeper server fails to form a quorum
+# Azure HDInsight Solutions | Zookeeper |  Common Issues caused by ZooKeeper
 
 ## Issue:
-Zookeeper server is unhealthy, symptoms could include: both Resource Managers/Name Nodes are in standby mode, simple HDFS operations do not work, zkFailoverController is stopped and cannot be started, Yarn/Spark/Livy jobs fail due to Zookeeper errors.
+Many services running on HDInsight clusters depend on ZooKeeper service. ZooKeeper being unhealthy could cause many problems, symptoms could include: both Resource Managers/Name Nodes are in standby mode, simple HDFS operations do not work, zkFailoverController is stopped and cannot be started, Yarn/Spark/Livy jobs fail due to ZooKeeper errors, cannot login ESP clusters with domain users.
 
 ```
 19/06/19 08:27:08 ERROR ZooKeeperStateStore: Fatal Zookeeper error. Shutting down Livy server.
 19/06/19 08:27:08 INFO LivyServer: Shutting down Livy server.
 ```
 
-## Troubleshooting Steps:
-1. Check Yarn/Spark/Livy logs to find out if the failure is related to Zookeeper errors.
-2. Run commands ```echo mntr | nc {zk_host_ip} 2181" and "echo mntr | nc {zk_host_ip} 2182``` for all zookeeper hosts, if either of the commands returns nothing or "This ZooKeeper instance is not currently serving requests", Zookeeper is not healthy on that machine.
-3. Restart Zookeeper server does not solve the problem.
-4. Check Zookeeper data directory /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2 to find out if the snapshots file size is large.
-
-## Cause:
-Zookeeper server will not remove old snapshot files from its data directory, instead, it is a periodic task to be performed by users to maintain the healthiness of Zookeeper. When the volume of snapshot files is large or snapshot files are corrupted, Zookeeper server will fail to form a quorum, which causes zookeeper related services unhealthy. For more details, refer to https://zookeeper.apache.org/doc/r3.3.5/zookeeperAdmin.html#sc_strengthsAndLimitations
-
-## Resolution Steps:
-1. Backup snapshots in /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2.
-2. Clean up snapshots in /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeepe/version-2.
-3. Restart all zookeeper servers from Ambari UI.
-
+## Mitigation Steps:
+1. Check Yarn/Spark/Livy/Credential Service logs to confirm if the failure is related to ZooKeeper errors, there may exist some "KeeperException" in the log.
+2. Verify all 3 ZooKeeper servers are running fine:
+   1) Check in Ambari -> Hosts if any of the ZooKeeper hosts is in heartbeat lost state. If a ZooKeeper host loses heartbeat, try to login this host and restart Ambari Agent with command "sudo service ambari-agent restart". Restart the host if cannot login. Then restart the service which has problems.
+   2) If no ZooKeeper host heartbeat lost issue exists or after the issue is solved, next step is to check ZooKeeper server health: login any host of the cluster, run command "vi /etc/hosts" and get the ip addresses of the 3 ZooKeeper hosts. Then, run commands ```echo mntr | nc {zk_host_ip} 2181" and "echo mntr | nc {zk_host_ip} 2182``` for all 3 ZooKeeper hosts, if either of the commands returns nothing or "This ZooKeeper instance is not currently serving requests", ZooKeeper server is not healthy on that machine. Restart ZooKeeper server from Ambari and restart the service which has problems.
+3. Check if ZooKeeper runs out of memory:
+   1) Login each ZooKeeper host and check ZooKeeper heap usage with command “top | grep zookeep+”. By default, ZooKeeper heap size is 1024MB.
+   2) On each ZooKeeper host, check ZooKeeper logs in directory /var/log/zookeeper, look for “java.lang.OutOfMemoryError: GC overhead limit exceeded” or “java.lang.OutOfMemoryError: Java heap space”.
+   3) To mitigate this problem, in Ambari, go to ZooKeeper tab, click on “Configs” and search for “zk_server_heapsize”, the default value should be 1024MB. Increase this value, then restart all affected services from Ambari and the service which has problems.
+4. Check if cleanup ZooKeeper snapshots can do the magic. ZooKeeper will not remove old snapshot files from its data directory, instead, it is a periodic task to be performed by users to maintain the healthiness of ZooKeeper. When the volume of snapshot files is large or snapshot files are corrupted, ZooKeeper server will fail to form a quorum, which causes ZooKeeper related services unhealthy. For more details, refer to https://zookeeper.apache.org/doc/r3.3.5/zookeeperAdmin.html#sc_strengthsAndLimitations
+   1) Login each ZooKeeper hosts, backup snapshots in /hadoop/zookeeper/version-2 and /hadoop/hdinsight-zookeeper/version-2, then cleanup the snapshots in these two directories.
+   2) Restart all 3 ZooKeeper servers in Ambari or restart all 3 ZooKeeper hosts. Then restart the service which has problems.
+5. Check if ZooKeeper is refusing incoming connections from a certain host:
+   1) On each ZooKeeper host, check ZooKeeper logs in /var/log/zookeeper, look for “Too many connections from /{host_ip} - max is 60”.
+   2) Login the host with the “host_ip”, run command “echo mntr | nc {zk_host_ip} 2181”. If no output from the command, run “netstat -nape | awk '{if ($5 == "{zk_host_ip}:2181") print $4, $9;}' | sort | uniq -c” to find which process is sending active connections to ZooKeeper. Then restart the service corresponding to that process in Ambari.
