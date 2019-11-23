@@ -42,3 +42,4 @@ Many services running on HDInsight clusters depend on ZooKeeper service. ZooKeep
 5. Check if ZooKeeper is refusing incoming connections from a certain host:
    1) On each ZooKeeper host, check ZooKeeper logs in /var/log/zookeeper, look for “Too many connections from /{host_ip} - max is 60”.
    2) Login the host with the “host_ip”, run command “echo mntr | nc {zk_host_ip} 2181”. If no output from the command, run “netstat -nape | awk '{if ($5 == "{zk_host_ip}:2181") print $4, $9;}' | sort | uniq -c” to find which process is sending active connections to ZooKeeper. Then restart the service corresponding to that process in Ambari.
+   3) Sometimes there may be many inactive connections to ZooKeeper from a host, restart this host in this case. 
