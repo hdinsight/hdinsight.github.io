@@ -20,3 +20,4 @@ SSH authentication log is written into /var/log/auth.log. If you see any login f
 To enable verbose logging, you will need to restart sshd with the -d option. 
 Like /usr/sbin/sshd -d
 You can also run sshd at a custom port (like 2222) so that you don't have to stop the main SSH daemon.
+You can also use -v option with the SSH client to get more logs (client side view of the failures).
