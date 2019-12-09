@@ -27,3 +27,4 @@ Use the Yarn FAQ for answers to common questions Yarn on Azure HDInsight platfor
 #### [How do I enable soft delete in Azure?](trash-purging.md)
 #### [How can I download and read Yarn log from storage account directly?](empty-yarn-log.md)
 #### [YARN App Timeline Server gets throttled by Informatica Blaze Engine](yarn-ats-throttling.md)
+#### [Both Resource Mangers stuck in standby mode?](bothRMstandby.md)
