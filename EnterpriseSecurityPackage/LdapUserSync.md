@@ -38,9 +38,9 @@ HDInsight configures the search filter to sync the admin user, the watchdog user
 * Sync sAMAccountName for users and name attribute for groups
 
 #### Why doesn't HDI use Ranger group sync or incremental sync
-Ranger does support a way to sync users from a list of users or those part of the specified groups. Instead, Ranger will intersect the user names and memberships, instead of an union. The users we are syncing may not be part of the group. Hence we have to use Ranger user sync.
+Ranger supports a group sync option, but it works as an intersection with user filter. Not an union between group memberships and user filter. We do need to sync some users that are not part of the groups and we cannot use the group sync option. A typical use case for group sync filter in ranger is - group filter: (dn=clusteradmingroup), user filter: (city=seattle).
 
-Incremental sync will only work for the users who are already synced - will not sync any new users into the system.
+Incremental sync works only for the users who are already synced (the first time). It will not sync any new users added to the groups after the initial sync. So, we cannot use this either.
 
 #### How do I update the ranger sync filter?
 The LDAP filter can be found in the Ambari UI, under the Ranger user-sync configuration section. The existing filter will be in the form (|(userPrincipalName=bob@contoso.com)(userPrincipalName=hdiwatchdog-core01@CONTOSO.ONMICROSOFT.COM)(memberOf:1.2.840.113556.1.4.1941:=CN=hadoopgroup,OU=AADDC Users,DC=contoso,DC=onmicrosoft,DC=com)). Ensure that you add predicate at the end and test the filter by using net ads search command or ldp.exe or something.
