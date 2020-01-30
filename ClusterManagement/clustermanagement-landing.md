@@ -7,3 +7,4 @@ Use the Cluster Management FAQ for answers to common questions on HDInsight clus
 #### [Ambari account password expiration extension](ambari-user-password-expiration.md)
 #### [Cluster node run out of disk space](cluster-node-out-of-disk-space.md)
 #### [Port conflict when starting services](port-conlict.md)
+#### [How to fix disk encryption alerts on Resource Health Center (RHC)?](diskencryption-byok-rhc.md)

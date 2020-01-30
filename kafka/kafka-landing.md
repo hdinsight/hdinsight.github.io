@@ -28,4 +28,3 @@ Use the Kafka FAQ for answers to common questions on Kafka on Azure HDInsight pl
 ### [Are Kafka logs saved or persisted across Kafka cluster lifecycles?](kafka-logs-2.md)
 ### [How can I setup OMS for Kafka?](kafka-oms.md)
 ### [How can I configure Disk Quota for Kafka user?](kafka-disk-quota.md)
-### [How to fix disk encryption alerts on Resource Health Center (RHC)?](kafka-byok-rhc.md)
