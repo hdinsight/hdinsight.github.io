@@ -27,4 +27,4 @@ This exception is caused by the serialization process trying to use more buffer 
 
 ## Solution
 
-Increase the Kyroserializer buffer value. Add a key named `spark.kryoserializer.buffer.max` and set it to 2048 in spark2 config under "Custom spark2-thrift-sparkconf".
+Increase the Kyroserializer buffer value. Add a key named `spark.kryoserializer.buffer.max` and set it to 2048m in spark2 config under "Custom spark2-thrift-sparkconf".
