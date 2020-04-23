@@ -23,67 +23,81 @@ ms.author: dkakadia
 
 #### Issue:
 
-Need to export Hive metastore and import it on another HDInsight cluster.  
+Need to export Hive metastore and import it on another HDInsight cluster.
+
+* For migration of external metastore, follow steps to make a copy of the SQL Database in [apache-hive-migrate-workloads](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads.) If migrating from 3.6 to 4.0 cluster, follow steps to upgrade the schema.
+
+* If we plan to export from an internal metastore, or if we plan to import from a 4.0 to 3.6 cluster, then use the script described below to export/import metadata objects as HQL.
+
+* Import works only if destination cluster shares the same Storage Account as the source cluster.
 
 #### Resolution Steps: 
 
+If migrating from an external metastore, follow steps in [apache-hive-migrate-workloads](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads.). Otherwise, follow steps below.
+
 1) Connect to the HDInsight cluster with a Secure Shell (SSH) client (check Further Reading section below).
 
-2) Run the following command on the HDInsight cluster where from you want to export the metastore:
+1) Download the export script to the cluster:
 
-~~~
-for d in `beeline -u "jdbc:hive2://localhost:10001/;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show databases;"`; 
-do
-    echo "Scanning Database: $d"
-    echo "create database if not exists $d; use $d;" >> alltables.hql; 
-    for t in `beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show tables;"`;
-    do
-        echo "Copying Table: $t"
-        ddl=`beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table $t;"`;
+    ```bash
+    wget "https://hdiconfigactions.blob.core.windows.net/hivemetastoreschemaupgrade/$SCRIPT"
+    chmod 755 "$SCRIPT"
+    ```
 
-        echo "$ddl;" >> alltables.hql;
-        lowerddl=$(echo $ddl | awk '{print tolower($0)}')
-        if [[ $lowerddl == *"'transactional'='true'"* ]]; then
-            if [[ $lowerddl == *"partitioned by"* ]]; then
-                # partitioned
-                raw_cols=$(beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table $t;" | tr '\n' ' ' | grep -io "CREATE TABLE .*" | cut -d"(" -f2- | cut -f1 -d")" | sed 's/`//g');
-                ptn_cols=$(beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table $t;" | tr '\n' ' ' | grep -io "PARTITIONED BY .*" | cut -f1 -d")" | cut -d"(" -f2- | sed 's/`//g');
-                final_cols=$(echo "(" $raw_cols "," $ptn_cols ")")
+    where `SCRIPT="exporthive_hdi_3_6.sh"` for HDInsight 3.6 or `SCRIPT="exporthive_hdi_4_0.sh"` for HDInsight 4.0.
 
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "create external table ext_$t $final_cols TBLPROPERTIES ('transactional'='false');";
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "insert into ext_$t select * from $t;";
-                staging_ddl=`beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table ext_$t;"`;
-                dir=$(echo $staging_ddl | grep -io " LOCATION .*" | grep -m1 -o "'.*" | sed "s/'[^-]*//2g" | cut -c2-);
+1) Run the script from the cluster:
 
-                parsed_ptn_cols=$(echo $ptn_cols| sed 's/ [a-z]*,/,/g' | sed '$s/\w*$//g');
-                echo "create table flattened_$t $final_cols;" >> alltables.hql;
-                echo "load data inpath '$dir' into table flattened_$t;" >> alltables.hql;
-                echo "insert into $t partition($parsed_ptn_cols) select * from flattened_$t;" >> alltables.hql;
-                echo "drop table flattened_$t;" >> alltables.hql;
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "drop table ext_$t";
-            else
-                # not partitioned
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "create external table ext_$t like $t TBLPROPERTIES ('transactional'='false');";
-                staging_ddl=`beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table ext_$t;"`;
-                dir=$(echo $staging_ddl | grep -io " LOCATION .*" | grep -m1 -o "'.*" | sed "s/'[^-]*//2g" | cut -c2-);
+* For HDInsight 4.0, follow these additional steps:
 
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "insert into ext_$t select * from $t;";
-                echo "load data inpath '$dir' into table $t;" >> alltables.hql;
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "drop table ext_$t";
-            fi
-        fi
-        echo "$ddl" | grep -q "PARTITIONED\s*BY" && echo "MSCK REPAIR TABLE $t;" >> alltables.hql;
-    done;
-done
-~~~
+    a. Additionally, download a helper script used by `exporthive_hdi_4_0.sh`.
+
+    ```bash
+    wget "https://hdiconfigactions.blob.core.windows.net/hivemetastoreschemaupgrade/constraints2altertable.py"
+    chmod 755 constraints2altertable.py
+    ```
+
+    b. set hive.security.authorization.sqlstd.confwhitelist.append=hive.ddl.output.format in Custom hive-site via Ambari.
+
+* For a non-ESP cluster, simply execute the script.
+* For an ESP cluster, kinit with user with full Hive permissions, and then execute the script with modified beeline arguments:
+
+    ```bash
+    USER="USER"  # replace USER
+    DOMAIN="DOMAIN"  # replace DOMAIN
+    DOMAIN_UPPER=$(printf "%s" "$DOMAIN" | awk '{ print toupper($0) }')
+    kinit "$USER@$DOMAIN_UPPER"
+    ```
+
+    ```bash
+    hn0=$(grep hn0- /etc/hosts | xargs | cut -d' ' -f4)
+    BEE_CMD="beeline -u 'jdbc:hive2://$hn0:10001/default;principal=hive/_HOST@$DOMAIN_UPPER;auth-kerberos;transportMode=http' -n "$USER@$DOMAIN" --showHeader=false --silent=true --outputformat=tsv2 -e"
+    ./exporthive_hdi_3_6.sh "$BEE_CMD"  # replace script with exporthive_hdi_4_0.sh for 4.0
+    ```
 
 This will generate a file named `alltables.hql`.
 
 3) Copy the file `alltables.hql` to the new HDInsight cluster and run the following command:
 
-~~~
-beeline -u "jdbc:hive2://localhost:10001/;transportMode=http" -f alltables.hql
-~~~
+* For non-ESP:
+
+    ```bash
+    beeline -u "jdbc:hive2://localhost:10001/;transportMode=http" -f alltables.hql
+    ```
+
+* for ESP:
+
+    ```bash
+    USER="USER"  # replace USER
+    DOMAIN="DOMAIN"  # replace DOMAIN
+    DOMAIN_UPPER=$(printf "%s" "$DOMAIN" | awk '{ print toupper($0) }')
+    kinit "$USER@$DOMAIN_UPPER"
+    ```
+
+    ```bash
+    hn0=$(grep hn0- /etc/hosts | xargs | cut -d' ' -f4)
+    beeline -u "jdbc:hive2://$hn0:10001/default;principal=hive/_HOST@$DOMAIN_UPPER;auth-kerberos;transportMode=http" -n "$USER@$DOMAIN" -f alltables.hql
+    ```
 
 Note: This assumes that data paths on new cluster are same as on old. If not, you can manually edit the generated  
 `alltables.hql`  file to reflect any changes. *For ACID tables, a new copy of the data will be created*
