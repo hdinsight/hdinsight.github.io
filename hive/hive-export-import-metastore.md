@@ -25,15 +25,31 @@ ms.author: dkakadia
 
 Need to export Hive metastore and import it on another HDInsight cluster.
 
-* For migration of external metastore, follow steps to make a copy of the SQL Database in [apache-hive-migrate-workloads](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads.) If migrating from 3.6 to 4.0 cluster, follow steps to upgrade the schema.
+* See [apache-hive-migrate-workloads](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads) for migration of an external metastore, or for upgrading Hive from HDInsight 3.6 to 4.0.
 
-* If we plan to export from an internal metastore, or if we plan to import from a 4.0 to 3.6 cluster, then use the script described below to export/import metadata objects as HQL.
+* This article gives instructions on using a script to export/import contents of an internal Hive metastore.
 
-* Import works only if destination cluster shares the same Storage Account as the source cluster.
+* Import works only if the destination cluster shares the same Storage Account as the source cluster.
 
-#### Resolution Steps: 
+> [!NOTE]
+>
+> * The script supports copying of only tables and partitions. For HDInsight 4.0, it additionally covers constraints, views, and materialized views. Other metadata objects, like UDFs, must be copied manually.
+>
+> * All managed tables will become transactional in output cluster. Optionally, keep the table non-transactional by exporting the data to an external table with the property 'external.table.purge'='true'. For example,
+>
+>    ```SQL
+>    create table tablename_backup like tablename;
+>    insert overwrite table tablename_backup select * from tablename;
+>    create external table tablename_tmp like tablename;
+>    insert overwrite table tablename_tmp select * from tablename;
+>    alter table tablename_tmp set tblproperties('external.table.purge'='true');
+>    drop table tablename;
+>    alter table tablename_tmp rename to tablename;
+>
 
-If migrating from an external metastore, follow steps in [apache-hive-migrate-workloads](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads.). Otherwise, follow steps below.
+#### Resolution Steps:
+
+If migrating from an external metastore, follow steps in [apache-hive-migrate-workloads](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads). Otherwise, follow steps below.
 
 1) Connect to the HDInsight cluster with a Secure Shell (SSH) client (check Further Reading section below).
 
