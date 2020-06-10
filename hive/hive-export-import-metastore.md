@@ -19,77 +19,74 @@ ms.author: dkakadia
 
 ---
 
-### How do I export Hive metastore and import it on another HDInsight cluster?
+### Export metadata from internal Hive metastore on HDInsight
 
-#### Issue:
+This article shows how to export Apache Hive and LLAP workloads from an HDInsight cluster with an internal Hive metastore and import them to an external metastore. This is useful for scaling up the SQL Database or for [migrating workloads from HDInsight 3.6 to HDInsight 4.0](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads).
 
-Need to export Hive metastore and import it on another HDInsight cluster.  
+To export data from an external Hive metastore, we could copy the SQL Database and, optionally, upgrade the schema for HDInsight 4.0 compatibility. For an internal Hive metastore, however, restricted access to the SQL resource requires us to use Hive. This article provides a script that generates an HQL script to recreate Hive databases, tables, and partitions in another cluster. HDInsight 4.0 also covers constraints, views, and materialized views. Other metadata objects, like UDFs, must be copied manually.
 
-#### Resolution Steps: 
+> [!NOTE]
+>
+> * All managed tables will become transactional if the output HDInsight version is 4.0. Optionally, make the table non-transactional by exporting the data to an external table with the property 'external.table.purge'='true'. For example,
+>
+>    ```SQL
+>    create table tablename_backup like tablename;
+>    insert overwrite table tablename_backup select * from tablename;
+>    create external table tablename_tmp like tablename;
+>    insert overwrite table tablename_tmp select * from tablename;
+>    alter table tablename_tmp set tblproperties('external.table.purge'='true');
+>    drop table tablename;
+>    alter table tablename_tmp rename to tablename;
+>
+> * This procedure preserves non-ACID table locations. You can manually edit the DDL in
+`alltables.hql`, generated from the script, to reflect any location changes.
+>
+>     Note: *For ACID tables, a new copy of the data will be created*.
+>
+> * The procedure assumes that after completion, the old cluster will **not** be used any longer.
 
-1) Connect to the HDInsight cluster with a Secure Shell (SSH) client (check Further Reading section below).
+#### Prerequisites
 
-2) Run the following command on the HDInsight cluster where from you want to export the metastore:
+* If exporting from an HDInsight 4.0 cluster, set `hive.security.authorization.sqlstd.confwhitelist.append=hive.ddl.output.format` in Custom hive-site via Ambari and restart Hive.
 
-~~~
-for d in `beeline -u "jdbc:hive2://localhost:10001/;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show databases;"`; 
-do
-    echo "Scanning Database: $d"
-    echo "create database if not exists $d; use $d;" >> alltables.hql; 
-    for t in `beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show tables;"`;
-    do
-        echo "Copying Table: $t"
-        ddl=`beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table $t;"`;
+* Prepare a new Hadoop or Interactive Query HDInsight cluster, attached to an external Hive metastore and to the same Storage Account as the source cluster. The new HDInsight version must be 4.0 if the source version is 4.0.
 
-        echo "$ddl;" >> alltables.hql;
-        lowerddl=$(echo $ddl | awk '{print tolower($0)}')
-        if [[ $lowerddl == *"'transactional'='true'"* ]]; then
-            if [[ $lowerddl == *"partitioned by"* ]]; then
-                # partitioned
-                raw_cols=$(beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table $t;" | tr '\n' ' ' | grep -io "CREATE TABLE .*" | cut -d"(" -f2- | cut -f1 -d")" | sed 's/`//g');
-                ptn_cols=$(beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table $t;" | tr '\n' ' ' | grep -io "PARTITIONED BY .*" | cut -f1 -d")" | cut -d"(" -f2- | sed 's/`//g');
-                final_cols=$(echo "(" $raw_cols "," $ptn_cols ")")
+#### Migrate from internal metastore
 
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "create external table ext_$t $final_cols TBLPROPERTIES ('transactional'='false');";
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "insert into ext_$t select * from $t;";
-                staging_ddl=`beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table ext_$t;"`;
-                dir=$(echo $staging_ddl | grep -io " LOCATION .*" | grep -m1 -o "'.*" | sed "s/'[^-]*//2g" | cut -c2-);
+1) [Connect to the HDInsight Cluster using SSH](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-linux-use-ssh-unix), to the primary headnode.
 
-                parsed_ptn_cols=$(echo $ptn_cols| sed 's/ [a-z]*,/,/g' | sed '$s/\w*$//g');
-                echo "create table flattened_$t $final_cols;" >> alltables.hql;
-                echo "load data inpath '$dir' into table flattened_$t;" >> alltables.hql;
-                echo "insert into $t partition($parsed_ptn_cols) select * from flattened_$t;" >> alltables.hql;
-                echo "drop table flattened_$t;" >> alltables.hql;
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "drop table ext_$t";
-            else
-                # not partitioned
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "create external table ext_$t like $t TBLPROPERTIES ('transactional'='false');";
-                staging_ddl=`beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "show create table ext_$t;"`;
-                dir=$(echo $staging_ddl | grep -io " LOCATION .*" | grep -m1 -o "'.*" | sed "s/'[^-]*//2g" | cut -c2-);
+1) As root user and from a new directory, download and run the script, which generates a file named `alltables.hql`:
 
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "insert into ext_$t select * from $t;";
-                echo "load data inpath '$dir' into table $t;" >> alltables.hql;
-                beeline -u "jdbc:hive2://localhost:10001/$d;transportMode=http" --showHeader=false --silent=true --outputformat=tsv2 -e "drop table ext_$t";
-            fi
-        fi
-        echo "$ddl" | grep -q "PARTITIONED\s*BY" && echo "MSCK REPAIR TABLE $t;" >> alltables.hql;
-    done;
-done
-~~~
+    ```bash
+    sudo su
+    SCRIPT="exporthive.sh"
+    wget "https://hdiconfigactions.blob.core.windows.net/hivemetastoreschemaupgrade/$SCRIPT"
+    chmod 755 "$SCRIPT"
+    exec "./$SCRIPT"
+    ```
 
-This will generate a file named `alltables.hql`.
+1) Copy the file `alltables.hql` to the new HDInsight cluster and from the new cluster, run the following command:
 
-3) Copy the file `alltables.hql` to the new HDInsight cluster and run the following command:
+    * For non-ESP:
 
-~~~
-beeline -u "jdbc:hive2://localhost:10001/;transportMode=http" -f alltables.hql
-~~~
+        ```bash
+        beeline -u "jdbc:hive2://localhost:10001/;transportMode=http" -f alltables.hql
+        ```
 
-Note: This assumes that data paths on new cluster are same as on old. If not, you can manually edit the generated  
-`alltables.hql`  file to reflect any changes. *For ACID tables, a new copy of the data will be created*
+    * for ESP:
 
-Note: This script also assumes that once the script is complete, the old cluster will **not** be used any longer 
+        ```bash
+        USER="USER"  # replace USER
+        DOMAIN="DOMAIN"  # replace DOMAIN
+        DOMAIN_UPPER=$(printf "%s" "$DOMAIN" | awk '{ print toupper($0) }')
+        kinit "$USER@$DOMAIN_UPPER"
+        hn0=$(grep hn0- /etc/hosts | xargs | cut -d' ' -f4)
+        beeline -u "jdbc:hive2://$hn0:10001/default;principal=hive/_HOST@$DOMAIN_UPPER;auth-kerberos;transportMode=http" -n "$USER@$DOMAIN" -f alltables.hql
+        ```
 
-#### Further Reading:
+#### Further Reading
 
-1) [Connect to HDInsight Cluster using SSH](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-linux-use-ssh-unix)
+1) [Connect to HDInsight using SSH](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-linux-use-ssh-unix)
+1) [Migrate workloads from HDInsight 3.6 to 4.0](https://docs.microsoft.com/en-us/azure/hdinsight/interactive-query/apache-hive-migrate-workloads)
+1) [Use external metastore with HDInsight](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-use-external-metadata-stores)
+1) [Connect to Beeline on HDInsight](https://docs.microsoft.com/en-us/azure/hdinsight/hadoop/connect-install-beeline)
